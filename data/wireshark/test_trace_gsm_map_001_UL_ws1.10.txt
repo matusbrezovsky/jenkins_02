@@ -1,0 +1,2849 @@
+Frame 1: 210 bytes on wire (1680 bits), 210 bytes captured (1680 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            otid: 0401d916
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 56
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 16
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 62
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 04
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            numberOfRequestedVectors: 4
+            requestingNodeType: vlr (0)
+
+Frame 2: 210 bytes on wire (1680 bits), 210 bytes captured (1680 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            otid: 00d20712
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 49
+                    opCode: localValue (0)
+                        localValue: 56
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 18
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 62
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 01
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 0
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 01
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 49
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            numberOfRequestedVectors: 1
+            immediateResponsePreferred
+            requestingNodeType: sgsn (1)
+
+Frame 3: 282 bytes on wire (2256 bits), 282 bytes captured (2256 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1070
+        Destination Transaction ID
+            dtid: 0401d916
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 86
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 84
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: d3
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: 0c
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 1f
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 8e
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 2d
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 1 item
+                        AuthenticationQuintuplet
+                            rand: d33d325289e1dcced485d64ac475a9fc
+                            xres: 0c11d9136ec9394d
+                            ck: 1f1bdf69797ed234c44b5a2ffc5aeb3a
+                            ik: 8e66c1246f96072ac6138fa144378aa9
+                            autn: 2de671dbcac60000cd75049fad273de3
+
+Frame 4: 274 bytes on wire (2192 bits), 274 bytes captured (2192 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            dtid: 00d20712
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 49
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 86
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 84
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 30
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: 63
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: b2
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 30
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 51
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 49
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 1 item
+                        AuthenticationQuintuplet
+                            rand: 3068d97614034d2c8257c826b2cdb45f
+                            xres: 63557be80c5311a2
+                            ck: b240d7770e93f486ec96ccd4596dc007
+                            ik: 30c69f3ee7f3bc8d35edf3da7a569f33
+                            autn: 5166bbf6f9cb00005a53915f3d72c7c9
+
+Frame 5: 182 bytes on wire (1456 bits), 182 bytes captured (1456 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0401d916
+        Destination Transaction ID
+            dtid: 081c1070
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 1
+                    opCode: localValue (0)
+                        localValue: 56
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 1
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+
+Frame 6: 330 bytes on wire (2640 bits), 330 bytes captured (2640 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1070
+        Destination Transaction ID
+            dtid: 0401d916
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 1
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 171
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 168
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 97
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: c3
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 65
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 7d
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 7b
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: a3
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: d7
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 3e
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: b8
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 55
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 1
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 2 items
+                        AuthenticationQuintuplet
+                            rand: 976fabf394d3d20f2667562c6d61a8e2
+                            xres: c3845de4d7ce69b4
+                            ck: 65167ad05de8eb0159e233ba466ff87a
+                            ik: 7d97a02b9de4d8341eb971da6856de13
+                            autn: 7ba9cf9841590000a6bcdd8f623fd8f4
+                        AuthenticationQuintuplet
+                            rand: a3ac5060d81153dbf9427cf49bd69e3a
+                            xres: d7a9afe88a2ae22f
+                            ck: 3ea453921abeebb44f999cd6813c4f95
+                            ik: b83998b9aecd052aff774aeb7bf47f96
+                            autn: 554a5b2023c20000eb342ccaef66ce66
+
+Frame 7: 166 bytes on wire (1328 bits), 166 bytes captured (1328 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0401d916
+        Destination Transaction ID
+            dtid: 081c1070
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 2
+                    opCode: localValue (0)
+                        localValue: 56
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 2
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+
+Frame 8: 250 bytes on wire (2000 bits), 250 bytes captured (2000 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            dtid: 0401d916
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 2
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 86
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 84
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 77
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: e7
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: eb
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 71
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 47
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 2
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 1 item
+                        AuthenticationQuintuplet
+                            rand: 77c84cd9949b0b4f9ca50d692a6593dd
+                            xres: e7e95284936ac0d4
+                            ck: eb6b218ded0139eca6a9e349925ad91c
+                            ik: 71d607baf24b1ebac55565a16d883985
+                            autn: 4734beeac70600008d538b29e34b7033
+
+Frame 9: 246 bytes on wire (1968 bits), 246 bytes captured (1968 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            otid: 7052d918
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 56
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 52
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 62
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 34
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 16
+                            Data: d3
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 14
+                            Data: eb
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            numberOfRequestedVectors: 4
+            re-synchronisationInfo
+                rand: d33d325289e1dcced485d64ac475a9fc
+                auts: eb2840a6dfffb2af1e81a069239e
+            requestingNodeType: vlr (0)
+
+Frame 10: 298 bytes on wire (2384 bits), 298 bytes captured (2384 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1071
+        Destination Transaction ID
+            dtid: 7052d918
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.14.3 (infoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 86
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 84
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: d5
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: a9
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 93
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: c1
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 4a
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 1 item
+                        AuthenticationQuintuplet
+                            rand: d5039fdde943857f67a16c39f8478901
+                            xres: a93815c15dab719c
+                            ck: 939e6737b4688e5dd536aa07dd2937dd
+                            ik: c1d1a947b1603c635c78f1d321a2cf3d
+                            autn: 4abe5588a8cd0000f541ba59da68f106
+
+Frame 11: 166 bytes on wire (1328 bits), 166 bytes captured (1328 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 7052d918
+        Destination Transaction ID
+            dtid: 081c1071
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 1
+                    opCode: localValue (0)
+                        localValue: 56
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 1
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+
+Frame 12: 346 bytes on wire (2768 bits), 346 bytes captured (2768 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1071
+        Destination Transaction ID
+            dtid: 7052d918
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 1
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 171
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 168
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 46
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: 4c
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 6c
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 9d
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: e1
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 3d
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: 8c
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 04
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: e5
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 99
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 1
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 2 items
+                        AuthenticationQuintuplet
+                            rand: 461564694ee0775996cea0c8106e1f03
+                            xres: 4c3f39c8656bab88
+                            ck: 6cffe73bd282d9e1d5b66acda47c5b42
+                            ik: 9db3af87ba0a5b08b0d93d99246c80df
+                            autn: e16ab59b8d030000a80c268f1740ead9
+                        AuthenticationQuintuplet
+                            rand: 3d1e5ad9d4adc93ba5c5f1113ffefe80
+                            xres: 8cca50353b346653
+                            ck: 04228d5cd826c0766b3a98012bcebff4
+                            ik: e58c59e7ecdc1023ff92d4ee12ac3e9d
+                            autn: 99d670b65f100000f3321642301984c0
+
+Frame 13: 166 bytes on wire (1328 bits), 166 bytes captured (1328 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 7052d918
+        Destination Transaction ID
+            dtid: 081c1071
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 2
+                    opCode: localValue (0)
+                        localValue: 56
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 2
+            opCode: localValue (0)
+                localValue: sendAuthenticationInfo (56)
+
+Frame 14: 234 bytes on wire (1872 bits), 234 bytes captured (1872 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            dtid: 7052d918
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 2
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 56
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 86
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 84
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 82
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: c3
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 8
+                                    Data: e2
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 09
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 78
+                                    Parameter (0x04)
+                                        Tag: 0x04
+                                        Length: 16
+                                    Data: 38
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 2
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendAuthenticationInfo (56)
+                authenticationSetList: quintupletList (1)
+                    quintupletList: 1 item
+                        AuthenticationQuintuplet
+                            rand: c31f221ed6c56c225a70465491740788
+                            xres: e2cecb0e3a4bba26
+                            ck: 09971b4d69d3ba1daa50a95baf855bd2
+                            ik: 78a29264e2ae2f86b58cbe8e6234e24f
+                            autn: 383201c4a4560000422cd6cc7711606f
+
+Frame 15: 230 bytes on wire (1840 bits), 230 bytes captured (1840 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            otid: 00d20714
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            application-context-name: 0.4.0.0.1.0.32.3 (gprsLocationUpdateContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 50
+                    opCode: localValue (0)
+                        localValue: 23
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 38
+                        Parameter (0x04)
+                            Tag: 0x04
+                            Length: 8
+                        Data: 62
+                        Parameter (0x04)
+                            Tag: 0x04
+                            Length: 7
+                        Data: 91
+                        Parameter (0x04)
+                            Tag: 0x04
+                            Length: 5
+                        Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 10
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 0
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 2
+                            Data: 05
+                            Parameter (0x05)
+                                Tag: 0x05
+                                Length: 2
+                            Data: 06
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 50
+            opCode: localValue (0)
+                localValue: updateGprsLocation (23)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            sgsn-Number: 91947106009029
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000992
+                Country Code: 49 Germany (Federal Republic of) (length 2)
+            sgsn-Address: 0452717fe1
+                GSN-Address IPv4: 82.113.127.225 (82.113.127.225)
+            sgsn-Capability
+                gprsEnhancementsSupportIndicator
+                Padding: 5
+                supportedCamelPhases: 20 (phase3)
+                    0... .... = phase1: False
+                    .0.. .... = phase2: False
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+                Padding: 6
+                supportedLCS-CapabilitySets: 40 (lcsCapabilitySet2)
+                    0... .... = lcsCapabilitySet1: False
+                    .1.. .... = lcsCapabilitySet2: True
+                    ..0. .... = lcsCapabilitySet3: False
+                    ...0 .... = lcsCapabilitySet4: False
+                    .... 0... = lcsCapabilitySet5: False
+
+Frame 16: 334 bytes on wire (2672 bits), 334 bytes captured (2672 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081b1080
+        Destination Transaction ID
+            dtid: 00d20714
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.32.3 (gprsLocationUpdateContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 51
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 137
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 8
+                        Data: 91
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 01
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 11
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 5
+                            Data: 03
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 102
+                            Parameter (0x05)
+                                Tag: 0x05
+                                Length: 0
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 98
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 46
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 1
+                                    Data: 01
+                                    Parameter (0x10)
+                                        Tag: 0x10
+                                        Length: 2
+                                    Data: f1
+                                    Parameter (0x12)
+                                        Tag: 0x12
+                                        Length: 3
+                                    Data: 1b
+                                    Parameter (0x14)
+                                        Tag: 0x14
+                                        Length: 12
+                                    Data: 0b
+                                    Parameter (0x00)
+                                        Tag: 0x00
+                                        Length: 9
+                                    Data: 02
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 3
+                                    Data: 00
+                                    Parameter (0x03)
+                                        Tag: 0x03
+                                        Length: 2
+                                    Data: 1a
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 48
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 1
+                                    Data: 02
+                                    Parameter (0x10)
+                                        Tag: 0x10
+                                        Length: 2
+                                    Data: f1
+                                    Parameter (0x12)
+                                        Tag: 0x12
+                                        Length: 3
+                                    Data: 1b
+                                    Parameter (0x14)
+                                        Tag: 0x14
+                                        Length: 23
+                                    Data: 06
+                                    Parameter (0x00)
+                                        Tag: 0x00
+                                        Length: 9
+                                    Data: 02
+                        Parameter (0x18)
+                            Tag: 0x18
+                            Length: 1
+                        Data: 00
+                        Parameter (0x13)
+                            Tag: 0x13
+                            Length: 2
+                        Data: 06
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 51
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (Federal Republic of) (length 2)
+            subscriberStatus: operatorDeterminedBarring (1)
+            odb-Data
+                Padding: 3
+                odb-GeneralData: 00000000
+                    0... .... = allOG-CallsBarred: False
+                    .0.. .... = internationalOGCallsBarred: False
+                    ..0. .... = internationalOGCallsNotToHPLMN-CountryBarred: False
+                    .... ..0. = interzonalOGCallsBarred: False
+                    .... ...0 = interzonalOGCallsNotToHPLMN-CountryBarred: False
+                    0... .... = interzonalOGCallsAndInternationalOGCallsNotToHPLMN-CountryBarred: False
+                    ...0 .... = premiumRateInformationOGCallsBarred: False
+                    .... 0... = premiumRateEntertainementOGCallsBarred: False
+                    .... .0.. = ss-AccessBarred: False
+                    .0.. .... = allECT-Barred: False
+                    ..0. .... = chargeableECT-Barred: False
+                    ...0 .... = internationalECT-Barred: False
+                    .... 0... = interzonalECT-Barred: False
+                    .... .0.. = doublyChargeableECT-Barred: False
+                    .... ..0. = multipleECT-Barred: False
+                    .... ...0 = allPacketOrientedServicesBarred: False
+                    0... .... = roamerAccessToHPLMN-AP-Barred: False
+                    .0.. .... = roamerAccessToVPLMN-AP-Barred: False
+                    ..0. .... = roamingOutsidePLMNOG-CallsBarred: False
+                    ...0 .... = allIC-CallsBarred: False
+                    .... 0... = roamingOutsidePLMNIC-CallsBarred: False
+                    .... .0.. = roamingOutsidePLMNICountryIC-CallsBarred: False
+                    .... ..0. = roamingOutsidePLMN-Barred: False
+                    .... ...0 = roamingOutsidePLMN-CountryBarred: False
+                    0... .... = registrationAllCF-Barred: False
+                    .0.. .... = registrationCFNotToHPLMN-Barred: False
+                    ..0. .... = registrationInterzonalCF-Barred: False
+                    ...0 .... = registrationInterzonalCFNotToHPLMN-Barred: False
+                    .... 0... = registrationInternationalCF-Barred: False
+                Padding: 4
+                odb-HPLMN-Data: 80 (plmn-SpecificBarringType1)
+                    1... .... = plmn-SpecificBarringType1: True
+                    .0.. .... = plmn-SpecificBarringType2: False
+                    ..0. .... = plmn-SpecificBarringType3: False
+                    ...0 .... = plmn-SpecificBarringType4: False
+            gprsSubscriptionData
+                completeDataListIncluded
+                gprsDataList: 2 items
+                    PDP-Context
+                        pdp-ContextId: 1
+                        pdp-Type: f121
+                        .... 0001 = PDP Type Organization: IETF (0x01)
+                        qos-Subscribed: 1b921f
+                        00.. .... = Spare bit(s): 0
+                        ..01 1... = Quality of Service Delay class: Delay class 3 (3)
+                        .... .011 = Reliability class: Unacknowledged GTP/LLC, Ack RLC, Protected data (3)
+                        1001 .... = Peak throughput: Up to 256 000 octet/s (9)
+                        .... 0... = Spare bit(s): 0
+                        .... .010 = Precedence class: Normal priority (2)
+                        000. .... = Spare bit(s): 0
+                        ...1 1111 = Mean throughput: Best effort (31)
+                        apn: 0b696e7465726e65742d7462 - internet-tb
+                            APN: internet-tb
+                        ext-QoS-Subscribed: 027396fefe74fa0101
+                            0000 0010 = Allocation/Retention priority: 2
+                            011. .... = Traffic class: Interactive class (3)
+                            ...1 0... = Delivery order: Streaming class (2)
+                            .... ..11 = Delivery of erroneous SDUs: Erroneous SDUs are not delivered('No') (3)
+                            Maximum SDU size: 1500
+                            Maximum bit rate for uplink in kbit/s: 8640
+                            Maximum bit rate for downlink in kbit/s: 8640
+                            0111 .... = Residual Bit Error Rate (BER): 1*10-5 (7)
+                            .... 0100 = SDU error ratio: 1*10-4 (4)
+                            1111 10.. = Transfer delay (Raw data see TS 24.008 for interpretation): 62
+                            .... ..10 = Traffic handling priority: Priority level 2 (2)
+                            Guaranteed bit rate for uplink in kbit/s: 1
+                            Guaranteed bit rate for downlink in kbit/s: 1
+                        ext2-QoS-Subscribed: 004f00
+                        ext3-QoS-Subscribed: 1a00
+                    PDP-Context
+                        pdp-ContextId: 2
+                        pdp-Type: f121
+                        .... 0001 = PDP Type Organization: IETF (0x01)
+                        qos-Subscribed: 1b921f
+                        00.. .... = Spare bit(s): 0
+                        ..01 1... = Quality of Service Delay class: Delay class 3 (3)
+                        .... .011 = Reliability class: Unacknowledged GTP/LLC, Ack RLC, Protected data (3)
+                        1001 .... = Peak throughput: Up to 256 000 octet/s (9)
+                        .... 0... = Spare bit(s): 0
+                        .... .010 = Precedence class: Normal priority (2)
+                        000. .... = Spare bit(s): 0
+                        ...1 1111 = Mean throughput: Best effort (31)
+                        apn: 067761702d74620c76696167696e7465726b6f6d026465 - wap-tb.viaginterkom.de
+                            APN: wap-tb.viaginterkom.de
+                        ext-QoS-Subscribed: 027396d7eb74fa0101
+                            0000 0010 = Allocation/Retention priority: 2
+                            011. .... = Traffic class: Interactive class (3)
+                            ...1 0... = Delivery order: Streaming class (2)
+                            .... ..11 = Delivery of erroneous SDUs: Erroneous SDUs are not delivered('No') (3)
+                            Maximum SDU size: 1500
+                            Maximum bit rate for uplink in kbit/s: 6144
+                            Maximum bit rate for downlink in kbit/s: 7424
+                            0111 .... = Residual Bit Error Rate (BER): 1*10-5 (7)
+                            .... 0100 = SDU error ratio: 1*10-4 (4)
+                            1111 10.. = Transfer delay (Raw data see TS 24.008 for interpretation): 62
+                            .... ..10 = Traffic handling priority: Priority level 2 (2)
+                            Guaranteed bit rate for uplink in kbit/s: 1
+                            Guaranteed bit rate for downlink in kbit/s: 1
+            networkAccessMode: packetAndCircuit (0)
+            Padding: 6
+            accessRestrictionData: 00
+                0... .... = utranNotAllowed: False
+                .0.. .... = geranNotAllowed: False
+                ..0. .... = ganNotAllowed: False
+                ...0 .... = i-hspa-evolutionNotAllowed: False
+                .... 0... = e-utranNotAllowed: False
+                .... .0.. = ho-toNon3GPP-AccessNotAllowed: False
+
+Frame 17: 162 bytes on wire (1296 bits), 162 bytes captured (1296 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 00d20714
+        Destination Transaction ID
+            dtid: 081b1080
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 51
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 51
+
+Frame 18: 206 bytes on wire (1648 bits), 206 bytes captured (1648 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081b1080
+        Destination Transaction ID
+            dtid: 00d20714
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 52
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 54
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 52
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 50
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 48
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 1
+                                    Data: 06
+                                    Parameter (0x10)
+                                        Tag: 0x10
+                                        Length: 2
+                                    Data: f1
+                                    Parameter (0x12)
+                                        Tag: 0x12
+                                        Length: 3
+                                    Data: 1b
+                                    Parameter (0x14)
+                                        Tag: 0x14
+                                        Length: 14
+                                    Data: 07
+                                    Parameter (0x00)
+                                        Tag: 0x00
+                                        Length: 9
+                                    Data: 02
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 3
+                                    Data: 00
+                                    Parameter (0x03)
+                                        Tag: 0x03
+                                        Length: 2
+                                    Data: 1a
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 52
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            gprsSubscriptionData
+                gprsDataList: 1 item
+                    PDP-Context
+                        pdp-ContextId: 6
+                        pdp-Type: f121
+                        .... 0001 = PDP Type Organization: IETF (0x01)
+                        qos-Subscribed: 1b921f
+                        00.. .... = Spare bit(s): 0
+                        ..01 1... = Quality of Service Delay class: Delay class 3 (3)
+                        .... .011 = Reliability class: Unacknowledged GTP/LLC, Ack RLC, Protected data (3)
+                        1001 .... = Peak throughput: Up to 256 000 octet/s (9)
+                        .... 0... = Spare bit(s): 0
+                        .... .010 = Precedence class: Normal priority (2)
+                        000. .... = Spare bit(s): 0
+                        ...1 1111 = Mean throughput: Best effort (31)
+                        apn: 07737572662d7462026f32026465 - surf-tb.o2.de
+                            APN: surf-tb.o2.de
+                        ext-QoS-Subscribed: 027396fefe74fa0101
+                            0000 0010 = Allocation/Retention priority: 2
+                            011. .... = Traffic class: Interactive class (3)
+                            ...1 0... = Delivery order: Streaming class (2)
+                            .... ..11 = Delivery of erroneous SDUs: Erroneous SDUs are not delivered('No') (3)
+                            Maximum SDU size: 1500
+                            Maximum bit rate for uplink in kbit/s: 8640
+                            Maximum bit rate for downlink in kbit/s: 8640
+                            0111 .... = Residual Bit Error Rate (BER): 1*10-5 (7)
+                            .... 0100 = SDU error ratio: 1*10-4 (4)
+                            1111 10.. = Transfer delay (Raw data see TS 24.008 for interpretation): 62
+                            .... ..10 = Traffic handling priority: Priority level 2 (2)
+                            Guaranteed bit rate for uplink in kbit/s: 1
+                            Guaranteed bit rate for downlink in kbit/s: 1
+                        ext2-QoS-Subscribed: 004f00
+                        ext3-QoS-Subscribed: 1a00
+
+Frame 19: 162 bytes on wire (1296 bits), 162 bytes captured (1296 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 00d20714
+        Destination Transaction ID
+            dtid: 081b1080
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 52
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 52
+
+Frame 20: 174 bytes on wire (1392 bits), 174 bytes captured (1392 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            dtid: 00d20714
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 50
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 23
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 11
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            Parameter (0x00)
+                                Tag: 0x00
+                                Length: 0
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 50
+            resultretres
+                opCode: localValue (0)
+                    localValue: updateGprsLocation (23)
+                hlr-Number: 91947106002079
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760000297
+                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                sgsn-mmeSeparationSupported
+
+Frame 21: 234 bytes on wire (1872 bits), 234 bytes captured (1872 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            otid: 0601d916
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.1.3 (networkLocUpContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 2
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 38
+                        Parameter (0x04)
+                            Tag: 0x04
+                            Length: 8
+                        Data: 62
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 7
+                        Data: 91
+                        Parameter (0x04)
+                            Tag: 0x04
+                            Length: 7
+                        Data: 91
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 8
+                            Parameter (0x00)
+                                Tag: 0x00
+                                Length: 2
+                            Data: 05
+                            Parameter (0x05)
+                                Tag: 0x05
+                                Length: 2
+                            Data: 06
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: updateLocation (2)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            msc-Number: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (Federal Republic of) (length 2)
+            vlr-Number: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (Federal Republic of) (length 2)
+            vlr-Capability
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+                Padding: 6
+                supportedLCS-CapabilitySets: 00
+                    0... .... = lcsCapabilitySet1: False
+                    .0.. .... = lcsCapabilitySet2: False
+                    ..0. .... = lcsCapabilitySet3: False
+                    ...0 .... = lcsCapabilitySet4: False
+                    .... 0... = lcsCapabilitySet5: False
+
+Frame 22: 242 bytes on wire (1936 bits), 242 bytes captured (1936 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1072
+        Destination Transaction ID
+            dtid: 0601d916
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.1.3 (networkLocUpContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 1
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 51
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 8
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 0a
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 01
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 6
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 17
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 1f
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 12
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 11
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 21
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 22
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 1
+                            Data: 62
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 11
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 5
+                            Data: 03
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 04
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 1
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (Federal Republic of) (length 2)
+            category: 0a
+            subscriberStatus: operatorDeterminedBarring (1)
+            bearerServiceList: 2 items
+                Ext-BearerServiceCode: general-dataCDA (23)
+                Ext-BearerServiceCode: general-dataCDS (31)
+            teleserviceList: 4 items
+                Ext-TeleserviceCode: telephony (17)
+                Ext-TeleserviceCode: shortMessageMT-PP (33)
+                Ext-TeleserviceCode: shortMessageMO-PP (34)
+                Ext-TeleserviceCode: automaticFacsimileGroup3 (98)
+            odb-Data
+                Padding: 3
+                odb-GeneralData: 00000000
+                    0... .... = allOG-CallsBarred: False
+                    .0.. .... = internationalOGCallsBarred: False
+                    ..0. .... = internationalOGCallsNotToHPLMN-CountryBarred: False
+                    .... ..0. = interzonalOGCallsBarred: False
+                    .... ...0 = interzonalOGCallsNotToHPLMN-CountryBarred: False
+                    0... .... = interzonalOGCallsAndInternationalOGCallsNotToHPLMN-CountryBarred: False
+                    ...0 .... = premiumRateInformationOGCallsBarred: False
+                    .... 0... = premiumRateEntertainementOGCallsBarred: False
+                    .... .0.. = ss-AccessBarred: False
+                    .0.. .... = allECT-Barred: False
+                    ..0. .... = chargeableECT-Barred: False
+                    ...0 .... = internationalECT-Barred: False
+                    .... 0... = interzonalECT-Barred: False
+                    .... .0.. = doublyChargeableECT-Barred: False
+                    .... ..0. = multipleECT-Barred: False
+                    .... ...0 = allPacketOrientedServicesBarred: False
+                    0... .... = roamerAccessToHPLMN-AP-Barred: False
+                    .0.. .... = roamerAccessToVPLMN-AP-Barred: False
+                    ..0. .... = roamingOutsidePLMNOG-CallsBarred: False
+                    ...0 .... = allIC-CallsBarred: False
+                    .... 0... = roamingOutsidePLMNIC-CallsBarred: False
+                    .... .0.. = roamingOutsidePLMNICountryIC-CallsBarred: False
+                    .... ..0. = roamingOutsidePLMN-Barred: False
+                    .... ...0 = roamingOutsidePLMN-CountryBarred: False
+                    0... .... = registrationAllCF-Barred: False
+                    .0.. .... = registrationCFNotToHPLMN-Barred: False
+                    ..0. .... = registrationInterzonalCF-Barred: False
+                    ...0 .... = registrationInterzonalCFNotToHPLMN-Barred: False
+                    .... 0... = registrationInternationalCF-Barred: False
+                Padding: 4
+                odb-HPLMN-Data: 80 (plmn-SpecificBarringType1)
+                    1... .... = plmn-SpecificBarringType1: True
+                    .0.. .... = plmn-SpecificBarringType2: False
+                    ..0. .... = plmn-SpecificBarringType3: False
+                    ...0 .... = plmn-SpecificBarringType4: False
+
+Frame 23: 174 bytes on wire (1392 bits), 174 bytes captured (1392 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0601d916
+        Destination Transaction ID
+            dtid: 081c1072
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 1
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 7
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 4
+                            Parameter (0x06)
+                                Tag: 0x06
+                                Length: 2
+                            Data: 05
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 1
+            resultretres
+                opCode: localValue (0)
+                    localValue: insertSubscriberData (7)
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+
+Frame 24: 318 bytes on wire (2544 bits), 318 bytes captured (2544 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1072
+        Destination Transaction ID
+            dtid: 0601d916
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 2
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 164
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 157
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 9
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 11
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                Parameter (0x01)
+                                    Tag: 0x01
+                                    Length: 1
+                                Data: 01
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 9
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 12
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                Parameter (0x02)
+                                    Tag: 0x02
+                                    Length: 1
+                                Data: 02
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 11
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 41
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 3
+                                    Parameter (0x03)
+                                        Tag: 0x03
+                                        Length: 1
+                                    Data: 10
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 11
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 41
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 3
+                                    Parameter (0x03)
+                                        Tag: 0x03
+                                        Length: 1
+                                    Data: 60
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 11
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 41
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 3
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 1
+                                    Data: 10
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 11
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 41
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 3
+                                    Parameter (0x02)
+                                        Tag: 0x02
+                                        Length: 1
+                                    Data: 18
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 6
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 42
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 05
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 6
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 14
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 00
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 65
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 29
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 60
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 20
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 84
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 20
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 60
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 84
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 18
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                        Parameter (0x13)
+                            Tag: 0x13
+                            Length: 2
+                        Data: 06
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 2
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            provisionedSS: 9 items
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: clip - calling line identification presentation (17)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        ss-SubscriptionOption: overrideCategory (1)
+                            overrideCategory: overrideDisabled (1)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: clir - calling line identification restriction (18)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        ss-SubscriptionOption: cliRestrictionOption (2)
+                            cliRestrictionOption: temporaryDefaultAllowed (2)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: cw - call waiting (65)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        basicServiceGroupList: 1 item
+                            Ext-BasicServiceCode: ext-Teleservice (3)
+                                ext-Teleservice: allSpeechTransmissionServices (16)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: cw - call waiting (65)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        basicServiceGroupList: 1 item
+                            Ext-BasicServiceCode: ext-Teleservice (3)
+                                ext-Teleservice: allFacsimileTransmissionServices (96)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: cw - call waiting (65)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        basicServiceGroupList: 1 item
+                            Ext-BasicServiceCode: ext-BearerService (2)
+                                ext-BearerService: allDataCDA-Services (16)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: cw - call waiting (65)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                        basicServiceGroupList: 1 item
+                            Ext-BasicServiceCode: ext-BearerService (2)
+                                ext-BearerService: allDataCDS-Services (24)
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: hold - call hold (66)
+                        ss-Status: 05
+                        0000 .... = Unused: 0x00
+                        .... 0... = Q bit: Operative
+                        .... .1.. = P bit: Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...1 = A bit: Active
+                Ext-SS-Info: ss-Data (3)
+                    ss-Data
+                        ss-Code: colr - connected line identification restriction (20)
+                        ss-Status: 00
+                        0000 .... = Unused: 0x00
+                        .... .0.. = P bit: Not Provisioned
+                        .... ..0. = R bit: Not Registered
+                        .... ...0 = A bit: not Active
+                Ext-SS-Info: forwardingInfo (0)
+                    forwardingInfo
+                        ss-Code: cfb - call forwarding busy (41)
+                        forwardingFeatureList: 4 items
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allSpeechTransmissionServices (16)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 84
+                                1... .... = Notification to forwarding party: Notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 01.. = Forwarding reason: ms busy (0x01)
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allFacsimileTransmissionServices (96)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 84
+                                1... .... = Notification to forwarding party: Notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 01.. = Forwarding reason: ms busy (0x01)
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDA-Services (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDS-Services (24)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+            Padding: 6
+            accessRestrictionData: 00
+                0... .... = utranNotAllowed: False
+                .0.. .... = geranNotAllowed: False
+                ..0. .... = ganNotAllowed: False
+                ...0 .... = i-hspa-evolutionNotAllowed: False
+                .... 0... = e-utranNotAllowed: False
+                .... .0.. = ho-toNon3GPP-AccessNotAllowed: False
+
+Frame 25: 570 bytes on wire (4560 bits), 570 bytes captured (4560 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1072
+        Destination Transaction ID
+            dtid: 0601d916
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 3
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 182
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 179
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 71
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 2a
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 66
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 23
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 88
+                                        Parameter (0x07)
+                                            Tag: 0x07
+                                            Length: 1
+                                        Data: 0f
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 23
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 60
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 88
+                                        Parameter (0x07)
+                                            Tag: 0x07
+                                            Length: 1
+                                        Data: 0f
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 18
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 65
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 2b
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 60
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 20
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 00
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 20
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 60
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 07
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 9
+                                        Data: 91
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 1
+                                        Data: 00
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 18
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 37
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 21
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 32
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 60
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 18
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 3
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            provisionedSS: 3 items
+                Ext-SS-Info: forwardingInfo (0)
+                    forwardingInfo
+                        ss-Code: cfnry - call forwarding on no reply (42)
+                        forwardingFeatureList: 4 items
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allSpeechTransmissionServices (16)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 88
+                                1... .... = Notification to forwarding party: Notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 10.. = Forwarding reason: no reply (0x02)
+                                noReplyConditionTime: 15
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allFacsimileTransmissionServices (96)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 88
+                                1... .... = Notification to forwarding party: Notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 10.. = Forwarding reason: no reply (0x02)
+                                noReplyConditionTime: 15
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDA-Services (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDS-Services (24)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                Ext-SS-Info: forwardingInfo (0)
+                    forwardingInfo
+                        ss-Code: cfnrc - call forwarding on mobile subscriber not reachable (43)
+                        forwardingFeatureList: 4 items
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allSpeechTransmissionServices (16)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 00
+                                0... .... = Notification to forwarding party: No notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 00.. = Forwarding reason: ms not reachable (0x00)
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allFacsimileTransmissionServices (96)
+                                ss-Status: 07
+                                0000 .... = Unused: 0x00
+                                .... 0... = Q bit: Operative
+                                .... .1.. = P bit: Provisioned
+                                .... ..1. = R bit: Registered
+                                .... ...1 = A bit: Active
+                                forwardedToNumber: 9194713603049170f8
+                                    1... .... = Extension: No Extension
+                                    .001 .... = Nature of number: International Number (0x01)
+                                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                    Address digits: 491763304019078
+                                    Country Code: 49 Germany (Federal Republic of) (length 2)
+                                forwardingOptions: 00
+                                0... .... = Notification to forwarding party: No notification
+                                .0.. .... = Redirecting presentation: No presentationn
+                                ..0. .... = Notification to calling party: No notification
+                                .... 00.. = Forwarding reason: ms not reachable (0x00)
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDA-Services (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDS-Services (24)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                Ext-SS-Info: forwardingInfo (0)
+                    forwardingInfo
+                        ss-Code: cfu - call forwarding unconditional (33)
+                        forwardingFeatureList: 4 items
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allSpeechTransmissionServices (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allFacsimileTransmissionServices (96)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDA-Services (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-ForwFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDS-Services (24)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+Stream Control Transmission Protocol
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 081c1072
+        Destination Transaction ID
+            dtid: 0601d916
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 4
+                    opCode: localValue (0)
+                        localValue: 7
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 123
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 47
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 45
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: 93
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 40
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 20
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x03)
+                                            Tag: 0x03
+                                            Length: 1
+                                        Data: 60
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 10
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 6
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 18
+                                        Parameter (0x04)
+                                            Tag: 0x04
+                                            Length: 1
+                                        Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 54
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 45
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 40
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 18
+                                        Parameter (0x0a)
+                                            Tag: 0x0a
+                                            Length: 1
+                                        Data: 02
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 03
+                                        Parameter (0x00)
+                                            Tag: 0x00
+                                            Length: 7
+                                        Data: 91
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 1
+                                        Data: 00
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 18
+                                        Parameter (0x0a)
+                                            Tag: 0x0a
+                                            Length: 1
+                                        Data: 04
+                                        Parameter (0x02)
+                                            Tag: 0x02
+                                            Length: 1
+                                        Data: 03
+                                        Parameter (0x00)
+                                            Tag: 0x00
+                                            Length: 7
+                                        Data: 91
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 1
+                                        Data: 00
+                                Parameter (0x00)
+                                    Tag: 0x00
+                                    Length: 1
+                                Data: 03
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 5
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 3
+                                    Parameter (0x0a)
+                                        Tag: 0x0a
+                                        Length: 1
+                                    Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 16
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 14
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 12
+                                    Parameter (0x06)
+                                        Tag: 0x06
+                                        Length: 2
+                                    Data: 22
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x03
+                                        Length: 6
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 1
+                                        Data: 0a
+                                        Parameter (0x05)
+                                            Tag: 0x05
+                                            Length: 1
+                                        Data: 0f
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 4
+            opCode: localValue (0)
+                localValue: insertSubscriberData (7)
+            provisionedSS: 1 item
+                Ext-SS-Info: callBarringInfo (1)
+                    callBarringInfo
+                        ss-Code: boic - barring of outgoing international calls (147)
+                        callBarringFeatureList: 5 items
+                            Ext-CallBarringFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allSpeechTransmissionServices (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-CallBarringFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allShortMessageServices (32)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-CallBarringFeature
+                                basicService: ext-Teleservice (3)
+                                    ext-Teleservice: allFacsimileTransmissionServices (96)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-CallBarringFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDA-Services (16)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+                            Ext-CallBarringFeature
+                                basicService: ext-BearerService (2)
+                                    ext-BearerService: allDataCDS-Services (24)
+                                ss-Status: 04
+                                0000 .... = Unused: 0x00
+                                .... .1.. = P bit: Provisioned
+                                .... ..0. = R bit: Not Registered
+                                .... ...0 = A bit: not Active
+            vlrCamelSubscriptionInfo
+                o-CSI
+                    o-BcsmCamelTDPDataList: 2 items
+                        O-BcsmCamelTDPData
+                            o-BcsmTriggerDetectionPoint: collectedInfo (2)
+                            serviceKey: 3
+                            gsmSCF-Address: 91947106006079
+                                1... .... = Extension: No Extension
+                                .001 .... = Nature of number: International Number (0x01)
+                                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                Address digits: 491760000697
+                                Country Code: 49 Germany (Federal Republic of) (length 2)
+                            defaultCallHandling: continueCall (0)
+                        O-BcsmCamelTDPData
+                            o-BcsmTriggerDetectionPoint: routeSelectFailure (4)
+                            serviceKey: 3
+                            gsmSCF-Address: 91947106003089
+                                1... .... = Extension: No Extension
+                                .001 .... = Nature of number: International Number (0x01)
+                                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                Address digits: 491760000398
+                                Country Code: 49 Germany (Federal Republic of) (length 2)
+                            defaultCallHandling: continueCall (0)
+                    camelCapabilityHandling: 3
+                o-BcsmCamelTDP-CriteriaList: 1 item
+                    O-BcsmCamelTDP-Criteria
+                        o-BcsmTriggerDetectionPoint: routeSelectFailure (4)
+            extensionContainer
+                privateExtensionList: 1 item
+                    PrivateExtension
+                        extId: 0.34.0 (itu-t.34.0)
+                        Extension Data
+                        BER: Dissector for OID:0.34.0 not implemented. Contact Wireshark developers if you want this supported
+                            [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.0 not implemented]
+                                [Message: BER: Dissector for OID 0.34.0 not implemented]
+                                [Severity level: Warn]
+                                [Group: Undecoded]
+
+Frame 26: 174 bytes on wire (1392 bits), 174 bytes captured (1392 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0601d916
+        Destination Transaction ID
+            dtid: 081c1072
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 2
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 7
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 4
+                            Parameter (0x06)
+                                Tag: 0x06
+                                Length: 2
+                            Data: 05
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 2
+            resultretres
+                opCode: localValue (0)
+                    localValue: insertSubscriberData (7)
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+
+Frame 27: 174 bytes on wire (1392 bits), 174 bytes captured (1392 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.129.27 (10.15.129.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0601d916
+        Destination Transaction ID
+            dtid: 081c1072
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 3
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 7
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 4
+                            Parameter (0x06)
+                                Tag: 0x06
+                                Length: 2
+                            Data: 05
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 3
+            resultretres
+                opCode: localValue (0)
+                    localValue: insertSubscriberData (7)
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+
+Frame 28: 174 bytes on wire (1392 bits), 174 bytes captured (1392 bits)
+Ethernet II, Src: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9), Dst: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52)
+Internet Protocol Version 4, Src: 10.15.128.27 (10.15.128.27), Dst: 10.15.147.2 (10.15.147.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    continue
+        Source Transaction ID
+            otid: 0601d916
+        Destination Transaction ID
+            dtid: 081c1072
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 4
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 7
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 4
+                            Parameter (0x06)
+                                Tag: 0x06
+                                Length: 2
+                            Data: 05
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 4
+            resultretres
+                opCode: localValue (0)
+                    localValue: insertSubscriberData (7)
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+
+Frame 29: 158 bytes on wire (1264 bits), 158 bytes captured (1264 bits)
+Ethernet II, Src: TeknorMi_78:ee:52 (00:a0:a5:78:ee:52), Dst: Dasan_82:4e:c9 (00:d0:cb:82:4e:c9)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            dtid: 0601d916
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 2
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 9
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: updateLocation (2)
+                hlr-Number: 91947106002079
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760000297
+                    Country Code: 49 Germany (Federal Republic of) (length 2)
+

@@ -1,0 +1,1 @@
+tail -F debug*.log | egrep " START TEST: | END TEST: |INFO - dbg:| SETUP:| TEARDOWN:"

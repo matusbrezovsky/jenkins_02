@@ -1,0 +1,2158 @@
+Frame 3: 250 bytes on wire (2000 bits), 250 bytes captured (2000 bits)
+Ethernet II, Src: Radisys_29:fa:bd (00:00:50:29:fa:bd), Dst: Cisco_15:83:40 (00:18:74:15:83:40)
+Internet Protocol Version 4, Src: 10.15.170.11 (10.15.170.11), Dst: 10.15.161.27 (10.15.161.27)
+Stream Control Transmission Protocol, Src Port: 2908 (2908), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 72
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f7
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019077
+                Country Code: 49 Germany (length 2)
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8500
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 4: 250 bytes on wire (2000 bits), 250 bytes captured (2000 bits)
+Ethernet II, Src: Cisco_14:6d:80 (00:18:74:14:6d:80), Dst: NokiaSie_18:ca:58 (00:0f:bb:18:ca:58)
+Internet Protocol Version 4, Src: 10.15.170.11 (10.15.170.11), Dst: 10.15.161.27 (10.15.161.27)
+Stream Control Transmission Protocol, Src Port: 2908 (2908), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 72
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f7
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019077
+                Country Code: 49 Germany (length 2)
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8500
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 5: 266 bytes on wire (2128 bits), 266 bytes captured (2128 bits)
+Ethernet II, Src: NokiaSie_18:ca:58 (00:0f:bb:18:ca:58), Dst: Cisco_14:6d:80 (00:18:74:14:6d:80)
+Internet Protocol Version 4, Src: 10.15.161.27 (10.15.161.27), Dst: 10.15.177.2 (10.15.177.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 72
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f7
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019077
+                Country Code: 49 Germany (length 2)
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8500
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 6: 250 bytes on wire (2000 bits), 250 bytes captured (2000 bits)
+Ethernet II, Src: Cisco_14:71:80 (00:18:74:14:71:80), Dst: NokiaSie_18:ca:55 (00:0f:bb:18:ca:55)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 63
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x00
+                                Length: 13
+                                Parameter (0x05)
+                                    Tag: 0x05
+                                    Length: 8
+                                Data: 91
+                                Parameter (0x06)
+                                    Tag: 0x06
+                                    Length: 1
+                                Data: 2c
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: f1
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+                            Parameter (0x0c)
+                                Tag: 0x0c
+                                Length: 8
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f7
+                TBCD digits: 262073900317077
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: forwardingData (1)
+                        forwardingData
+                            forwardedToNumber: 91947106049170f8
+                                1... .... = Extension: No Extension
+                                .001 .... = Nature of number: International Number (0x01)
+                                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                Address digits: 4917604019078
+                                Country Code: 49 Germany (length 2)
+                            forwardingOptions: 2c
+                            0... .... = Notification to forwarding party: No notification
+                            .0.. .... = Redirecting presentation: No presentationn
+                            ..1. .... = Notification to calling party: Notification
+                            .... 11.. = Forwarding reason: unconditional when used in a SRI Result or call deflection when used in a RCH Argument (0x03)
+                ss-List: 1 item
+                    SS-Code: plmn-specificSS-1 (241)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+                msisdn: 91947106049170f7
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 4917604019077
+                    Country Code: 49 Germany (length 2)
+
+Frame 7: 266 bytes on wire (2128 bits), 266 bytes captured (2128 bits)
+Ethernet II, Src: NokiaSie_00:f8:21 (00:0f:bb:00:f8:21), Dst: Cisco_14:71:80 (00:18:74:14:71:80)
+Internet Protocol Version 4, Src: 10.15.129.25 (10.15.129.25), Dst: 10.15.140.10 (10.15.140.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2908 (2908)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 63
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x00
+                                Length: 13
+                                Parameter (0x05)
+                                    Tag: 0x05
+                                    Length: 8
+                                Data: 91
+                                Parameter (0x06)
+                                    Tag: 0x06
+                                    Length: 1
+                                Data: 2c
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: f1
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+                            Parameter (0x0c)
+                                Tag: 0x0c
+                                Length: 8
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f7
+                TBCD digits: 262073900317077
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: forwardingData (1)
+                        forwardingData
+                            forwardedToNumber: 91947106049170f8
+                                1... .... = Extension: No Extension
+                                .001 .... = Nature of number: International Number (0x01)
+                                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                Address digits: 4917604019078
+                                Country Code: 49 Germany (length 2)
+                            forwardingOptions: 2c
+                            0... .... = Notification to forwarding party: No notification
+                            .0.. .... = Redirecting presentation: No presentationn
+                            ..1. .... = Notification to calling party: Notification
+                            .... 11.. = Forwarding reason: unconditional when used in a SRI Result or call deflection when used in a RCH Argument (0x03)
+                ss-List: 1 item
+                    SS-Code: plmn-specificSS-1 (241)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+                msisdn: 91947106049170f7
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 4917604019077
+                    Country Code: 49 Germany (length 2)
+
+Frame 8: 266 bytes on wire (2128 bits), 266 bytes captured (2128 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: Radisys_2a:2e:dc (00:00:50:2a:2e:dc)
+Internet Protocol Version 4, Src: 10.15.129.25 (10.15.129.25), Dst: 10.15.140.10 (10.15.140.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2908 (2908)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 564dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 63
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x00
+                                Length: 13
+                                Parameter (0x05)
+                                    Tag: 0x05
+                                    Length: 8
+                                Data: 91
+                                Parameter (0x06)
+                                    Tag: 0x06
+                                    Length: 1
+                                Data: 2c
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x04)
+                                    Tag: 0x04
+                                    Length: 1
+                                Data: f1
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+                            Parameter (0x0c)
+                                Tag: 0x0c
+                                Length: 8
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f7
+                TBCD digits: 262073900317077
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: forwardingData (1)
+                        forwardingData
+                            forwardedToNumber: 91947106049170f8
+                                1... .... = Extension: No Extension
+                                .001 .... = Nature of number: International Number (0x01)
+                                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                Address digits: 4917604019078
+                                Country Code: 49 Germany (length 2)
+                            forwardingOptions: 2c
+                            0... .... = Notification to forwarding party: No notification
+                            .0.. .... = Redirecting presentation: No presentationn
+                            ..1. .... = Notification to calling party: Notification
+                            .... 11.. = Forwarding reason: unconditional when used in a SRI Result or call deflection when used in a RCH Argument (0x03)
+                ss-List: 1 item
+                    SS-Code: plmn-specificSS-1 (241)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+                msisdn: 91947106049170f7
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 4917604019077
+                    Country Code: 49 Germany (length 2)
+
+Frame 11: 270 bytes on wire (2160 bits), 270 bytes captured (2160 bits)
+Ethernet II, Src: Radisys_2a:2e:dc (00:00:50:2a:2e:dc), Dst: Cisco_14:2e:00 (00:18:74:14:2e:00)
+Internet Protocol Version 4, Src: 10.15.140.10 (10.15.140.10), Dst: 10.15.129.25 (10.15.129.25)
+Stream Control Transmission Protocol, Src Port: 2908 (2908), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 89
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 01
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 12
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 10
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 8
+                                    Parameter (0x06)
+                                        Tag: 0x06
+                                        Length: 2
+                                    Data: 22
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x03
+                                        Length: 2
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 0
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (length 2)
+            numberOfForwarding: 1
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8600
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            extensionContainer
+                privateExtensionList: 1 item
+                    PrivateExtension
+                        extId: 0.34.5 (itu-t.34.5)
+                        Extension Data
+                        BER: Dissector for OID:0.34.5 not implemented. Contact Wireshark developers if you want this supported
+                            [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.5 not implemented]
+                                [Message: BER: Dissector for OID 0.34.5 not implemented]
+                                [Severity level: Warn]
+                                [Group: Undecoded]
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 12: 270 bytes on wire (2160 bits), 270 bytes captured (2160 bits)
+Ethernet II, Src: Cisco_14:71:80 (00:18:74:14:71:80), Dst: NokiaSie_00:f8:21 (00:0f:bb:00:f8:21)
+Internet Protocol Version 4, Src: 10.15.140.10 (10.15.140.10), Dst: 10.15.129.25 (10.15.129.25)
+Stream Control Transmission Protocol, Src Port: 2908 (2908), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 89
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 01
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 12
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 10
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 8
+                                    Parameter (0x06)
+                                        Tag: 0x06
+                                        Length: 2
+                                    Data: 22
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x03
+                                        Length: 2
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 0
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (length 2)
+            numberOfForwarding: 1
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8600
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            extensionContainer
+                privateExtensionList: 1 item
+                    PrivateExtension
+                        extId: 0.34.5 (itu-t.34.5)
+                        Extension Data
+                        BER: Dissector for OID:0.34.5 not implemented. Contact Wireshark developers if you want this supported
+                            [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.5 not implemented]
+                                [Message: BER: Dissector for OID 0.34.5 not implemented]
+                                [Severity level: Warn]
+                                [Group: Undecoded]
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 13: 286 bytes on wire (2288 bits), 286 bytes captured (2288 bits)
+Ethernet II, Src: NokiaSie_18:ca:58 (00:0f:bb:18:ca:58), Dst: Cisco_14:6d:80 (00:18:74:14:6d:80)
+Internet Protocol Version 4, Src: 10.15.161.27 (10.15.161.27), Dst: 10.15.177.2 (10.15.177.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 0
+                    opCode: localValue (0)
+                        localValue: 22
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 89
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 1
+                        Data: 01
+                        Parameter (0x03)
+                            Tag: 0x03
+                            Length: 1
+                        Data: 00
+                        Parameter (0x06)
+                            Tag: 0x06
+                            Length: 7
+                        Data: 91
+                        Parameter (0x07)
+                            Tag: 0x07
+                            Length: 7
+                        Data: 43
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 14
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 04
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 9
+                            Data: 04
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 4
+                            Parameter (0x03)
+                                Tag: 0x03
+                                Length: 2
+                            Data: 05
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 12
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 10
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x00
+                                    Length: 8
+                                    Parameter (0x06)
+                                        Tag: 0x06
+                                        Length: 2
+                                    Data: 22
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x03
+                                        Length: 2
+                                        Parameter (0x01)
+                                            Tag: 0x01
+                                            Length: 0
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 15
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 10
+                            Data: 0a
+                        Parameter (0x1c)
+                            Tag: 0x1c
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 0
+            opCode: localValue (0)
+                localValue: sendRoutingInfo (22)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (length 2)
+            numberOfForwarding: 1
+            interrogationType: basicCall (0)
+            gmsc-OrGsmSCF-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8600
+            networkSignalInfo
+                protocolId: ets-300102-1 (4)
+                signalInfo: 04038090a37d029181
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Coding standard: ITU-T standardized coding (0x00)
+                    ...0 0000 = Information transfer capability: Speech (0x00)
+                    1... .... = Extension indicator: last octet
+                    .00. .... = Transfer mode: Circuit mode (0x00)
+                    ...1 0000 = Information transfer rate: 64 kbit/s (0x10)
+                    1... .... = Extension indicator: last octet
+                    .01. .... = Layer identification: Layer 1 identifier (0x01)
+                    ...0 0011 = User information layer 1 protocol: Recommendation G.711 A-law (0x03)
+            camelInfo
+                Padding: 5
+                supportedCamelPhases: e0 (phase1, phase2, phase3)
+                    1... .... = phase1: True
+                    .1.. .... = phase2: True
+                    ..1. .... = phase3: True
+                    ...0 .... = phase4: False
+            extensionContainer
+                privateExtensionList: 1 item
+                    PrivateExtension
+                        extId: 0.34.5 (itu-t.34.5)
+                        Extension Data
+                        BER: Dissector for OID:0.34.5 not implemented. Contact Wireshark developers if you want this supported
+                            [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.5 not implemented]
+                                [Message: BER: Dissector for OID 0.34.5 not implemented]
+                                [Severity level: Warn]
+                                [Group: Undecoded]
+            additionalSignalInfo
+                ext-ProtocolId: ets-300356 (1)
+                signalInfo: 0a080413949842248422
+            mtRoamingRetrySupported
+
+Frame 14: 238 bytes on wire (1904 bits), 238 bytes captured (1904 bits)
+Ethernet II, Src: Cisco_14:71:80 (00:18:74:14:71:80), Dst: NokiaSie_18:ca:55 (00:0f:bb:18:ca:55)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.129.27 (10.15.129.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 27
+                    opCode: localValue (0)
+                        localValue: 4
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 63
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 62
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 7
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 8
+                        Data: 91
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 8
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 3
+                            Data: 04
+                        Parameter (0x08)
+                            Tag: 0x08
+                            Length: 7
+                        Data: 91
+                        Parameter (0x09)
+                            Tag: 0x09
+                            Length: 7
+                        Data: 43
+                        Parameter (0x0f)
+                            Tag: 0x0f
+                            Length: 2
+                        Data: 05
+                        Parameter (0x10)
+                            Tag: 0x10
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 27
+            opCode: localValue (0)
+                localValue: provideRoamingNumber (4)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            msc-Number: 91947106000050
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000005
+                Country Code: 49 Germany (length 2)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (length 2)
+            gsm-BearerCapability
+                protocolId: gsm-0408 (1)
+                signalInfo: 0401a0
+                    Tag: Bearer Capability (4)
+                    Length: 1
+                    Octet 3
+                        1... .... = Extension: No Extension
+                        .01. .... = Radio channel requirement: Spare
+                        ...0 .... = Coding standard: GSM standardized coding
+                        .... 0... = Transfer mode: circuit
+                        .... .000 = Information transfer capability: Speech (0x00)
+            gmsc-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8600
+            Padding: 5
+            supportedCamelPhasesInInterrogatingNode: e0 (phase1, phase2, phase3)
+                1... .... = phase1: True
+                .1.. .... = phase2: True
+                ..1. .... = phase3: True
+                ...0 .... = phase4: False
+            orNotSupportedInGMSC
+
+Frame 15: 254 bytes on wire (2032 bits), 254 bytes captured (2032 bits)
+Ethernet II, Src: NokiaSie_00:f8:21 (00:0f:bb:00:f8:21), Dst: Cisco_14:71:80 (00:18:74:14:71:80)
+Internet Protocol Version 4, Src: 10.15.129.25 (10.15.129.25), Dst: 10.15.141.10 (10.15.141.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2908 (2908)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    begin
+        Source Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueRequest
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+        components: 1 item
+            Component: invoke (1)
+                invoke
+                    invokeID: 27
+                    opCode: localValue (0)
+                        localValue: 4
+                    CONSTRUCTOR
+                        CONSTRUCTOR Tag
+                        Tag: 0x00
+                        Length: 63
+                        Parameter (0x00)
+                            Tag: 0x00
+                            Length: 8
+                        Data: 62
+                        Parameter (0x01)
+                            Tag: 0x01
+                            Length: 7
+                        Data: 91
+                        Parameter (0x02)
+                            Tag: 0x02
+                            Length: 8
+                        Data: 91
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 8
+                            Parameter (0x0a)
+                                Tag: 0x0a
+                                Length: 1
+                            Data: 01
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 3
+                            Data: 04
+                        Parameter (0x08)
+                            Tag: 0x08
+                            Length: 7
+                        Data: 91
+                        Parameter (0x09)
+                            Tag: 0x09
+                            Length: 7
+                        Data: 43
+                        Parameter (0x0f)
+                            Tag: 0x0f
+                            Length: 2
+                        Data: 05
+                        Parameter (0x10)
+                            Tag: 0x10
+                            Length: 0
+GSM Mobile Application
+    Component: invoke (1)
+        invoke
+            invokeID: 27
+            opCode: localValue (0)
+                localValue: provideRoamingNumber (4)
+            imsi: 62023709307170f8
+            TBCD digits: 262073900317078
+            msc-Number: 91947106000050
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000005
+                Country Code: 49 Germany (length 2)
+            msisdn: 91947106049170f8
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 4917604019078
+                Country Code: 49 Germany (length 2)
+            gsm-BearerCapability
+                protocolId: gsm-0408 (1)
+                signalInfo: 0401a0
+                    Tag: Bearer Capability (4)
+                    Length: 1
+                    Octet 3
+                        1... .... = Extension: No Extension
+                        .01. .... = Radio channel requirement: Spare
+                        ...0 .... = Coding standard: GSM standardized coding
+                        .... 0... = Transfer mode: circuit
+                        .... .000 = Information transfer capability: Speech (0x00)
+            gmsc-Address: 91947106000040
+                1... .... = Extension: No Extension
+                .001 .... = Nature of number: International Number (0x01)
+                .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                Address digits: 491760000004
+                Country Code: 49 Germany (length 2)
+            callReferenceNumber: 436501360c8600
+            Padding: 5
+            supportedCamelPhasesInInterrogatingNode: e0 (phase1, phase2, phase3)
+                1... .... = phase1: True
+                .1.. .... = phase2: True
+                ..1. .... = phase3: True
+                ...0 .... = phase4: False
+            orNotSupportedInGMSC
+
+Frame 16: 202 bytes on wire (1616 bits), 202 bytes captured (1616 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: NokiaSie_02:6b:56 (00:0f:bb:02:6b:56)
+Internet Protocol Version 4, Src: 10.15.141.10 (10.15.141.10), Dst: 10.15.128.25 (10.15.128.25)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 27
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 4
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 9
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 27
+            resultretres
+                opCode: localValue (0)
+                    localValue: provideRoamingNumber (4)
+                roamingNumber: 91947106402935
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760049253
+                    Country Code: 49 Germany (length 2)
+
+Frame 17: 202 bytes on wire (1616 bits), 202 bytes captured (1616 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: NokiaSie_02:6b:56 (00:0f:bb:02:6b:56)
+Internet Protocol Version 4, Src: 10.15.141.10 (10.15.141.10), Dst: 10.15.128.25 (10.15.128.25)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 27
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 4
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 9
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 27
+            resultretres
+                opCode: localValue (0)
+                    localValue: provideRoamingNumber (4)
+                roamingNumber: 91947106402935
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760049253
+                    Country Code: 49 Germany (length 2)
+
+Frame 18: 218 bytes on wire (1744 bits), 218 bytes captured (1744 bits)
+Ethernet II, Src: NokiaSie_18:ca:50 (00:0f:bb:18:ca:50), Dst: Cisco_15:83:40 (00:18:74:15:83:40)
+Internet Protocol Version 4, Src: 10.15.160.27 (10.15.160.27), Dst: 10.15.177.2 (10.15.177.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 27
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 4
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 9
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 27
+            resultretres
+                opCode: localValue (0)
+                    localValue: provideRoamingNumber (4)
+                roamingNumber: 91947106402935
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760049253
+                    Country Code: 49 Germany (length 2)
+
+Frame 19: 218 bytes on wire (1744 bits), 218 bytes captured (1744 bits)
+Ethernet II, Src: NokiaSie_18:ca:50 (00:0f:bb:18:ca:50), Dst: Cisco_15:83:40 (00:18:74:15:83:40)
+Internet Protocol Version 4, Src: 10.15.160.27 (10.15.160.27), Dst: 10.15.177.2 (10.15.177.2)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 601a2cf9
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            Padding: 7
+            protocol-version: 80 (version1)
+                1... .... = version1: True
+            application-context-name: 0.4.0.0.1.0.3.3 (roamingNumberEnquiryContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 27
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 4
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x00
+                            Length: 9
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 27
+            resultretres
+                opCode: localValue (0)
+                    localValue: provideRoamingNumber (4)
+                roamingNumber: 91947106402935
+                    1... .... = Extension: No Extension
+                    .001 .... = Nature of number: International Number (0x01)
+                    .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                    Address digits: 491760049253
+                    Country Code: 49 Germany (length 2)
+
+Frame 20: 230 bytes on wire (1840 bits), 230 bytes captured (1840 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: NokiaSie_18:ca:4f (00:0f:bb:18:ca:4f)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 42
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f8
+                TBCD digits: 262073900317078
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: roamingNumber (0)
+                        roamingNumber: 91947106402935
+                            1... .... = Extension: No Extension
+                            .001 .... = Nature of number: International Number (0x01)
+                            .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                            Address digits: 491760049253
+                            Country Code: 49 Germany (length 2)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+
+Frame 21: 230 bytes on wire (1840 bits), 230 bytes captured (1840 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: NokiaSie_18:ca:4f (00:0f:bb:18:ca:4f)
+Internet Protocol Version 4, Src: 10.15.147.2 (10.15.147.2), Dst: 10.15.128.27 (10.15.128.27)
+Stream Control Transmission Protocol, Src Port: 2906 (2906), Dst Port: m3ua (2905)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 42
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f8
+                TBCD digits: 262073900317078
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: roamingNumber (0)
+                        roamingNumber: 91947106402935
+                            1... .... = Extension: No Extension
+                            .001 .... = Nature of number: International Number (0x01)
+                            .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                            Address digits: 491760049253
+                            Country Code: 49 Germany (length 2)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+
+Frame 22: 246 bytes on wire (1968 bits), 246 bytes captured (1968 bits)
+Ethernet II, Src: NokiaSie_02:6b:56 (00:0f:bb:02:6b:56), Dst: Cisco_14:2e:00 (00:18:74:14:2e:00)
+Internet Protocol Version 4, Src: 10.15.128.25 (10.15.128.25), Dst: 10.15.140.10 (10.15.140.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 42
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f8
+                TBCD digits: 262073900317078
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: roamingNumber (0)
+                        roamingNumber: 91947106402935
+                            1... .... = Extension: No Extension
+                            .001 .... = Nature of number: International Number (0x01)
+                            .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                            Address digits: 491760049253
+                            Country Code: 49 Germany (length 2)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+
+Frame 23: 246 bytes on wire (1968 bits), 246 bytes captured (1968 bits)
+Ethernet II, Src: NokiaSie_02:6b:56 (00:0f:bb:02:6b:56), Dst: Cisco_14:2e:00 (00:18:74:14:2e:00)
+Internet Protocol Version 4, Src: 10.15.128.25 (10.15.128.25), Dst: 10.15.140.10 (10.15.140.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 42
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f8
+                TBCD digits: 262073900317078
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: roamingNumber (0)
+                        roamingNumber: 91947106402935
+                            1... .... = Extension: No Extension
+                            .001 .... = Nature of number: International Number (0x01)
+                            .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                            Address digits: 491760049253
+                            Country Code: 49 Germany (length 2)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+
+Frame 24: 246 bytes on wire (1968 bits), 246 bytes captured (1968 bits)
+Ethernet II, Src: Cisco_14:2e:00 (00:18:74:14:2e:00), Dst: Radisys_2a:2e:dc (00:00:50:2a:2e:dc)
+Internet Protocol Version 4, Src: 10.15.128.25 (10.15.128.25), Dst: 10.15.140.10 (10.15.140.10)
+Stream Control Transmission Protocol, Src Port: m3ua (2905), Dst Port: 2906 (2906)
+MTP 3 User Adaptation Layer
+Signalling Connection Control Part
+Transaction Capabilities Application Part
+    end
+        Destination Transaction ID
+            Transaction Id: 574dd902
+        oid: 0.0.17.773.1.1.1 (id-as-dialogue)
+        dialogueResponse
+            application-context-name: 0.4.0.0.1.0.5.3 (locationInfoRetrievalContext-v3)
+            result: accepted (0)
+            result-source-diagnostic: dialogue-service-user (1)
+                dialogue-service-user: null (0)
+        components: 1 item
+            Component: returnResultLast (2)
+                returnResultLast
+                    invokeID: 0
+                    resultretres
+                        opCode: localValue (0)
+                            localValue: 22
+                        CONSTRUCTOR
+                            CONSTRUCTOR Tag
+                            Tag: 0x02
+                            Length: 42
+                            Parameter (0x09)
+                                Tag: 0x09
+                                Length: 8
+                            Data: 62
+                            Parameter (0x04)
+                                Tag: 0x04
+                                Length: 7
+                            Data: 91
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 3
+                                Parameter (0x03)
+                                    Tag: 0x03
+                                    Length: 1
+                                Data: 11
+                            CONSTRUCTOR
+                                CONSTRUCTOR Tag
+                                Tag: 0x02
+                                Length: 16
+                                CONSTRUCTOR
+                                    CONSTRUCTOR Tag
+                                    Tag: 0x02
+                                    Length: 14
+                                    CONSTRUCTOR
+                                        CONSTRUCTOR Tag
+                                        Tag: 0x00
+                                        Length: 12
+                                        Parameter (0x06)
+                                            Tag: 0x06
+                                            Length: 2
+                                        Data: 22
+                                        CONSTRUCTOR
+                                            CONSTRUCTOR Tag
+                                            Tag: 0x03
+                                            Length: 6
+                                            Parameter (0x0b)
+                                                Tag: 0x0b
+                                                Length: 1
+                                            Data: 0a
+                                            Parameter (0x11)
+                                                Tag: 0x11
+                                                Length: 1
+                                            Data: 0f
+GSM Mobile Application
+    Component: returnResultLast (2)
+        returnResultLast
+            invokeID: 0
+            resultretres
+                opCode: localValue (0)
+                    localValue: sendRoutingInfo (22)
+                imsi: 62023709307170f8
+                TBCD digits: 262073900317078
+                extendedRoutingInfo: routingInfo (0)
+                    routingInfo: roamingNumber (0)
+                        roamingNumber: 91947106402935
+                            1... .... = Extension: No Extension
+                            .001 .... = Nature of number: International Number (0x01)
+                            .... 0001 = Number plan: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                            Address digits: 491760049253
+                            Country Code: 49 Germany (length 2)
+                basicService: ext-Teleservice (3)
+                    ext-Teleservice: telephony (17)
+                extensionContainer
+                    privateExtensionList: 1 item
+                        PrivateExtension
+                            extId: 0.34.7 (itu-t.34.7)
+                            Extension Data
+                            BER: Dissector for OID:0.34.7 not implemented. Contact Wireshark developers if you want this supported
+                                [Expert Info (Warn/Undecoded): BER: Dissector for OID 0.34.7 not implemented]
+                                    [Message: BER: Dissector for OID 0.34.7 not implemented]
+                                    [Severity level: Warn]
+                                    [Group: Undecoded]
+

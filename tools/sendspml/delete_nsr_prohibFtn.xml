@@ -1,0 +1,5 @@
+<spml:deleteRequest xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"    xmlns:subscriber="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<version>HLR_EPS_NSR_v50</version>
+	<objectclass>ProhibitedForwardedToNumbers</objectclass>
+	<identifier>11/##any##</identifier>
+</spml:deleteRequest>

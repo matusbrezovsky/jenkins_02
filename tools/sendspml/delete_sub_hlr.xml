@@ -1,0 +1,10 @@
+<spml:modifyRequest
+    xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="##subsNs##"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    returnResultingObject="identifier">
+    <version>##version##</version>
+    <objectclass>Subscriber</objectclass>
+    <identifier alias="imsi">##imsi##</identifier>
+    <modification operation="remove" name="hlr"/>
+</spml:modifyRequest>

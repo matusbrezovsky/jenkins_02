@@ -1,0 +1,286 @@
+/* Generic and misc styles */
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: 0.8em;
+    color: black;
+    padding: 0px;
+    background: rgb(255,255,255) !important;
+}
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    empty-cells: show;
+    font-size: 1em;
+}
+th, td {
+    vertical-align: top;
+}
+br {
+    mso-data-placement: same-cell; /* maintain line breaks in Excel */
+}
+a, a:link, a:visited {
+    text-decoration: none;
+    color: #fab702;
+}
+a > img {
+    /*border: 1px solid blue !important;*/
+}
+a:hover, a:active {
+    text-decoration: underline;
+    color: #ffb702;
+}
+.parent-name {
+    font-size: 0.7em;
+    letter-spacing: -0.07em;
+}
+.message {
+    white-space: pre-wrap;
+}
+/* Headers */
+#header {
+    position: relative;
+    width: 100%;
+    height: 3em;
+    margin:0px;
+}
+h1 {
+    float: left;
+    margin: 0 0 0.5em 0;
+    width: 75%;
+}
+h2 {
+    clear: left;
+}
+h1 {
+    font-size: 24px !important;
+}
+h2 {
+    font-size: 18px !important;
+}
+h3 {
+    font-size: 16px !important;
+}
+.page-title-wrap {
+    padding: 30px 0 15px 0 !important;
+}
+#primary {
+    padding:15px 0 !important;
+}
+table th {
+    font-size: 12px !important;
+    text-transform: none !important;
+}
+.site-info-wrapper {
+    background-color: rgb(34,34,34) !important;
+    border-top: 1px solid rgb(51,51,51) !important;
+}
+.site-info-wrapper .site-info .copy_text {
+    color: rgb(153,153,153);
+}
+#generated {
+    float: right;
+    text-align: right;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+table tr th {
+    width:20%; 
+    padding: 0 5px;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+}
+table.metadata tr th {
+    width:20%; 
+}
+table tr td {
+    padding: 0 5px;
+    font-size: 11px !important;
+    text-align: left !important;
+}
+table tr td.time {
+    width: 10em !important;
+    text-align: center !important;
+}
+/* site-content */
+.site-content {
+    padding-top:60px;
+}
+/* Documentation headers */
+.doc > h2 {
+    font-size: 1.2em;
+}
+.doc > h3 {
+    font-size: 1.1em;
+}
+.doc > h4 {
+    font-size: 1.0em;
+}
+/* Status text colors -- !important allows using them in links */
+.error, .fail {
+    color: red !important;
+    font-weight: bold;
+}
+.pass {
+    color: #009900 !important;
+}
+.warn {
+    color: #FFCC00 !important;
+    font-weight: bold;
+}
+.not-run {
+    color: #444444 !important;
+}
+
+.label {
+    padding: 2px 5px;
+    font-size: 0.75em;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: black;
+    background-color: #ddd;
+    border-radius: 3px;
+}
+.label.debug, .label.trace, .label.error, .label.keyword {
+    letter-spacing: 0;
+}
+.label.error, .label.fail, .label.pass, .label.warn {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+
+.label.error, .label.fail {
+    background-color: #d9534f;
+}
+.label.pass {
+    background-color: #5cb85c;
+}
+.label.warn {
+    background-color: #ec971f;
+}
+
+/* Top right header */
+#top-right-header {
+    position:absolute;
+    top: -60px;
+    right: 0px;
+    z-index: 1000;
+    text-align: center;
+}
+#report-or-log-link a {
+    display: block;
+    width: 60px;
+    height: 60px;
+    background:#fab702;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    padding: 0;
+    border-radius: 30px;
+    font-size: 10px;
+    line-height: 60px;
+}
+#report-or-log-link a:hover {
+    color:#ffffff;
+}
+#log-level-selector {
+    padding: 0.3em 0;
+    font-size: 0.9em;
+    border-bottom-left-radius: 4px;
+    background: #fab702;
+}
+/* Statistics table */
+.statistics {
+    width: 100%;
+    border-collapse: collapse;
+    empty-cells: show;
+    margin-bottom: 1em;
+}
+.statistics tr:hover {
+    background-color: rgb(235, 235, 235);
+    cursor: pointer;
+}
+.statistics th, .statistics td {
+    border: 1px solid black;
+    padding: 0.1em 0.3em;
+}
+.statistics th {
+    background: #fab702;
+    padding: 0.2em 0.3em;
+}
+.statistics td {
+    vertical-align: middle;
+}
+.stats-col-stat {
+    width: 4.5em;
+    text-align: center;
+}
+.stats-col-elapsed {
+    width: 5.5em;
+    text-align: center;
+}
+.stats-col-graph {
+    width: 9em;
+}
+th.stats-col-graph:hover {
+    cursor: default;
+}
+.stat-name {
+    float: left;
+}
+.stat-name a, .stat-name span {
+    font-weight: bold;
+}
+.tag-links {
+    font-size: 0.9em;
+    float: right;
+    margin-top: 0.05em;
+}
+.tag-links span {
+    margin-left: 0.2em;
+}
+/* Statistics graph */
+.graph, .empty-graph {
+    border: 1px solid black;
+    width: auto;
+    height: 7px;
+    padding: 0;
+    background: red;
+}
+.empty-graph {
+    background: #E9E9E9;
+}
+.pass-bar, .fail-bar {
+    float: left;
+    height: 100%;
+}
+.pass-bar {
+    background: #00F000;
+}
+* Tablesorter - adapted from provided Blue Skin */
+.tablesorter-header {
+    background-image: url(data:image/gif;base64,R0lGODlhCwAJAIAAAH9/fwAAACH5BAEAAAEALAAAAAALAAkAAAIRjAOnBr3cnIr0WUjTrC9e9BQAOw==);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+.tablesorter-header:hover {
+    background-color:#ffb702;
+}
+.tablesorter-headerAsc {
+    background-image1: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlBWnFr3cnIr0WQOyBmvzp13CpxQAOw==);
+    background-color: #ffb702 !important;
+}
+.tablesorter-headerDesc {
+    background-image1: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlAWnBr3cnIr0WROyDmvzp13CpxQAOw==);
+    background-color: #ffb702 !important;
+}
+.sorter-false {
+    background-image: none;
+    cursor: default;
+}
+.sorter-false:hover {
+    background-color: #DCDCF0;
+}

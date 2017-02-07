@@ -1,0 +1,621 @@
+*** Settings ***
+Documentation   Resource file for common Utility functions
+Library             Collections
+Library             String
+Library             OperatingSystem
+Library             DateTime
+Library             Dialogs
+#Library             XML                 use_lxml=True
+Library             XML
+
+*** Variables ***
+${DLGS_SLEEP_DEFAULT}           5s
+${DLGS_FAIL_ON_SKIP_DEFAULT}    True
+
+*** Keywords ***
+Get As List
+    [Documentation]   Converts different types of variable into List 
+    ...               Currently supported conversions:
+    ...               1) scalar to list
+    ...               2) list to list 
+    ...               3) dictionary to list (returns dictionary keys)
+    [arguments]             ${scalar_or_list}
+    ${tmp_list}=            Create List
+
+    # test if the argument is a dictionary, If yes, return the keys
+    ${dict_check}=          Run Keyword And Return Status   Copy Dictionary          ${scalar_or_list}
+    ${status}  ${keys}=     Run Keyword And Ignore Error    Get Dictionary Keys      ${scalar_or_list}
+    Return From Keyword If  '${dict_check}' == 'True'       ${keys}
+
+    # test if the argument is a not a list --> must be scalar then, create a new list with a single value
+    ${status}=              Run Keyword And Return Status   Variable Should Exist    @{scalar_or_list}
+    #Add scalar value to List if it is NOT ${EMPTY} ${None} ${Null}
+    ${has_value}=           Check If Exists     ${scalar_or_list}     ignoreempty=True
+    Run Keyword IF          '${status}' == 'False' and ${has_value}         Append To List           ${tmp_list}    ${scalar_or_list}
+    ${scalar_or_list}=      Set Variable If                 
+    ...                     '${status}' == 'False'          ${tmp_list}
+    ...                     '${status}' == 'True'           ${scalar_or_list}
+
+    [return]        ${scalar_or_list}
+
+Check If Exists and Return Type
+    [Documentation]   Checks if the variable is set (as Scaler, List or Dicz) 
+    ...               Return True if set and the variable type "Scalar/List/Dict"
+    ...               Return False if the value equals ${None} or ${null}
+    ...               Return False if the ignoreempty=False and the value equals ${EMPTY}
+    [arguments]             ${a_var}     ${ignoreempty}=False
+    ${check}=               Run Keyword And Return Status                           Should Be Equal  ${a_var}  ${null}
+    Return From Keyword If  '${check}' == 'True'                                    False     ${EMPTY}
+    ${check}=               Run Keyword And Return Status                           Should Be Equal  ${a_var}  ${None}
+    Return From Keyword If  '${check}' == 'True'                                    False     ${EMPTY}
+    ${check}=               Run Keyword And Return Status                           Should Be Equal  ${a_var}  ${EMPTY}
+    Return From Keyword If  '${check}' == 'True' and '${ignoreempty}' == 'False'    False     ${EMPTY}
+    Return From Keyword If  '${check}' == 'True' and '${ignoreempty}' == 'True'     True      Scalar
+
+    # test if the argument is a dictionary, If yes, return the keys
+    ${dict_check}=          Run Keyword And Return Status   Copy Dictionary          ${a_var}
+    Return From Keyword If  '${dict_check}' == 'True'       True     Dict
+    # test if the argument is a list, if not then it must a scalar
+    ${status}=              Run Keyword And Return Status   Variable Should Exist    @{a_var}
+    Return From Keyword If  '${status}' == 'True'           True     List
+    [return]        True    Scalar
+
+Check If Exists
+    [Documentation]   Checks if the variable is set (as Scaler, List or Dict) 
+    ...               Return True if set and the variable type "Scalar/List/Dict"
+    ...               Return False if the value equals ${None} or ${null}
+    ...               Return False if the ignoreempty=False and the value equals ${EMPTY}
+    [arguments]           ${a_var}     ${ignoreempty}=False
+    ${ret}  ${type}=      Check If Exists and Return Type     ${a_var}   ignoreempty=${ignoreempty}
+    [return]        ${ret}
+
+Return Empty Unless
+    [Documentation]   Returns the value depending on the condition
+    ...               e.g.
+    ...               | Return Empty unless  \ \  '${x}' == 'True' \ \ T
+    ...               Returns 'T' if the ${x} is 'True' otherwise ${EMPTY} is returned
+    [arguments]     ${condition}   ${return_if_true}
+    #  Helper function  to avoid horrible Setvariable If yy==yy value ... yy!=yy ${EMPTY} structures
+    ${ret}=         Set Variable If Else  ${condition}   ${return_if_true}   ${EMPTY}
+    [return]   ${ret}
+
+Set Variable If Else
+    [Documentation]   Returns the value depending on the condition  
+    ...               | Set Variable To If Else \ \ '${x}' == 'True' \ \ T \ \ F
+    ...               Returns 'F' if the ${x} is 'True' otherwise 'F' is returned
+    [arguments]     ${condition}      ${return_if_true}=True     ${return_if_false}=False
+    ${ret}=         Set Variable If   
+    ...             ${condition}        ${return_if_true}
+    ...             not ${condition}    ${return_if_false} 
+    [return]   ${ret}
+
+################################################################################################################################################
+#   
+#   ######   ######    #####      #        #######   #####
+#   #     #  #     #  #     #     #        #     #  #     #
+#   #     #  #     #  #           #        #     #  #
+#   #     #  ######   #  ####     #        #     #  #  ####
+#   #     #  #     #  #     #     #        #     #  #     #
+#   #     #  #     #  #     #     #        #     #  #     #
+#   ######   ######    #####      #######  #######   #####
+#   
+################################################################################################################################################
+
+_debug_log_xmlelement
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]     ${logelement}
+    :FOR     ${item}  IN   @{logelement}
+    \   ${e} =          Element To String   ${item}
+    \   Run Keyword if  '${use_level}' == 'CONSOLE'     Log To Console  dbg: ${e}
+    \   Run Keyword if  '${use_level}' != 'CONSOLE'     Log             dbg: ${e}      ${use_level}
+    #\   Log Element     ${item}      ${use_level}
+
+_debug_log_dict
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]     ${logelement}
+    ${items}=    Get Dictionary Items    ${logelement}
+    :FOR     ${key}  ${value}  IN   @{items}
+    \   Run Keyword if  '${use_level}' == 'CONSOLE'     Log To Console  dbg: ${key}-${value}
+    \   Run Keyword if  '${use_level}' != 'CONSOLE'     Log             dbg: ${key}-${value}    ${use_level}
+
+_debug_log_list
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]     ${logelement}
+    :FOR     ${item}  IN   @{logelement}
+    \   Run Keyword if  '${use_level}' == 'CONSOLE'     Log To Console  dbg: ${item}
+    \   Run Keyword if  '${use_level}' != 'CONSOLE'     Log             dbg: ${item}      ${use_level}
+
+_debug_log_text
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]     ${logelement}
+    Run Keyword if  '${use_level}' == 'CONSOLE'     Log To Console      ${logelement}
+    Run Keyword if  '${use_level}' != 'CONSOLE'     Log                 dbg: ${logelement}    ${use_level}
+
+Debug Log
+    [Documentation]   Debug logger 
+    ...
+    ...     Print debug logs into the execution log or to the console
+    ...     Global variables DBG_LOG (True/False) controls the debug log status (On/Off) and DBG_LEVEL controls the log level (e.g. INFO/WARN).
+    ...     The global variables can be overridden with the method arguments.
+    ...     .
+    ...
+    ...     Arguments
+    ...     - logelement    (M)   The text to be logged (with mode=txt, default) or the XML-element (with mode=xml) 
+    ...     - debug_log     (M)   Enable log (True/False). Intended to override the global one i.e. DBG_LOG=False + debug_log=True --> debug log is printed.
+    ...     - debug_level   (O)   The log level to be used. DEBUG/INFO prints into the log file, WARN prints to the console
+    ...     - mode          (O)   Log mode, "txt" or "xml". The "xml" mode enables human readable logs of XML elements
+    ...
+    ...     Returns   True if the log was written, otherwise False
+
+    [arguments]     ${logelement}   ${debug_log}=${EMPTY}   ${debug_level}=${EMPTY}     ${mode}=txt
+    
+    # quit if global DBG_LOG is not set and debug_log argument is not set
+    # or debug log is False
+    Return From Keyword If  '${debug_log}'=='False'                                 False
+
+    ${var_check}=           Get Variable Value                                      ${DBG_LOG}    ${None}
+
+    Return From Keyword If  '${var_check}'=='${None}' and '${debug_log}'=='${EMPTY}'   False
+    Return From Keyword If  '${var_check}'=='False' and '${debug_log}'=='${EMPTY}'     False
+
+    # set debug log level
+    ${var_check}=           Get Variable Value                                              ${DBG_LEVEL}    ${None}
+    Run Keyword If          '${var_check}'=='${None}' and '${debug_level}'=='${EMPTY}'      Set Global Variable       ${use_level}    INFO
+    Run Keyword If          '${var_check}'!='${None}' and '${debug_level}'=='${EMPTY}'      Set Global Variable       ${use_level}    ${var_check}
+    Run Keyword If                                        '${debug_level}'!='${EMPTY}'      Set Global Variable       ${use_level}    ${debug_level}
+
+    Run Keyword If          '${mode}'== 'xml'     _debug_log_xmlelement   ${logelement}
+    Return From Keyword If  '${mode}'== 'xml'     True
+
+    ${ret}  ${type}=      Check If Exists and Return Type           ${logelement}
+    Run Keyword If        '${type}'== 'List'    _debug_log_list     ${logelement}
+    Run Keyword If        '${type}'== 'Dict'    _debug_log_dict     ${logelement}
+    Run Keyword If        '${type}'== 'Scalar'  _debug_log_text     ${logelement}
+
+    [return]    True
+
+Debug Log XML
+    [Documentation]   Log an XML element
+    ...
+    ...     Helper function to log XML elements, see `Debug Log` (mode=xml) for more details
+
+    [arguments]     ${logelement}   ${debug_log}=${EMPTY}   ${debug_level}=${EMPTY}     ${mode}=xml
+    ${ret}=     Debug Log   ${logelement}   ${debug_log}   ${debug_level}     ${mode}
+    [return]    ${ret}
+
+
+################################################################################################################################################
+#   
+#   #######  #     #  #######      ######   #######   #####   #######  #     #  ######
+#      #      #   #      #         #     #  #        #     #  #         #   #   #     #
+#      #       # #       #         #     #  #        #        #          # #    #     #
+#      #        #        #         ######   #####    #  ####  #####       #     ######
+#      #       # #       #         #   #    #        #     #  #          # #    #
+#      #      #   #      #         #    #   #        #     #  #         #   #   #
+#      #     #     #     #         #     #  #######   #####   #######  #     #  #
+#   
+################################################################################################################################################
+
+_process_regex
+    [Documentation]  _Private Method, should not be used directly_
+    [Arguments]    ${txt}    ${re}
+
+    ${not_operand}=     Get Substring   ${re}  0    5
+    ${the_rest}=        Get Substring   ${re}  5
+    ${re}=      Set Variable If Else    '${not_operand}'=='!not!'     ${the_rest}   ${re}
+    ${not}=     Set Variable If Else    '${not_operand}'=='!not!'     Not           ${EMPTY} 
+    ${status}   ${msg}=     Run Keyword And Ignore Error    Should ${not} Match Regexp   ${txt}      ${re}
+    ${re_result}=  Set Variable If Else            '${status}' == 'PASS'        True        False
+
+    #Log   ${re} - ${status} - ${msg}    WARN
+
+    [return]  ${re_result}
+
+Text Should Match All RegEx
+    [Documentation]   Verify a string with a list of Regular Expressions
+    ...
+    ...     Each RE in the list is tested against the text.
+    ...     Fails if one the RE's fail to match.
+    ...
+    ...     Arguments
+    ...     - txt               (M)   The string to match (can be single or multi-line text) 
+    ...     - list_of_REs       (M)   List of Regular Expressions that should match the String
+    ...     - re_prefix         (O)   Pre-fix to add to each RE, default ".*"
+    ...     - re_postfix        (O)   Post-fix to add to each RE, default ".*"
+    ...     - fail_on_error     (O)   Should we fail on error or simply return False.
+    ...     - err_msg           (O)   Error message to print on failure. Meaningless if fail_on_error=False
+    ...
+    ...     Returns   True if all REs matched, otherwise False. Valid only with fail_on_error=False
+
+    [Arguments]    ${txt}    ${list_of_REs}      ${re_prefix}=.*     ${re_postfix}=.*   ${fail_on_error}=True   ${err_msg}=Text didn't contain all RegEx 
+
+    Set Test Variable  ${match_found}   True
+
+    #Log    ${txt}    WARN
+    :FOR    ${regex}  IN   @{list_of_REs}
+    #\   Log     ${regex}   WARN
+    \   ${re_ok} =      _process_regex      ${txt}      ${regex}
+    \   Run Keyword If  not ${re_ok}            Set Test Variable   ${match_found}   False
+    \   Run Keyword If  not ${re_ok}            Exit For Loop
+
+    Run Keyword If      not ${match_found} and ${fail_on_error}         Fail     ${err_msg} (failed re: ${regex} - re's: ${list_of_REs} - txt below)\n${txt}
+
+    [return]    ${match_found}
+
+Text Should Match At Least One RegEx
+    [Documentation]   Verify a string with a list of Regular Expressions
+    ...
+    ...     Each RE in the list is tested against the text.
+    ...     Fails if none the RE's fail to match.
+    ...
+    ...     Arguments
+    ...     - txt               (M)   The string to match (can be single or multi-line text) 
+    ...     - list_of_REs       (M)   List of Regular Expressions that should matched against the String
+    ...     - re_prefix         (O)   Pre-fix to add to each RE, default ".*"
+    ...     - re_postfix        (O)   Post-fix to add to each RE, default ".*"
+    ...     - fail_on_error     (O)   Should we fail on error or simply return False.
+    ...     - err_msg           (O)   Error message to print on failure. Meaningless if fail_on_error=False
+    ...
+    ...     Returns   True if one of the REs matched, otherwise False. Valid only with fail_on_error=False
+
+    [Arguments]     ${txt}    ${list_of_REs}      ${re_prefix}=.*     ${re_postfix}=.*   ${fail_on_error}=True   ${err_msg}=Text didn't contain at least one RegEx 
+
+    Set Test Variable  ${match_found}   False
+
+    :FOR    ${regex}  IN   @{list_of_REs}
+    #\   Log     ${regex}   WARN
+    \   ${re_ok} =      _process_regex      ${txt}      ${regex}
+    \   Run Keyword If  ${re_ok}            Set Test Variable   ${match_found}   True
+    \   Run Keyword If  ${re_ok}            Exit For Loop
+
+    Run Keyword If      not ${match_found} and ${fail_on_error}         Fail     ${err_msg} (failed re: ${regex} - re's: ${list_of_REs} - txt below)\n${txt}
+
+    [return]    ${match_found}
+
+Text Should Not Match Any RegEx
+    [Documentation]   Verify a string with a list of Regular Expressions
+    ...
+    ...     Each RE in the list is tested against the text.
+    ...     Fails if one of the RE's match.
+    ...
+    ...     Arguments
+    ...     - txt               (M)   The string to match (can be single or multi-line text) 
+    ...     - list_of_REs       (M)   List of Regular Expressions that should matched against the String
+    ...     - re_prefix         (O)   Pre-fix to add to each RE, default ".*"
+    ...     - re_postfix        (O)   Post-fix to add to each RE, default ".*"
+    ...     - fail_on_error     (O)   Should we fail on error or simply return False.
+    ...     - err_msg           (O)   Error message to print on failure. Meaningless if fail_on_error=False
+    ...
+    ...     Returns   True if none of the REs matched, otherwise False. Valid only with fail_on_error=False
+
+    [Arguments]     ${txt}    ${list_of_REs}      ${re_prefix}=.*     ${re_postfix}=.*   ${fail_on_error}=True   ${err_msg}=Text contains at least one RegEx 
+
+    Set Test Variable  ${match_found}   False
+
+    :FOR    ${regex}  IN   @{list_of_REs}
+    #\   Log     ${regex}   WARN
+    \   ${re_ok} =      _process_regex      ${txt}      ${regex}
+    \   Run Keyword If  ${re_ok}            Set Test Variable   ${match_found}   True
+    \   Run Keyword If  ${re_ok}            Exit For Loop
+
+    Run Keyword If      ${match_found} and ${fail_on_error}             Fail     ${err_msg} (failed re: ${regex} - re's: ${list_of_REs} - txt below)\n${txt}
+
+    [return]    not ${match_found}
+
+Text Should Match Number of RegEx
+    [Documentation]   Verify a string with a list of Regular Expressions
+    ...
+    ...     Each RE in the list is tested against the text.
+    ...     Fails if the RE's match count is not as expected
+    ...
+    ...     Arguments
+    ...     - txt               (M)   The string to match (can be single or multi-line text) 
+    ...     - match_count       (M)   The number of REs that should match 
+    ...     - list_of_REs       (M)   List of Regular Expressions that should matched against the String
+    ...     - re_prefix         (O)   Pre-fix to add to each RE, default ".*"
+    ...     - re_postfix        (O)   Post-fix to add to each RE, default ".*"
+    ...     - fail_on_error     (O)   Should we fail on error or simply return False.
+    ...     - err_msg           (O)   Error message to print on failure. Meaningless if fail_on_error=False
+    ...
+    ...     Returns   True if the correct number of REs matched, otherwise False. Valid only with fail_on_error=False
+
+    [Arguments]     ${txt}    ${match_count}   ${list_of_REs}   ${re_prefix}=.*     ${re_postfix}=.*   ${fail_on_error}=True   ${err_msg}=Text didn't contain correct number of RegEx matches
+
+    Set Test Variable  ${match_found}   False
+    ${re_match_count}=  Evaluate    0
+
+    :FOR    ${regex}  IN   @{list_of_REs}
+    #\   Log     ${regex}   WARN
+    \   ${re_ok} =      _process_regex      ${txt}      ${regex}
+    \   ${tmp} =        Evaluate                    ${re_match_count}+1
+    \   ${re_match_count}=  Set Variable If Else    ${re_ok} > 0    ${tmp}  ${re_match_count}
+
+    ${match_found}=     Set Variable If     ${re_match_count}==${match_count}   True
+    Run Keyword If      not ${match_found} and ${fail_on_error}   Fail          ${err_msg} (re's: ${list_of_REs} - count: ${match_count}!=${re_match_count} - txt below)\n${txt}
+
+    [return]    ${match_found}
+
+################################################################################################################################################
+#   
+#   #######  #     #  #######     #        ###   #####   #######     ######   #######   #####   #######  #     #  ######
+#      #      #   #      #        #         #   #     #     #        #     #  #        #     #  #         #   #   #     #
+#      #       # #       #        #         #   #           #        #     #  #        #        #          # #    #     #
+#      #        #        #        #         #    #####      #        ######   #####    #  ####  #####       #     ######
+#      #       # #       #        #         #         #     #        #   #    #        #     #  #          # #    #
+#      #      #   #      #        #         #   #     #     #        #    #   #        #     #  #         #   #   #
+#      #     #     #     #        #######  ###   #####      #        #     #  #######   #####   #######  #     #  #
+#   
+################################################################################################################################################
+Any Text Item in List Should Contain All RegEx
+    [Documentation]   Verify a list of strings with a list of Regular Expressions
+    ...
+    ...     Each RE in the RE list is tested against each item in the text list.
+    ...     Fails if none of the items in the String List matches all of the RE's.
+    ...
+    ...     Arguments
+    ...     - list_of_txt_items (M)   The list of strings to match (can be single or multi-line text) 
+    ...     - list_of_REs       (M)   List of Regular Expressions that should matched against the Strings
+    ...     - re_prefix         (O)   Pre-fix to add to each RE, default ".*"
+    ...     - re_postfix        (O)   Post-fix to add to each RE, default ".*"
+    ...     - fail_on_error     (O)   Should we fail on error or simply return False.
+    ...     - err_msg           (O)   Error message to print on failure. Meaningless if fail_on_error=False
+    ...
+    ...     Returns   True if one of the items in the string list matches all RE's, otherwise False. Valid only with fail_on_error=False
+
+    [Arguments]    ${list_of_txt_items}    ${list_of_REs}    ${re_prefix}=.*     ${re_postfix}=.*    ${start_at}=0    ${fail_on_error}=True    ${err_msg}=Text Item List validation failed
+
+    ${len}=   Get Length   ${list_of_txt_items}
+    :FOR    ${i}  IN RANGE  ${start_at}  ${len}
+    \   ${match_found} =  Text Should Match All RegEx    @{list_of_txt_items}[${i}]    ${list_of_REs}   fail_on_error=False
+    #\   Debug Log         List Item: @{list_of_txt_items}[${i}]
+    \   Run Keyword If  ${match_found}    Exit For Loop
+
+    Run Keyword If    not ${match_found} and ${fail_on_error}       Fail     ${err_msg} (Used RegEx's ${list_of_REs})
+    ${ret}=     Run Keyword If    not ${match_found} and not ${fail_on_error}   Set Variable  -1
+        ...     ELSE                                                            Set Variable  ${i}
+
+    #Debug Log               Contents of the matching List Item:\n @{list_of_txt_items}[${i}]
+
+    [return]  ${ret}
+
+One Text Item in List Should Contain All RegEx
+    [Documentation]  Reserved for future use / not implemented
+    [Arguments]    ${list_of_txt_items}    ${list_of_REs}    ${re_prefix}=.*     ${re_postfix}=.*    ${start_at}=0    ${err_msg}=Text Item List validation failed
+
+    Fail            NOT IMPLEMENTED YET
+
+    [return]    ${match_found}
+
+No Text Item in List Should Contain All RegEx
+    [Documentation]  Reserved for future use / not implemented
+    [Arguments]    ${list_of_txt_items}    ${list_of_REs}    ${re_prefix}=.*     ${re_postfix}=.*    ${start_at}=0    ${err_msg}=Text Item List validation failed
+
+    Fail            NOT IMPLEMENTED YET
+
+    [return]    ${match_found}
+
+All Text Items in List Should Contain All RegEx
+    [Documentation]  Reserved for future use / not implemented
+    [Arguments]    ${list_of_txt_items}    ${list_of_REs}    ${re_prefix}=.*     ${re_postfix}=.*    ${start_at}=0    ${err_msg}=Text Item List validation failed
+
+    Fail            NOT IMPLEMENTED YET
+
+    [return]    ${match_found}
+
+
+################################################################################################################################################
+#   
+#   #######  #     #  #######   #####           #####   #######  ######   #
+#   #         #   #   #        #     #         #     #     #     #     #  #
+#   #          # #    #        #               #           #     #     #  #
+#   #####       #     #####    #               #           #     ######   #
+#   #          # #    #        #               #           #     #   #    #
+#   #         #   #   #        #     #         #     #     #     #    #   #
+#   #######  #     #  #######   #####           #####      #     #     #  #######
+#   
+################################################################################################################################################
+_skip_test_step
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]    ${skip_step_var}      ${log_msg}
+    ${skipStep}=                Get Variable Value                          ${skip_step_var}            False
+    # log only once per test case
+    ${already_logged}=          Get Variable Value                          ${${log_msg}_WARNING}       False
+    Run Keyword If              ${skipStep} and not ${already_logged}       Log                         ${log_msg}     WARN
+    Set Test Variable           ${${log_msg}_WARNING}                       True
+    Return From Keyword If      ${skipStep}                                 True
+    [return]                    False
+
+_skip_suite_step
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]    ${skip_step_var}      ${log_msg}
+    ${skipStep}=                Get Variable Value                          ${skip_step_var}            False
+    # log only once per test case
+    ${already_logged}=          Get Variable Value                          ${${log_msg}_WARNING}       False
+    Run Keyword If              ${skipStep} and not ${already_logged}       Log                         ${log_msg}     WARN
+    Set Suite Variable          ${${log_msg}_WARNING}                       True
+    Return From Keyword If      ${skipStep}                                 True
+    [return]                    False
+
+_in_dummy_mode
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]    ${log_msg}
+    ${inDummyMode}=             Get Variable Value          ${DUMMY_MODE}       False
+    # log only once per test case
+    ${already_logged}=          Get Variable Value                          ${${log_msg}_WARNING}       False
+    Run Keyword If              ${inDummyMode} and not ${already_logged}    Log                         ${log_msg}     WARN
+    Set Suite Variable          ${${log_msg}_WARNING}                       True
+
+    [return]            ${inDummyMode}
+
+Create Results Directory
+    [Documentation]   Create local directories for the logs and traces
+    ...
+    ...     Creates the results directory for the later steps that'll download the traces and SPML logs into this directory.
+    ...     The directory name depends on the execution mode (i.e. the value of the DEVELOPMENT_MODE global variable)
+    ...     If the DEVELOPMENT_MODE=True then the directory will be "./results/last" (NOTE: results in this directory will be overwritten)
+    ...     If the DEVELOPMENT_MODE=False then the directory will be "./results/<timestamp>_<test suite name>"
+    
+    #get default directory 
+    ${resultspath}=     Get Variable Value  ${RESULTS_ROOT_PATH}    ${EXECDIR}${/}results
+    #generate result directory name - SUITE NAME needs some parsing for the scenarios where >1 suite is executed at once
+    ${tstmp}=           Get Current Date    result_format=%Y%m%d%H%M
+    ${str}=             Replace String      ${SUITE NAME}   ${SPACE}    _    
+    ${str}=             Replace String      ${str}          &           and    
+    ${strl}=            Split String        ${str}          .
+    ${str}=             Set Variable        @{strl}[0]
+    ${suitedir}=        Catenate            ${tstmp}_${str}
+
+    # are we running in development mode
+    ${inDevMode}=       _skip_suite_step    \${DEVELOPMENT_MODE}    Running in DEVELOPMENT_MODE - overwriting results in directory ${resultspath}${/}last
+    Run Keyword If      ${inDevMode}        Set Suite Variable      ${RESULTS_LATEST}       ${resultspath}${/}last
+    ...       ELSE                          Set Suite Variable      ${RESULTS_LATEST}       ${resultspath}${/}${suitedir}
+
+    Create directory   ${RESULTS_LATEST}
+    Create directory   ${RESULTS_LATEST}${/}pgwproxy
+
+################################################################################################################################################
+#   
+#       ######   ###     #     #        #######   #####    #####
+#       #     #   #     # #    #        #     #  #     #  #     #
+#       #     #   #    #   #   #        #     #  #        #
+#       #     #   #   #     #  #        #     #  #  ####   #####
+#       #     #   #   #######  #        #     #  #     #        #
+#       #     #   #   #     #  #        #     #  #     #  #     #
+#       ######   ###  #     #  #######  #######   #####    #####
+#   
+################################################################################################################################################
+Prepare Manual Step
+    [Documentation]   Show a dialog before entering manual steps.
+    ...
+    ...     Display a warning dialog about upcoming manual steps, i.e. the user should acknowledge that he/she is ready for the upcoming manual steps.
+    ...     With this dialog the manual test cases can also be executed without continuous attendance. For example when you show this dialog before starting the traces 
+    ...     the test case can be started and while it's running the set-up steps you can focus on something else (your emails, go for lunch or whatever).
+    ...     Without this step the traces would be started and the dialog for the actual manual step (e.g. "trigger a Location Update") would wait for the response from the user, who has gone for lunch --> The trace files would become huge.
+    ...     The manual steps can be skipped by setting the global variable DLGS_SKIP to True.
+    ...
+    ...     Arguments
+    ...     - dlg_txt   (M)   The text to be displayed in the dialog.
+
+    [arguments]         ${dlg_txt}
+    # are we skipping this step?
+    ${skip}=                    _skip_test_step     \${DLGS_SKIP}       Skipping Manual Steps
+    Return From Keyword If      ${skip}             0
+
+    Pause Execution     message=Manual Step Starting:\n${dlg_txt}\n\nTo avoid timeout errors, please acknowledge the next dialog promptly\n\nClick to Proceed...
+
+Pause for Manual Step
+    [Documentation]   Pause for manual steps without verification
+    ...
+    ...     Use this to pause for manual steps that don't need verification of the results. For example when triggering a handover with the Attenuation box/switching cables.
+    ...     The manual steps can be skipped by setting the global variable DLGS_SKIP to True.
+    ...     The default behaviour (FAIL/PASS) when skipping this dialog can be set with global variable DLGS_FAIL_ON_SKIP.
+    ...
+    ...     Arguments
+    ...     - dlg_txt       (M)   The text to be displayed in the dialog.
+    ...     - fail_on_skip  (O)   Should we fail if the Manual Steps are skipped. 
+
+    [arguments]         ${dlg_txt}      ${fail_on_skip}=${None}
+    # are we skipping this step?
+    ${skip}=                    _skip_test_step     \${DLGS_SKIP}       Skipping Manual Steps
+
+    # fail_on_skip precedence: 1) use KW argument if set 2) use global DLGS_FAIL_ON_SKIP if set 3) use default DLGS_FAIL_ON_SKIP_DEFAULT
+    ${FoS_global}=                  Get Variable Value                                              ${DLGS_FAIL_ON_SKIP}    ${None}
+    ${FoS} =  Set Variable If       '${fail_on_skip}'!='${None}'                                    ${fail_on_skip}
+    ...                             '${FoS_global}'!='${None}'                                      ${FoS_global}
+    ...                             '${FoS_global}'=='${None}' and '${fail_on_skip}'=='${None}'     ${DLGS_FAIL_ON_SKIP_DEFAULT}
+
+    ${ignoreErr}=               Get Variable Value                         ${IGNORE_ERR_MANUAL}    False
+    Run Keyword If              ${skip} and ${FoS} and not ${ignoreErr}    Fail                    Failed because the required manual steps are skipped
+    Run Keyword If              ${skip} and ${FoS} and ${ignoreErr}        Log                     Ignoring errors in mandatory manual steps     WARN
+    Return From Keyword If      ${skip}                                    0
+
+    Pause Execution     message=${dlg_txt}\n\nClick to Proceed...
+
+Evaluate Manual Step
+    [Documentation]   Pause for manual steps with verification
+    ...
+    ...     Use this to pause for manual steps that verification of the results. For example when calling Voicemail and expecting certain annoucement/prompt from the VMS menu.
+    ...     The manual steps can be skipped by setting the global variable DLGS_SKIP to True.
+    ...     The default sleep_time, i.e. how long to wait before proceeding when the dialogs are skipped (e.g. DLGS_SKIP=True).
+    ...     The default behaviour (FAIL/PASS) when skipping this dialog can be set with global variable DLGS_FAIL_ON_SKIP.
+    ...
+    ...     Arguments
+    ...     - dlg_txt       (M)   The text to be displayed in the dialog.
+    ...     - err_txt       (M)   The error text to show if the test fails.
+    ...     - sleep_time    (O)   How long should we sleep the manual steps are skipped (i.e. DLGS_SKIP=True). 
+    ...     - fail_on_skip  (O)   Should we fail if the Manual Steps are skipped. 
+
+    [arguments]         ${dlg_txt}      ${err_txt}     ${sleep_time}=${None}    ${fail_on_skip}=${None}
+    # are we skipping this step?
+    ${skip}=                    _skip_test_step                 \${DLGS_SKIP}   Skipping Manual Steps
+
+
+    # sleep precedence: 1) use KW argument if set 2) use global DLGS_SLEEP if set 3) use default DLGS_SLEEP_DEFAULT
+    ${sleep_global}=        Get Variable Value                                                      ${DLGS_SLEEP}           ${None}
+    ${sleep} =  Set Variable If     '${sleep_time}'!='${None}'                                      ${sleep_time}
+    ...                             '${sleep_global}'!='${None}'                                    ${sleep_global}
+    ...                             '${sleep_global}'=='${None}' and '${sleep_time}'=='${None}'     ${DLGS_SLEEP_DEFAULT}
+
+    # fail_on_skip precedence: 1) use KW argument if set 2) use global DLGS_FAIL_ON_SKIP if set 3) use default DLGS_FAIL_ON_SKIP_DEFAULT
+    ${FoS_global}=                  Get Variable Value                                              ${DLGS_FAIL_ON_SKIP}    ${None}
+    ${FoS} =  Set Variable If       '${fail_on_skip}'!='${None}'                                    ${fail_on_skip}
+    ...                             '${FoS_global}'!='${None}'                                      ${FoS_global}
+    ...                             '${FoS_global}'=='${None}' and '${fail_on_skip}'=='${None}'     ${DLGS_FAIL_ON_SKIP_DEFAULT}
+
+    ${ignoreErr}=           Get Variable Value                                  ${IGNORE_ERR_MANUAL}    False
+    Run Keyword If          ${skip} and ${FoS} and not ${ignoreErr}             Fail                    Failed because the required manual steps are skipped
+    Run Keyword If          ${skip} and ${FoS} and ${ignoreErr}                 Log                     Ignoring errors in mandatory manual steps     WARN
+    Run Keyword If          ${skip}                                             Sleep                   ${sleep}
+    Return From Keyword If  ${skip}                                             0
+
+    Execute Manual Step         message=${dlg_txt}              default_error=${err_txt}
+
+##########################################################################################################################
+
+Reformat ISDN
+    [Documentation]   Reformat an ISDN
+    ...
+    ...     This method converts the internal ISDN format (CC+NDC+SN) into various other formats
+    ...
+    ...     Supported Formats are
+    ...     - "PlusCc"      Reformats 49176123456 into +49176123456
+    ...     - "00Cc"        Reformats 49176123456 into 0049176123456
+    ...     - "Cc"          Reformats 49176123456 into 49176123456 (no reformatting)
+    ...     - "0Ndc"        Reformats 49176123456 into 0176123456
+    ...     - "Sn"          Reformats 49176123456 into 123456
+    ...     - "Vms"         Reformats 49176123456 into 4917633123456 
+    ...     - "VmsPlusCc"   Reformats 49176123456 into +4917633123456
+    ...     - "Vms00Cc"     Reformats 49176123456 into 004917633123456
+    ...     - "Vms0Ndc"     Reformats 49176123456 into 017633123456
+    ...
+    ...     Arguments
+    ...     - isdn_in_CcNdcSn_format    (M)   The ISDN to be reformatted
+    ...     - format                    (O)   The desired format, e.g. "0Ndc" see description above.
+    ...     - ndc_len                   (O)   The length of the NDC (3 or 4), default 3
+    ...
+    ...     Returns   The reformatted ISDN
+
+    [arguments]         ${isdn_in_CcNdcSn_format}    ${format}=0Ndc   ${ndc_len}=3
+
+    ${cc}=   Get Substring      ${isdn_in_CcNdcSn_format}   0   2
+    ${ndc}=  Run Keyword If     ${ndc_len} == 3     Get Substring       ${isdn_in_CcNdcSn_format}   2   5
+    ...             ELSE IF     ${ndc_len} == 4     Get Substring       ${isdn_in_CcNdcSn_format}   2   6
+    ...             ELSE                            Fail                Unknown NDC Length '${ndc_len}'
+    ${sn}=   Run Keyword If     ${ndc_len} == 3     Get Substring       ${isdn_in_CcNdcSn_format}   5
+    ...             ELSE IF     ${ndc_len} == 4     Get Substring       ${isdn_in_CcNdcSn_format}   6
+    ...             ELSE                            Fail                Unknown NDC Length '${ndc_len}'
+
+    ${isdn}=    Run Keyword If     '${format}'=='PlusCc'      Catenate    +${cc}${ndc}${sn}
+    ...         ELSE IF            '${format}'=='00Cc'        Catenate    00${cc}${ndc}${sn}     
+    ...         ELSE IF            '${format}'=='Cc'          Catenate    ${cc}${ndc}${sn}     
+    ...         ELSE IF            '${format}'=='0Ndc'        Catenate    0${ndc}${sn} 
+    ...         ELSE IF            '${format}'=='Ndc'         Catenate    ${ndc}${sn} 
+    ...         ELSE IF            '${format}'=='Sn'          Catenate    ${sn} 
+    ...         ELSE IF            '${format}'=='Vms'         Catenate    ${cc}${ndc}33${sn}
+    ...         ELSE IF            '${format}'=='VmsPlusCc'   Catenate    +${cc}${ndc}33${sn}
+    ...         ELSE IF            '${format}'=='Vms00Cc'     Catenate    00${cc}${ndc}33${sn}     
+    ...         ELSE IF            '${format}'=='Vms0Ndc'     Catenate    0${ndc}33${sn} 
+    ...         ELSE                                       Fail        Unknown ISDN Format argument '${format}'
+
+    [return]            ${isdn}
+

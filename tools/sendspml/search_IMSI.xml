@@ -1,0 +1,11 @@
+<spml:searchRequest xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"    xmlns:subscriber="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <version>O2_SUBSCRIBER_v10</version>
+
+    <base>
+        <objectclass>Subscriber</objectclass>
+        <alias value="##imsi##" name="imsi"/>
+    </base>
+
+</spml:searchRequest>
+

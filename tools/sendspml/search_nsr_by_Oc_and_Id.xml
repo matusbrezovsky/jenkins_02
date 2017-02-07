@@ -1,0 +1,14 @@
+<spml:searchRequest
+    xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="urn:siemens:names:prov:gw:HLR_EPS_NSR:5:0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <version>HLR_EPS_NSR_v50</version>
+    <base>
+        <objectclass>##any##</objectclass>
+    </base>
+    <filter>
+        <equalityMatch name="identifier">
+            <value>##imsi##</value>
+        </equalityMatch>
+    </filter>
+</spml:searchRequest>

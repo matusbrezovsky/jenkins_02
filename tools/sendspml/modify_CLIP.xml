@@ -1,0 +1,16 @@
+<spml:modifyRequest xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"    xmlns:subscriber="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <version>O2_SUBSCRIBER_v10</version>
+    <objectclass>Subscriber</objectclass>
+    <identifier alias="imsi" xmlns:nsr="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="subscriber:SubscriberIdentifier">##imsi##</identifier>
+    <modification name="hlr" operation="addorset" scope="uniqueTypeMapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <valueObject xsi:type="subscriber:HLR">
+            <clip>##uid##</clip>
+        </valueObject>
+    </modification>
+    <modification name="hlr" operation="addorset" scope="uniqueTypeMapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <valueObject xsi:type="subscriber:HLR">
+            <clipOverride>##uid2##</clipOverride>
+        </valueObject>
+    </modification>
+</spml:modifyRequest>
+

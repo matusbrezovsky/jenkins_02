@@ -1,0 +1,5 @@
+<spml:spmlChangeDirective mode="add" identifier="##scd##">
+    <parameter name="_MSISDN" value="##msisdn##"/>
+    <parameter name="_MEMBER1MSISDN" value="##any##"/>
+    <parameter name="_FTN" value="##msisdn2##"/>
+</spml:spmlChangeDirective>

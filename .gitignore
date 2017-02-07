@@ -1,0 +1,101 @@
+# Robot Framework logs & results
+cmdout.txt
+debug.txt
+log.html
+output.xml
+report.html
+tmp.xml
+NtHlr*.html
+NtHlr*.xml
+genion*.html
+genion*.xml
+loop*.html
+loop*.xml
+post*.html
+post*.xml
+Try*.html
+out*.xml
+*_log.html
+appium-screenshot*
+*.png
+results
+tmp*
+syslog*
+*.rar
+/*.xml
+/*.html
+/*.htm
+
+
+# all osix XML tracea - too big, gzip first
+data/osix/*.xml
+
+src/bin
+# generated c files
+src/bin/**/*.c
+src/bin/**/*.a
+src/bin/**/*.dll
+src/bin/**/*.def
+
+
+
+# PyCharm
+.idea
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# MAC stuff
+.DS_Store

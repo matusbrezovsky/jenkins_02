@@ -1,0 +1,14 @@
+<spml:batchRequest
+    onError="resume"
+    xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="##subsNs##"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <version>##version##</version>
+    <spml:spmlChangeDirective mode="add" identifier="##scd##">
+        <parameter name="_IMSI" value="##imsi##"/>
+        <parameter name="_MSISDN" value="##msisdn##"/>
+        <parameter name="_FTN" value="##msisdn2##"/>
+    </spml:spmlChangeDirective>
+</spml:batchRequest>
+
+

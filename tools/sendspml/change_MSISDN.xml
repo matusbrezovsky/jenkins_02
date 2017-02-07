@@ -1,0 +1,10 @@
+<spml:changeIdRequest
+                xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+                xmlns:subscriber="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                returnResultingObject="identifier">
+    <version>O2_SUBSCRIBER_v10</version>
+    <objectclass>Subscriber</objectclass>
+    <oldId alias="msisdn" xsi:type="subscriber:SubscriberSwapIdentifier">##msisdn##</oldId>
+    <newId alias="msisdn" xsi:type="subscriber:SubscriberSwapIdentifier">##msisdn2##</newId>
+</spml:changeIdRequest>

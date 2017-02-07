@@ -1,0 +1,7 @@
+<spml:deleteRequest xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" returnResultingObject="full">
+  <version>O2_SUBSCRIBER_v10</version>
+  <objectclass>HlrGroup</objectclass>
+<identifier alias="msisdn" xsi:type="subscriber:HLRGroupIdentifier">##msisdn##</identifier>
+</spml:deleteRequest>

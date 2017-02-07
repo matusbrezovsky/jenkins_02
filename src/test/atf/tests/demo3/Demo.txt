@@ -1,0 +1,936 @@
+*** Settings ***
+Documentation   Resource file for common CosMos operations
+...     == Subsrcriber Handling ==
+...     The subscribers involved in the TC in question *must* be defined in the Test Tags. E.g.
+...     | [Tags] \ \ \${MsO2Post1}
+...     | [Tags] \ \ \${MsO2Genion1_InZone}
+...     These tags are parsed in the test setup phase and the subscribers and devices are prepared
+...     for the exeuction (e.g. Airplane mode is disabled, Call Forwardings are set to defaults, etc.)
+...
+...
+...     == Preferred Network Handling ==
+...     The preferred network for each subscriber involved in the TC *must* be defined in the Test Tags.
+...     The syntax is as follows:
+...     | [Tags] \ \ \${MsO2Post1}_4G \ \ \# prefix: "4G"   --> Preferred Network: "4G Auto"
+...     | [Tags] \ \ \${MsO2Post1}_3G2G  \# prefix: "3G2G" --> Preferred Network: "3G Auto"
+...     | [Tags] \ \ \${MsO2Post1}_3G \ \ \# prefix: "3G"   --> Preferred Network: "3G Only"
+...     | [Tags] \ \ \${MsO2Post1}_2G \ \ \# prefix: "2G"   --> Preferred Network: "2G Only"
+...     | [Tags] \ \ \${MsO2Post1} \ \ \ \ \ \# prefix: none   --> Preferred Network: "3G Auto"
+...
+...     These tags are parsed in the test setup phase and the preferred network is set as follows:
+...
+...     _in production mode_
+...     For each subscriber
+...     - before the first TC execution (in the test setup) the Preferred Network is always set. Additionally the network type is stored internally, as "current Preferred Network"
+...     - for all sub-sequent TC exeuctions the Preferred Network is set only if it differs from the stored "current Preferred Network"
+...
+...     _in DEVELOPMENT_MODE_
+...     For each subscriber
+...     - before the first TC execution (in the test setup) the Preferred Network is read from the ${DEV_<device alias>_NW_MODE} global variable and stored as "current Preferred Network". If this setting does not match with desired preferred network it is changed, otherwise not. This way some time can be saved during development, because the settings are not always changed before the 1st TC execution.
+...     - For all sub-sequent TC exeuctions the Preferred Network is set only if it differs from the stored "current Preferred Network"
+...
+...
+...     == Default Call Forwarding Handling ==
+...     The default call forwardings are stored in the global variables as follows
+...     | \${DEV_CFU_DEF_STATUS}\ \ \ \ \ R    # D(eleted), R(egistered), A(ctive)
+...     | \${DEV_CFB_DEF_STATUS}\ \ \ \ \ A    # D(eleted), R(egistered), A(ctive)
+...     | \${DEV_CFNRC_DEF_STATUS} \ \    A    # D(eleted), R(egistered), A(ctive)
+...     | \${DEV_CFNRY_DEF_STATUS} \ \    A    # D(eleted), R(egistered), A(ctive)
+...     | \${DEV_CFU_DEF_FTN}\ \ \ \ \ \ \ \ \${NBR_VOICEMAIL_SHORT}
+...     | \${DEV_CFB_DEF_FTN}\ \ \ \ \ \ \ \ \${NBR_VOICEMAIL_SHORT}
+...     | \${DEV_CFNRC_DEF_FTN}    \ \ \ \ \ \${NBR_VOICEMAIL_SHORT}
+...     | \${DEV_CFNRY_DEF_FTN}    \ \ \ \ \ \${NBR_VOICEMAIL_SHORT}
+...
+...     These are analysed in the test setup phase and set as follows:
+...
+...     _in production mode_
+...     For each subscriber
+...     - before the first TC execution (in the test setup) the default CF'S are always set. Additionally the CF's are stored internally, as "current CFU status", "current CFB status" etc.
+...     - for all sub-sequent TC exeuctions the CF's are set only if it differs from the stored current status
+...
+...     _in DEVELOPMENT_MODE_
+...     For each subscriber
+...     - before the first TC execution (in the test setup) the CF statuses are read from the global variables and stored internally, as "current CFU status", "current CFB status" etc. This way some time can be saved during development, because the settings are not always changed before the 1st TC execution.
+...     - For all sub-sequent TC exeuctions the CF is set only if it differs from the stored current status
+...
+...
+...
+...
+
+Library         Process
+Library         String
+Library         Collections
+# for code completion
+Library         ATFCommons
+Library         DeviceControl
+#Resource        global_vars.txt
+
+*** Variables ***
+
+*** Keywords ***
+Prepare Subs And Devices
+    [Documentation]   TC Preparation steps
+
+    ...
+
+    ${subs_list}=       Get Variable Value      ${GLOBAL_SUBS_TAG_LIST}     @{EMPTY}
+    ${all_subs}=        Create List
+
+    # Get subs used in this Test Case (the subs MUST be defined in the test tags)
+    :FOR   ${sub_tag}  IN   @{subs_list}
+    \   ${subs}=        Get Matches     ${TEST TAGS}    regexp=${sub_tag}
+    \   Append To List  ${all_subs}     @{subs}
+
+
+    # Get subs used in this Test Case (the subs MUST be defined in the test tags)
+#    ${post_subs}=       Get Matches     ${TEST TAGS}    regexp=^O2Post.*
+#    ${O2Genion_subs}=   Get Matches     ${TEST TAGS}    regexp=^O2Genion.*
+#    ${O2Loop_subs}=     Get Matches     ${TEST TAGS}    regexp=^O2Loop.*
+#    ${bm_post_subs}=    Get Matches     ${TEST TAGS}    regexp=^BmPost.*
+#    ${bm_gen_subs}=     Get Matches     ${TEST TAGS}    regexp=^BmGenion.*
+#    ${bm_pre_subs}=     Get Matches     ${TEST TAGS}    regexp=^BmLoop.*
+#    ${ep_post_subs}=    Get Matches     ${TEST TAGS}    regexp=^EpPost.*
+#    ${ep_pre_subs}=     Get Matches     ${TEST TAGS}    regexp=^EpPre.*
+#    ${all_subs}=        Create List
+#    Append To List  ${all_subs}     @{post_subs}   @{O2Genion_subs}   @{O2Loop_subs}   @{bm_post_subs}  @{bm_pre_subs}  @{bm_gen_subs}  @{ep_post_subs}   @{ep_pre_subs}
+
+    #Log To Console  \n${post_subs}-${O2Genion_subs}-${O2Loop_subs}-${bm_post_subs}
+    #Log To Console  \n All Subs: ${all_subs}
+    _setup_devices   ${all_subs}
+
+_setup_devices
+    [arguments]         ${subs_tags_list}
+
+    # Parse Subs Tags
+    ${tags_4G_auto}=            Get Matches         ${subs_tags_list}    regexp=.*_4G$
+    ${tags_3G_only}=            Get Matches         ${subs_tags_list}    regexp=.*_3G$
+    ${tags_2G_only}=            Get Matches         ${subs_tags_list}    regexp=.*_2G$
+    ${tags_3G_auto}=            Copy List           ${subs_tags_list}
+    Remove Values From List     ${tags_3G_auto}     @{tags_4G_auto}     @{tags_3G_only}     @{tags_2G_only}
+
+    ${dev_alias_list}=    _remove_tag_postfix     ${subs_tags_list}
+    ${subs_4G_auto}=      _remove_tag_postfix     ${tags_4G_auto}
+    ${subs_3G_auto}=      _remove_tag_postfix     ${tags_3G_auto}
+    ${subs_3G_only}=      _remove_tag_postfix     ${tags_3G_only}
+    ${subs_2G_only}=      _remove_tag_postfix     ${tags_2G_only}
+
+    Debug Log   TC Subs - 4G Auto: ${subs_4G_auto}, 3G Auto: ${subs_3G_auto}, 3G Only: ${subs_3G_only}, 2G Only: ${subs_2G_only} (All: ${dev_alias_list})
+
+
+    Set Global Variable     ${DEVICE_SETUP}         True
+
+    # handle offline devices
+#    _offline_devices
+
+    # Disable Airplane mode - just in case
+#    :FOR   ${sub}  IN   @{dev_alias_list}
+#    \   Disable Airplane Mode           ${sub}  verify=False    update_with=adb
+
+    # POLC Workarounds
+    ###  Force production mode (for POLC) to set the CF - START CODE BLOCK
+    ###  Check if there has beed errors during forced DEV_MODE=False
+    ### ${tmp_forced}=      get variable value      ${FORCED_DEV_MODE}   False
+    ### # if yes, revert to original DEV_MODE
+    ### Run Keyword If      ${tmp_forced}           Set Global Variable      ${DEVELOPMENT_MODE}      ${DEVELOPMENT_MODE_ORIG}
+    ###  Force production mode (for POLC) to set the CF - END CODE BLOCK
+
+    # Set preferred Network
+    :FOR   ${sub}  IN   @{subs_4G_auto}
+    \   Set Prefered Network To 4G Auto    ${sub}
+    :FOR   ${sub}  IN   @{subs_3G_auto}
+    \   Set Prefered Network To 3G Auto    ${sub}
+    :FOR   ${sub}  IN   @{subs_3G_only}
+    \   Set Prefered Network To 3G Only    ${sub}
+    :FOR   ${sub}  IN   @{subs_2G_only}
+    \   Set Prefered Network To 2G Only    ${sub}
+
+    # check just for registration (4G/3G/2G) - Comment this for real tests
+    #:FOR   ${sub}  IN   @{dev_alias_list}
+    #\   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}
+
+    # check that the subs is registered in correct network - Use this for real tests
+    :FOR   ${sub}  IN   @{subs_4G_auto}
+    #\   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_4G_AUTO}
+    #  If 4G subs we usually expect it to be attached to 4G --> check 4G_ONLY
+    \   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_4G_ONLY}
+    :FOR   ${sub}  IN   @{subs_3G_auto}
+    \   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_3G_AUTO}
+    :FOR   ${sub}  IN   @{subs_3G_only}
+    \   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_3G_ONLY}
+    :FOR   ${sub}  IN   @{subs_2G_only}
+    # try longer timout (for the BM & E+ cards in cosmos
+    \   Wait Until Keyword Succeeds        120s              5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_2G_ONLY}
+    #\   Wait Until Keyword Succeeds        ${ATTACH_TOUT}    5s              Demo._is_registered      ${sub}   match_regex=${DEV_LOG_RAT_2G_ONLY}
+
+    # POLC Workarounds
+    ### ${skip_ss}=                 get variable value          ${SKIP_SS_SETUP}   False
+    ### Return From Keyword If      ${skip_ss}
+
+    # POLC Workarounds
+    # Force production mode (for POLC) to set the CF - START CODE BLOCK
+    ### ${orig_dev_mode}=       get variable value          ${DEVELOPMENT_MODE}   True
+    ### Set Global Variable     ${DEVELOPMENT_MODE}         False
+    ### Set Global Variable     ${FORCED_DEV_MODE}          True
+    ### Set Global Variable     ${DEVELOPMENT_MODE_ORIG}    ${orig_dev_mode}
+    # Force production mode (for POLC) to set the CF - END CODE BLOCK
+    #:FOR   ${sub}  IN   @{dev_alias_list}
+    #   set default call fwd's - sets only if current CF status is not the default status
+    #   todo: does not work if the CF FTN does not exist (i.e. has been deleted or is not provisioned)
+    #   --> WORKS if the DEF_STATUS is "D" (deleted)
+    #\   _set_call_fwd   ${sub}      CFU     ${DEV_CFU_DEF_STATUS}
+    #\   _set_call_fwd   ${sub}      CFB     ${DEV_CFB_DEF_STATUS}
+    #\   _set_call_fwd   ${sub}      CFNRY   ${DEV_CFNRY_DEF_STATUS}
+    #\   _set_call_fwd   ${sub}      CFNRC   ${DEV_CFNRC_DEF_STATUS}
+    # POLC Workarounds
+    # undo: Force production mode (for POLC) to set the CF - START CODE BLOCK
+    ### Set Global Variable      ${DEVELOPMENT_MODE}      ${orig_dev_mode}
+    ### Set Global Variable      ${FORCED_DEV_MODE}       False
+    # undo: Force production mode (for POLC) to set the CF - END CODE BLOCK
+
+    #TODO: these must be subs type specific - e.g. o2pr does not have BOIC provisioned
+    #:FOR   ${sub}  IN   @{dev_alias_list}
+    #\   Wait Until Keyword Succeeds     120s    5s             Demo._is_registered      ${sub}
+    #   set default call barring's - sets only if current CB status is not the default status
+    #\   _set_call_barring   ${sub}      BAOC        ${DEV_BAOC_DEF_STATUS}
+    #\   _set_call_barring   ${sub}      BAIC        ${DEV_BAIC_DEF_STATUS}
+    #\   _set_call_barring   ${sub}      BOIC        ${DEV_BOIC_DEF_STATUS}
+    #\   _set_call_barring   ${sub}      BICROAM     ${DEV_BICROAM_DEF_STATUS}
+
+
+    #:FOR   ${sub}  IN   @{dev_alias_list}
+    #\   Wait Until Keyword Succeeds     120s    5s              Demo._is_registered      ${sub}
+    #   set default CLIP/CLIR - sets only if current CLIP/CLIR status is not the default status
+    #\   _set_calling_line_identification_restriction        ${sub}      CLIR        ${DEV_CLIR_DEF_STATUS}
+    #\   _set_calling_line_identification_presentation       ${sub}      CLIP        ${DEV_CLIP_DEF_STATUS}
+
+    #:FOR   ${sub}  IN   @{dev_alias_list}
+    #\   Wait Until Keyword Succeeds     120s    5s              Demo._is_registered      ${sub}
+    #   set default call waiting - sets only if current CAW status is not the default status
+    #\   _set_call_waiting   ${sub}      CAW        ${DEV_CAW_DEF_STATUS}
+
+    Set Global Variable     ${DEVICE_SETUP}         False
+
+
+_get_usb_device_count
+    [arguments]         ${match_regex}   ${match_count}=${EMPTY}
+    ${res}=  Run Process                adb devices -l | egrep -c "${match_regex}"             shell=True
+    Debug Log                           adb grep ${match_regex} (${res.rc}):\n${res.stdout}\n${res.stderr}     #debug_level=WARN
+    Run Keyword If      '${match_count}' != '${EMPTY}'          Should Be Equal As Integers    ${match_count}         ${res.stdout}
+    [return]    ${res.stdout}
+
+_do_reset_usb
+    [arguments]         ${device_count}
+    Debug Log                           Devices offline, initiating USB reset...       debug_level=WARN
+    # R E M O V E   H U A W E I   U S B   C O M P O S I T E   D E V I C E S
+    ##${res} =    Run Process             adb devices -l | egrep offline | cut -d":" -f1 | awk "{print 'devcon remove \\x22@USB\\\\VID_12D1&PID_1052\\\\' $1 '\\x22'}" > reset_Y550.cmd            shell=True
+    ##Debug Log                           reset_Y550.cmd generation (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ##${res} =    Run Process             cat reset_Y550.cmd            shell=True
+    ##Debug Log                           cat reset_Y550.cmd (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ### these commands work only with admin privileges
+    ##${res} =    Run Process             adb kill-server             shell=True
+    ##Debug Log                           adb kill-server (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ##${res} =    Run Process             taskkill /F /IM adb.exe             shell=True
+    ##Debug Log                           taskkill adb (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ##${res} =    Run Process             devcon rescan             shell=True
+    ##Debug Log                           devcon rescan (${res.rc}):\n${res.stdout}\n${res.stderr}        #debug_level=WARN
+    ##${res} =    Run Process             adb start-server          shell=True
+    ##Debug Log                           adb start-server (${res.rc}):\n${res.stdout}\n${res.stderr}     #debug_level=WARN
+
+    ### remove root hubs --> generates a lot of crap in the device manager
+    ###${res} =    Run Process             devcon remove "*ROOT_HUB20*"             shell=True
+    ###Debug Log                           devcon remove (${res.rc}):\n${res.stdout}\n${res.stderr}        #debug_level=WARN
+    ##${res} =    Run Process             reset_Y550.cmd            shell=True
+    ##Debug Log                           reset_Y550.cmd (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ##${res} =    Run Process             devcon rescan             shell=True
+    ##Debug Log                           devcon rescan (${res.rc}):\n${res.stdout}\n${res.stderr}        #debug_level=WARN
+    ##${res} =    Run Process             adb start-server          shell=True
+    ##Debug Log                           adb start-server (${res.rc}):\n${res.stdout}\n${res.stderr}     #debug_level=WARN
+
+    ## # DISABLE/ENABLE   H U A W E I   U S B   C O M P O S I T E   D E V I C E S
+    ## # use shell script - devcon hangs
+    ## ${res} =    Run Process             reset_usb.cmd            shell=True
+    ## Debug Log                           reset_usb.cmd (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ## ${res} =    Run Process             adb start-server          shell=True
+    ## Debug Log                           adb start-server (${res.rc}):\n${res.stdout}\n${res.stderr}     #debug_level=WARN
+
+    # DISABLE/ENABLE   H U A W E I   U S B   C O M P O S I T E   D E V I C E S
+    # use single commands
+    ${res} =    Run Process             adb devices -l | egrep offline | cut -d":" -f1 | awk "{print 'devcon disable \\x22@USB\\\\VID_12D1&PID_1052\\\\' $1 '\\x22'}" > reset_Y550.cmd            shell=True
+    Debug Log                           reset_Y550.cmd generation (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ${res} =    Run Process             adb devices -l | egrep offline | cut -d":" -f1 | awk "{print 'devcon enable  \\x22@USB\\\\VID_12D1&PID_1052\\\\' $1 '\\x22'}" >> reset_Y550.cmd           shell=True
+    Debug Log                           reset_Y550.cmd generation (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ${res} =    Run Process             adb kill-server             shell=True
+    Debug Log                           adb kill-server (${res.rc}):\n${res.stdout}\n${res.stderr}      #debug_level=WARN
+    ${res} =    Run Process             taskkill /F /IM adb.exe             shell=True
+    Debug Log                           taskkill adb (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ${res} =    Run Process             reset_Y550.cmd            shell=True
+    Debug Log                           reset_Y550.cmd (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ${res} =    Run Process             rm -f reset_Y550.cmd            shell=True
+    Debug Log                           rm -f reset_Y550.cmd (${res.rc}):\n${res.stdout}\n${res.stderr}         #debug_level=WARN
+    ${res} =    Run Process             adb start-server          shell=True
+    Debug Log                           adb start-server (${res.rc}):\n${res.stdout}\n${res.stderr}     #debug_level=WARN
+
+    Wait Until Keyword Succeeds         30s     5s     _get_usb_device_count   HUAWEI    ${device_count}
+
+_reset_usb_devices
+    [arguments]         ${device_count}
+    Wait Until Keyword Succeeds         180s    10s     _do_reset_usb       ${device_count}
+
+_offline_devices
+    Debug Log                           Checking for offline devices
+    ${adb_devs} =    Run Process        adb devices -l    shell=True
+    Debug Log                           adb devices (${adb_devs.rc}):\n${adb_devs.stdout}\n${adb_devs.stderr}    #debug_level=WARN
+    ${offline_count}=                   _get_usb_device_count       offline
+    Run Keyword If  '${offline_count}' != '0'      _reset_usb_devices    16
+
+_is_registered
+    [arguments]         ${device_alias}      ${match_regex}=${EMPTY}
+    # airplane on:      mServiceState=1 1 home null null null  Unknown Unknown CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=true
+    # 4G Auto+Data on:  mServiceState=0 0 home o2 - de o2 - de 26207  LTE LTE CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    # 4G Auto+Data off: mServiceState=0 0 home o2 - de o2 - de 26207  LTE LTE CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    # 3G Only+Data on:  mServiceState=0 0 home o2 - de o2 - de 26207  UMTS HSPAP CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    # 3G Only+Data off: mServiceState=0 0 home o2 - de o2 - de 26207  UMTS HSPA CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    # 2G Only+Data on:  mServiceState=0 0 home o2 - de o2 - de 26207  GSM EDGE CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    # 2G Only+Data off: mServiceState=0 0 home o2 - de o2 - de 26207  GSM EDGE CSS not supported -1 -1 RoamInd=-1 DefRoamInd=-1 EmergOnly=false
+    ${udid} =   Get Udid For Device     ${device_alias}
+    ${res} =    Run Process             adb -s ${udid} shell dumpsys telephony.registry | egrep -B3 -A12 "mServiceState"    shell=True
+    Debug Log                           Service State Dump (${device_alias}):\n${res.stdout}\n${res.stderr}
+    ${res} =    Run Process             adb -s ${udid} shell dumpsys telephony.registry | egrep "mServiceState"             shell=True
+    Debug Log                           ${res.stdout}
+    Should Be Equal As Integers	        ${res.rc}      0                    msg='${device_alias}' could not read registration status from device
+    Run Keyword If  '${match_regex}' == ''  Should Match 	        ${res.stdout}  *mServiceState=0*    msg='${device_alias}' not registered in NW ('mServiceState=0' != ${res.stdout})     values=False
+    ...       ELSE                          Should Match Regexp	    ${res.stdout}  ${match_regex}       msg='${device_alias}' not registered in NW ('${match_regex}' != ${res.stdout})      values=False
+
+_remove_tag_postfix
+    [arguments]         ${tag_list}
+
+    ${tmp_list}=        Copy List   ${tag_list}
+
+    :FOR   ${tag}  IN   @{tmp_list}
+    \   ${i} =          Get Index From List   ${tmp_list}  ${tag}
+    \   ${dev_alias} =  Remove String         ${tag}       _4G  _3G2G  _3G  _2G
+    \   Set List Value  ${tmp_list}    ${i}   ${dev_alias}
+
+    [return]  ${tmp_list}
+
+
+_get_current_mode
+    [arguments]         ${dev_alias}
+    ${status}  ${value}=     Run Keyword And Ignore Error   Get From Dictionary     ${DEV_PREFERRED_NETWORK}   ${dev_alias}
+    Return From Keyword If   '${status}' == 'PASS'          ${value}
+
+    # Add device alias to dictionary
+    ${develop_mode_default}=    Get Variable Value      ${DEV_${dev_alias}_NW_MODE}      ${EMPTY}
+
+    # Returns dafeult mode in DEVELOPMENT_MODE --> NW might already be correct (need to be set manually)
+    Run Keyword If          ${DEVELOPMENT_MODE}     Set To Dictionary   ${DEV_PREFERRED_NETWORK}  ${dev_alias}   ${develop_mode_default}
+    Return From Keyword If  ${DEVELOPMENT_MODE}     ${develop_mode_default}
+
+    # In production mode: return empty --> NW mode will be set
+    Set To Dictionary       ${DEV_PREFERRED_NETWORK}    ${dev_alias}   ${EMPTY}
+    [return]                ${EMPTY}
+
+_set_preferred_nw
+    [arguments]         ${dev_alias}    ${mode}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_mode               ${sub}
+    \   Debug Log           ${sub} - current: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}'      Change Mobile Network Type      ${sub}      ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}'      Set To Dictionary  ${DEV_PREFERRED_NETWORK}  ${sub}  ${mode}
+
+Set Prefered Network To 4G Auto
+    [arguments]         @{dev_alias}
+    _set_preferred_nw   ${dev_alias}    4G_AUTO
+
+Set Prefered Network To 3G Auto
+    [arguments]         @{dev_alias}
+    _set_preferred_nw   ${dev_alias}    3G_AUTO
+
+Set Prefered Network To 3G Only
+    [arguments]         @{dev_alias}
+    _set_preferred_nw   ${dev_alias}    3G_ONLY
+
+Set Prefered Network To 2G Only
+    [arguments]         @{dev_alias}
+    _set_preferred_nw   ${dev_alias}    2G_ONLY
+
+
+#######  #######  ######   #     #     #     ######   ######   ###  #     #   #####
+#        #     #  #     #  #  #  #    # #    #     #  #     #   #   ##    #  #     #
+#        #     #  #     #  #  #  #   #   #   #     #  #     #   #   # #   #  #
+#####    #     #  ######   #  #  #  #     #  ######   #     #   #   #  #  #  #  ####
+#        #     #  #   #    #  #  #  #######  #   #    #     #   #   #   # #  #     #
+#        #     #  #    #   #  #  #  #     #  #    #   #     #   #   #    ##  #     #
+#        #######  #     #   ## ##   #     #  #     #  ######   ###  #     #   #####
+
+_get_current_cf
+    [arguments]         ${dev_alias}    ${cf}
+    ${status}  ${value}=     Run Keyword And Ignore Error   Get From Dictionary     ${DEV_${cf}_STATUS}   ${dev_alias}
+    Return From Keyword If   '${status}' == 'PASS'          ${value}
+
+    # Add device alias to dictionary
+    ${develop_mode_default}=    Get Variable Value      ${DEV_${cf}_DEF_STATUS}      ${EMPTY}
+
+    # Read the list of subs that do not have this feature provisioned
+    ${cf_not_provisioned_list}=     Get Variable Value      ${${cf}_NOT_PROVISIONED_LIST}      @{EMPTY}
+
+    # Save the default mode during provisioning list checking
+    ${mode}=    Set Variable    ${develop_mode_default}
+
+    :FOR   ${regex}  IN   @{cf_not_provisioned_list}
+    \   ${status}  ${match}=        Run Keyword And Ignore Error         Should Match Regexp     ${dev_alias}     ${regex}
+    \   ${develop_mode_default}=    Run Keyword If          '${status}' == 'PASS'       Set Variable    N
+    \   ...                         ELSE                                                Set Variable    ${mode}
+    \   Run Keyword If      '${status}' == 'PASS'           Exit For Loop
+
+
+    # Returns default mode in DEVELOPMENT_MODE --> CF might already be correct (need to be set manually)
+    Run Keyword If          ${DEVELOPMENT_MODE}     Set To Dictionary   ${DEV_${cf}_STATUS}  ${dev_alias}   ${develop_mode_default}
+    Return From Keyword If  ${DEVELOPMENT_MODE}     ${develop_mode_default}
+
+    # In production mode: return empty --> CF mode will be set
+    #Log To Console  \n${dev_alias}-'${EMPTY}'
+    Run Keyword If  '${develop_mode_default}' == 'N'               Set To Dictionary       ${DEV_${cf}_STATUS}     ${dev_alias}    ${develop_mode_default}
+    ...     ELSE                                                   Set To Dictionary       ${DEV_${cf}_STATUS}     ${dev_alias}    ${EMPTY}
+    Return From Keyword If  '${develop_mode_default}' == 'N'     ${develop_mode_default}
+    [return]                ${EMPTY}
+
+_send_cf_ussd
+    [arguments]         ${dev_alias}    ${cf}    ${mode}    ${ftn}=${EMPTY}    ${delay}=${EMPTY}
+    Debug Log           ${dev_alias} - Changing ${cf} to ${mode} ${ftn} ${delay}
+
+#    ${status}=          Run Keyword     _is_prepaid_sub     ${dev_alias}
+#    log to console      Status=${status}
+#    Return From Keyword If      '${status}' == 'true'       ${status}
+
+    Initiate Device     ${dev_alias}    phone_app
+
+    Run Keyword If  '${mode}' == 'R'                                Dial and Call Ussd  ${dev_alias}  ${USSD_${cf}_DACT}                    expect_txt=${USSD_MSG_CF_DACT_OK}
+    Run Keyword If  '${mode}' == 'D'                                Dial and Call Ussd  ${dev_alias}  ${USSD_${cf}_DEL}                     expect_txt=${USSD_MSG_CF_DEL_OK}
+    Run Keyword If  '${mode}' == 'A'                                Dial and Call Ussd  ${dev_alias}  ${USSD_${cf}_ACT}                     expect_txt=${USSD_MSG_CF_ACT_OK}
+    Run Keyword If  '${mode}' == 'RA' and '${delay}' == '${EMPTY}'  Dial and Call Ussd  ${dev_alias}  ${USSD_${cf}_REG}${ftn}#              expect_txt=${USSD_MSG_CF_REG_OK}
+    Run Keyword If  '${mode}' == 'RA' and '${delay}' != '${EMPTY}'  Dial and Call Ussd  ${dev_alias}  ${USSD_${cf}_REG}${ftn}*${delay}#     expect_txt=${USSD_MSG_CF_REG_OK}
+    Release Device     ${dev_alias}
+
+    Run Keyword If  '${mode}' == 'R'                                Set To Dictionary   ${DEV_${cf}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If  '${mode}' == 'D'                                Set To Dictionary   ${DEV_${cf}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If  '${mode}' == 'A' or '${mode}' == 'RA'           Set To Dictionary   ${DEV_${cf}_STATUS}  ${dev_alias}   A
+    Run Keyword If  '${mode}' == 'RA' and '${ftn}' != '${EMPTY}'    Set To Dictionary   ${DEV_${cf}_FTN}     ${dev_alias}   ${mode}
+
+_send_cf_ussd_with_retry
+    [arguments]         ${dev_alias}    ${cf}    ${mode}    ${ftn}=${EMPTY}    ${delay}=${EMPTY}    ${retries}=3
+    :FOR    ${index}  IN RANGE   1    ${retries}
+    \   ${status}   ${value}=   Run Keyword And Ignore Error    _send_cf_ussd    ${dev_alias}    ${cf}    ${mode}   ${ftn}    ${delay}
+    \   Run Keyword IF          '${status}' == 'PASS'           Exit For Loop
+    \   Run Keyword IF          '${status}' == 'FAIL'           Release Device     ${dev_alias}
+
+    Run Keyword IF      '${status}' == 'PASS'      Return From Keyword         0
+    Run Keyword IF      '${status}' == 'FAIL'      Fail                        Aborted: GSM Code on '${dev_alias}' for ${cf} failed ${retries} times, last error was: ${value}
+
+_set_call_fwd
+    [arguments]         ${dev_alias}    ${cf}    ${mode}    ${ftn}=${EMPTY}    ${delay}=${EMPTY}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_cf     ${sub}    ${cf}
+    \   Debug Log           ${sub} - current ${cf}: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${DEVICE_SETUP}' == 'True'             _send_cf_ussd_with_retry    ${sub}    ${cf}    ${mode}   ${ftn}    ${delay}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${DEVICE_SETUP}' == 'False'                                     _send_cf_ussd_with_retry    ${sub}    ${cf}    ${mode}   ${ftn}    ${delay}
+
+_delete_call_fwd
+    [arguments]         ${dev_alias}    ${cf}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   _send_cf_ussd_with_retry    ${sub}    ${cf}    D
+
+Activate CFU
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFU    A
+
+Activate CFB
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFB    A
+
+Activate CFNRc
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRC    A
+
+Activate CFNRy
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRY    A
+
+######################################################
+Deactivate CFU
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFU    R
+
+Deactivate CFB
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFB    R
+
+Deactivate CFNRc
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRC    R
+
+Deactivate CFNRy
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRY    R
+
+######################################################
+Delete CFU
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFU    D
+
+Delete CFB
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFB    D
+
+Delete CFNRc
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRC    D
+
+Delete CFNRy
+    [arguments]         @{dev_alias}
+    _set_call_fwd       ${dev_alias}    CFNRY    D
+
+######################################################
+Register CFU
+    [arguments]         ${dev_alias}    ${ftn}
+    _set_call_fwd       ${dev_alias}    CFU    RA    ftn=${ftn}
+
+Register CFB
+    [arguments]         ${dev_alias}    ${ftn}
+    _set_call_fwd       ${dev_alias}    CFB    RA    ftn=${ftn}
+
+Register CFNRc
+    [arguments]         ${dev_alias}    ${ftn}
+    _set_call_fwd       ${dev_alias}    CFNRC    RA    ftn=${ftn}
+
+Register CFNRy
+    [arguments]         ${dev_alias}    ${ftn}    ${delay}=${EMPTY}
+    _set_call_fwd       ${dev_alias}    CFNRY    RA    ftn=${ftn}   delay=${delay}
+
+
+######      #     ######   ######   ###  #     #   #####
+#     #    # #    #     #  #     #   #   ##    #  #     #
+#     #   #   #   #     #  #     #   #   # #   #  #
+######   #     #  ######   ######    #   #  #  #  #  ####
+#     #  #######  #   #    #   #     #   #   # #  #     #
+#     #  #     #  #    #   #    #    #   #    ##  #     #
+######   #     #  #     #  #     #  ###  #     #   #####
+
+
+_get_current_cb
+    [arguments]         ${dev_alias}    ${cb}
+
+    ${status}  ${value}=     Run Keyword And Ignore Error   Get From Dictionary     ${DEV_${cb}_STATUS}   ${dev_alias}
+    Return From Keyword If   '${status}' == 'PASS'          ${value}
+
+    # Add device alias to dictionary
+    ${develop_mode_default}=    Get Variable Value      ${DEV_${cb}_DEF_STATUS}      ${EMPTY}
+
+    # Read the list of subs that do not have this feature provisioned
+    ${cb_not_provisioned_list}=     Get Variable Value      ${${cb}_NOT_PROVISIONED_LIST}      @{EMPTY}
+
+    # Save the default mode during provisioning list checking
+    ${mode}=    Set Variable    ${develop_mode_default}
+
+    :FOR   ${regex}  IN   @{cb_not_provisioned_list}
+    \   ${status}  ${match}=        Run Keyword And Ignore Error         Should Match Regexp     ${dev_alias}     ${regex}
+    \   ${develop_mode_default}=    Run Keyword If          '${status}' == 'PASS'       Set Variable    N
+    \   ...                         ELSE                                                Set Variable    ${mode}
+    \   Run Keyword If      '${status}' == 'PASS'           Exit For Loop
+
+    # Returns default mode in DEVELOPMENT_MODE --> CB might already be correct (need to be set manually)
+    Run Keyword If          ${DEVELOPMENT_MODE}     Set To Dictionary   ${DEV_${cb}_STATUS}  ${dev_alias}   ${develop_mode_default}
+    Return From Keyword If  ${DEVELOPMENT_MODE}     ${develop_mode_default}
+
+    # In production mode: return empty --> CB mode will be set
+    #Log To Console  \n${dev_alias}-'${EMPTY}'
+    Run Keyword If  '${develop_mode_default}' == 'N'               Set To Dictionary       ${DEV_${cb}_STATUS}     ${dev_alias}    ${develop_mode_default}
+    ...     ELSE                                                   Set To Dictionary       ${DEV_${cb}_STATUS}     ${dev_alias}    ${EMPTY}
+    Return From Keyword If  '${develop_mode_default}' == 'N'     ${develop_mode_default}
+    [return]                ${EMPTY}
+
+
+
+_send_cb_ussd
+    [arguments]         ${dev_alias}    ${cb}    ${mode}
+
+    Debug Log           ${dev_alias} - Changing ${cb} to ${mode}
+    Initiate Device     ${dev_alias}    phone_app
+    Run Keyword If  '${mode}' == 'D'                                Dial and Call Ussd  ${dev_alias}  ${USSD_${cb}_DACT}    expect_txt=${USSD_MSG_B_DACT_OK}
+    Run Keyword If  '${mode}' == 'A'                                Dial and Call Ussd  ${dev_alias}  ${USSD_${cb}_ACT}     expect_txt=${USSD_MSG_B_ACT_OK}
+    Release Device     ${dev_alias}
+
+    Run Keyword If  '${mode}' == 'D'                                Set To Dictionary   ${DEV_${cb}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If  '${mode}' == 'A'                                Set To Dictionary   ${DEV_${cb}_STATUS}  ${dev_alias}   ${mode}
+
+_send_cb_ussd_with_retry
+    [arguments]         ${dev_alias}    ${cb}    ${mode}    ${retries}=3
+    :FOR    ${index}  IN RANGE   1    ${retries}
+    \   ${status}   ${value}=   Run Keyword And Ignore Error    _send_cb_ussd    ${dev_alias}    ${cb}    ${mode}
+    \   Run Keyword IF          '${status}' == 'PASS'           Exit For Loop
+    \   Run Keyword IF          '${status}' == 'FAIL'           Release Device     ${dev_alias}
+
+    Run Keyword IF      '${status}' == 'PASS'      Return From Keyword         0
+    Run Keyword IF      '${status}' == 'FAIL'      Fail                        Aborted: GSM Code on '${dev_alias}' for ${cb} failed ${retries} times, last error was: ${value}
+
+_set_call_barring
+    [arguments]         ${dev_alias}    ${cb}    ${mode}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_cb     ${sub}    ${cb}
+    \   Debug Log           ${sub} - current ${cb}: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${DEVICE_SETUP}' == 'True'             _send_cb_ussd_with_retry    ${sub}    ${cb}    ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${DEVICE_SETUP}' == 'False'                                     _send_cb_ussd_with_retry    ${sub}    ${cb}    ${mode}
+
+Activate BAOC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BAOC        A
+
+Activate BAIC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BAIC        A
+
+Activate BOIC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BOIC        A
+
+Activate BICROAM
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BICROAM     A
+
+######################################################
+Deactivate BAOC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BAOC        D
+
+Deactivate BAIC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BAIC        D
+
+Deactivate BOIC
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BOIC        D
+
+Deactivate BICROAM
+    [arguments]         @{dev_alias}
+    _set_call_barring       ${dev_alias}    BICROAM     D
+
+
+_get_current_cli
+    [arguments]         ${dev_alias}    ${cli}
+
+    ${status}  ${value}=     Run Keyword And Ignore Error   Get From Dictionary     ${DEV_${cli}_STATUS}   ${dev_alias}
+    Return From Keyword If   '${status}' == 'PASS'          ${value}
+
+    # Add device alias to dictionary
+    ${develop_mode_default}=    Get Variable Value      ${DEV_${cli}_DEF_STATUS}      ${EMPTY}
+
+    # Read the list of subs that do not have this feature provisioned
+    ${cli_not_provisioned_list}=     Get Variable Value      ${${cli}_NOT_PROVISIONED_LIST}      @{EMPTY}
+
+    # Save the default mode during provisioning list checking
+    ${mode}=    Set Variable    ${develop_mode_default}
+
+    :FOR   ${regex}  IN   @{cli_not_provisioned_list}
+    \   ${status}  ${match}=        Run Keyword And Ignore Error         Should Match Regexp     ${dev_alias}     ${regex}
+    \   ${develop_mode_default}=    Run Keyword If          '${status}' == 'PASS'       Set Variable    N
+    \   ...                         ELSE                                                Set Variable    ${mode}
+    \   Run Keyword If      '${status}' == 'PASS'           Exit For Loop
+
+    # Returns default mode in DEVELOPMENT_MODE --> CB might already be correct (need to be set manually)
+    Run Keyword If          ${DEVELOPMENT_MODE}     Set To Dictionary   ${DEV_${cli}_STATUS}  ${dev_alias}   ${develop_mode_default}
+    Return From Keyword If  ${DEVELOPMENT_MODE}     ${develop_mode_default}
+
+    # In production mode: return empty --> CLIR/CLIP mode will be set
+    #Log To Console  \n${dev_alias}-'${EMPTY}'
+    Run Keyword If  '${develop_mode_default}' == 'N'               Set To Dictionary       ${DEV_${cli}_STATUS}     ${dev_alias}    ${develop_mode_default}
+    ...     ELSE                                                   Set To Dictionary       ${DEV_${cli}_STATUS}     ${dev_alias}    ${EMPTY}
+    Return From Keyword If  '${develop_mode_default}' == 'N'     ${develop_mode_default}
+    [return]                ${EMPTY}
+
+
+
+_send_cli_ussd
+    [arguments]         ${dev_alias}    ${cli}    ${mode}
+
+    Debug Log           ${dev_alias} - Changing ${cli} to ${mode}
+    Initiate Device     ${dev_alias}    phone_app
+    Run Keyword If      '${mode}' == 'H'                            Dial and Call Ussd  ${dev_alias}    ${USSD_${cli}_ACT}     expect_txt=${USSD_MSG_${cli}_ACT_OK}
+    Run Keyword If      '${mode}' == 'S'                            Dial and Call Ussd  ${dev_alias}    ${USSD_${cli}_DACT}      expect_txt=${USSD_MSG_${cli}_DACT_OK}
+    Release Device      ${dev_alias}
+
+    Run Keyword If      '${mode}' == 'H'                            Set To Dictionary   ${DEV_${cli}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If      '${mode}' == 'S'                            Set To Dictionary   ${DEV_${cli}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If      '${mode}' == 'D'                            Set To Dictionary   ${DEV_${cli}_STATUS}  ${dev_alias}   ${mode}
+
+_send_cli_ussd_with_retry
+    [arguments]         ${dev_alias}    ${cli}    ${mode}    ${retries}=3
+    :FOR    ${index}  IN RANGE   1    ${retries}
+    \   ${status}   ${value}=   Run Keyword And Ignore Error    _send_cli_ussd    ${dev_alias}    ${cli}    ${mode}
+    \   Run Keyword IF          '${status}' == 'PASS'           Exit For Loop
+    \   Run Keyword IF          '${status}' == 'FAIL'           Release Device     ${dev_alias}
+
+    Run Keyword IF      '${status}' == 'PASS'      Return From Keyword         0
+    Run Keyword IF      '${status}' == 'FAIL'      Fail                        Aborted: GSM Code on '${dev_alias}' for ${cli} failed ${retries} times, last error was: ${value}
+
+
+#_set_calling_line_identification
+#    [arguments]         ${dev_alias}    ${cli}    ${mode}
+#    ${dev_alias_list}=      Get As List   ${dev_alias}
+#
+#    :FOR   ${sub}  IN   @{dev_alias_list}
+#    \   ${cur_mode} =       _get_current_cli     ${sub}    ${cli}
+#    \   Debug Log           ${sub} - current ${cli}: ${cur_mode} target: ${mode}
+#    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N'      _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+
+_set_calling_line_identification_presentation
+    [arguments]         ${dev_alias}    ${cli}    ${mode}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_cli     ${sub}    ${cli}
+    \   Debug Log           ${sub} - current ${cli}: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N'      _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${DEVICE_SETUP}' == 'True'             _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${DEVICE_SETUP}' == 'False'                                     _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+
+_set_calling_line_identification_restriction
+    [arguments]         ${dev_alias}    ${cli}    ${mode}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_cli     ${sub}    ${cli}
+    \   Debug Log           ${sub} - current ${cli}: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'True' and '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${mode}' == 'D'        Change Calling Line Presentation    ${sub}            network
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'False' and '${cur_mode}' != '${mode}' and '${mode}' == 'D'                                Change Calling Line Presentation    ${sub}            network
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'True' and '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${mode}' == 'S'        _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'False' and '${cur_mode}' != '${mode}' and '${mode}' == 'S'                                _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'True' and '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${mode}' == 'H'        _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${DEVICE_SETUP}' == 'False' and '${cur_mode}' != '${mode}' and '${mode}' == 'H'                                _send_cli_ussd_with_retry    ${sub}    ${cli}    ${mode}
+    \   Run Keyword If      '${mode}' == 'H'                            Set To Dictionary   ${DEV_${cli}_STATUS}        ${sub}      ${mode}
+    \   Run Keyword If      '${mode}' == 'S'                            Set To Dictionary   ${DEV_${cli}_STATUS}        ${sub}      ${mode}
+    \   Run Keyword If      '${mode}' == 'D'                            Set To Dictionary   ${DEV_${cli}_STATUS}        ${sub}      ${mode}
+
+Activate CLIP
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_presentation       ${dev_alias}    CLIP        S
+
+Activate CLIR
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_restriction        ${dev_alias}    CLIR        H
+
+Deactivate CLIP
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_presentation       ${dev_alias}    CLIP        H
+
+Deactivate CLIR
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_restriction        ${dev_alias}    CLIR        S
+
+Network Default CLIP
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_presentation       ${dev_alias}    CLIP        D
+
+Network Default CLIR
+    [arguments]         @{dev_alias}
+    _set_calling_line_identification_restriction        ${dev_alias}    CLIR        D
+
+
+_get_current_caw
+    [arguments]         ${dev_alias}    ${cw}
+
+    ${status}  ${value}=     Run Keyword And Ignore Error   Get From Dictionary     ${DEV_${cw}_STATUS}   ${dev_alias}
+    Return From Keyword If   '${status}' == 'PASS'          ${value}
+
+    # Add device alias to dictionary
+    ${develop_mode_default}=    Get Variable Value      ${DEV_${cw}_DEF_STATUS}      ${EMPTY}
+
+    # Read the list of subs that do not have this feature provisioned
+    ${cw_not_provisioned_list}=     Get Variable Value      ${${cw}_NOT_PROVISIONED_LIST}      @{EMPTY}
+
+    # Save the default mode during provisioning list checking
+    ${mode}=    Set Variable    ${develop_mode_default}
+
+    :FOR   ${regex}  IN   @{cw_not_provisioned_list}
+    \   ${status}  ${match}=        Run Keyword And Ignore Error         Should Match Regexp     ${dev_alias}     ${regex}
+    \   ${develop_mode_default}=    Run Keyword If          '${status}' == 'PASS'       Set Variable    N
+    \   ...                         ELSE                                                Set Variable    ${mode}
+    \   Run Keyword If      '${status}' == 'PASS'           Exit For Loop
+
+    # Returns default mode in DEVELOPMENT_MODE --> CB might already be correct (need to be set manually)
+    Run Keyword If          ${DEVELOPMENT_MODE}     Set To Dictionary   ${DEV_${cw}_STATUS}  ${dev_alias}   ${develop_mode_default}
+    Return From Keyword If  ${DEVELOPMENT_MODE}     ${develop_mode_default}
+
+    # In production mode: return empty --> NW mode will be set
+    #Log To Console  \n${dev_alias}-'${EMPTY}'
+    Run Keyword If  '${develop_mode_default}' == 'N'               Set To Dictionary       ${DEV_${cw}_STATUS}     ${dev_alias}    ${develop_mode_default}
+    ...     ELSE                                                   Set To Dictionary       ${DEV_${cw}_STATUS}     ${dev_alias}    ${EMPTY}
+    Return From Keyword If  '${develop_mode_default}' == 'N'     ${develop_mode_default}
+    [return]                ${EMPTY}
+
+_send_caw_ussd
+    [arguments]         ${dev_alias}    ${cw}    ${mode}
+
+    Debug Log           ${dev_alias} - Changing ${cw} to ${mode}
+    Initiate Device     ${dev_alias}    phone_app
+    Run Keyword If      '${mode}' == 'D'                            Dial and Call Ussd  ${dev_alias}  ${USSD_${cw}_DACT}    expect_txt=${USSD_MSG_${cw}_DACT_OK}
+    Run Keyword If      '${mode}' == 'A'                            Dial and Call Ussd  ${dev_alias}  ${USSD_${cw}_ACT}     expect_txt=${USSD_MSG_${cw}_ACT_OK}
+    Release Device      ${dev_alias}
+
+    Run Keyword If      '${mode}' == 'D'                            Set To Dictionary   ${DEV_${cw}_STATUS}  ${dev_alias}   ${mode}
+    Run Keyword If      '${mode}' == 'A'                            Set To Dictionary   ${DEV_${cw}_STATUS}  ${dev_alias}   ${mode}
+
+_send_caw_ussd_with_retry
+    [arguments]         ${dev_alias}    ${cw}    ${mode}    ${retries}=3
+    :FOR    ${index}  IN RANGE   1    ${retries}
+    \   ${status}   ${value}=   Run Keyword And Ignore Error    _send_caw_ussd    ${dev_alias}    ${cw}    ${mode}
+    \   Run Keyword IF          '${status}' == 'PASS'           Exit For Loop
+    \   Run Keyword IF          '${status}' == 'FAIL'           Release Device     ${dev_alias}
+
+    Run Keyword IF      '${status}' == 'PASS'      Return From Keyword         0
+    Run Keyword IF      '${status}' == 'FAIL'      Fail                        Aborted: GSM Code on '${dev_alias}' for ${cw} failed ${retries} times, last error was: ${value}
+
+_set_call_waiting
+    [arguments]         ${dev_alias}    ${cw}    ${mode}
+    ${dev_alias_list}=      Get As List   ${dev_alias}
+
+    :FOR   ${sub}  IN   @{dev_alias_list}
+    \   ${cur_mode} =       _get_current_caw     ${sub}    ${cw}
+    \   Debug Log           ${sub} - current ${cw}: ${cur_mode} target: ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${cur_mode}' != 'N' and '${DEVICE_SETUP}' == 'True'             _send_caw_ussd_with_retry    ${sub}    ${cw}    ${mode}
+    \   Run Keyword If      '${cur_mode}' != '${mode}' and '${DEVICE_SETUP}' == 'False'                                     _send_caw_ussd_with_retry    ${sub}    ${cw}    ${mode}
+
+Activate CAW
+    [arguments]             @{dev_alias}
+    _set_call_waiting       ${dev_alias}    CAW        A
+
+Deactivate CAW
+    [arguments]             @{dev_alias}
+    _set_call_waiting       ${dev_alias}    CAW        D
+
+
+
+######################################################
+_check_known_ndcs
+    [arguments]         ${isdn_in_CcNdcSn_format}    ${cc_len}
+    
+    ${ndc_list} =	    Get Dictionary Keys	        ${NDC_INFIX_MAPPING}
+    ${ndc_sn} =         Get Substring               ${isdn_in_CcNdcSn_format}   ${cc_len}
+    #Debug Log       DICT - ${NDC_INFIX_MAPPING}
+    
+    :FOR   ${ndc}  IN   @{ndc_list}
+    \   ${s} =          Run Keyword And Return Status                       Should Start With   ${ndc_sn}  ${ndc}   
+    #\   Debug Log       ${ndc} - ${ndc_sn} - ${s}
+    \   ${use_ndc} =    Run Keyword IF                  '${s}' == 'True'    Set Variable        ${ndc}
+    \   ...             ELSE                                                Set Variable        ${EMPTY}
+    #\   Run Keyword IF                                  '${s}' == 'True'    Debug Log           N D C -- f o u n d '${ndc}'
+    \   Run Keyword IF                                  '${s}' == 'True'    Exit For Loop
+
+    ${ndc_len} =        Run Keyword If      '${use_ndc}' != '${EMPTY}'      Get Length          ${use_ndc}
+    ...                 ELSE                                                Set Variable        ${DEFAULT_NDC_LEN}
+
+    [return]    ${ndc_len}
+    
+_get_infix
+    [arguments]         ${ndc}
+
+    ${s}  ${tmp_infix} =    Run Keyword And Ignore Error    Get From Dictionary     ${NDC_INFIX_MAPPING}   ${ndc}
+
+    ${use_infix} =          Run Keyword IF                  '${s}' == 'PASS'        Set Variable        ${tmp_infix}
+    ...                     ELSE                                                    Set Variable        ${DEFAULT_INFIX}
+
+    [return]    ${use_infix}
+    
+Reformat ISDN
+    [Documentation]   Reformat an ISDN
+    ...
+    ...     This method converts the internal ISDN format (CC+NDC+SN) into various other formats
+    ...
+    ...     Supported Formats are
+    ...     - "PlusCc"          Reformats 49176123456 into +49176123456
+    ...     - "00Cc"            Reformats 49176123456 into 0049176123456
+    ...     - "Cc"              Reformats 49176123456 into 49176123456 (no reformatting)
+    ...     - "NoCc"            Reformats 49176123456 into 176123456
+    ...     - "0Ndc"            Reformats 49176123456 into 0176123456
+    ...     - "Sn"              Reformats 49176123456 into 123456
+    ...     - "Vms"             Reformats 49176123456 into 4917633123456    (infix based on NDC analysis or argument, see arguments section below)
+    ...     - "VmsPlusCc"       Reformats 49176123456 into +4917633123456   (infix based on NDC analysis or argument, see arguments section below)
+    ...     - "Vms00Cc"         Reformats 49176123456 into 004917633123456  (infix based on NDC analysis or argument, see arguments section below)
+    ...     - "Vms0Ndc"         Reformats 49176123456 into 017633123456     (infix based on NDC analysis or argument, see arguments section below)
+    ...     - "infix"           same as "Vms*" above? obsolete?
+    ...     - "infix0Ndc"       same as "Vms*" above? obsolete?
+    ...     - "infix00Cc"       same as "Vms*" above? obsolete?
+    ...     - "infixPlusCc"     same as "Vms*" above? obsolete?
+    ...
+    ...     Arguments
+    ...     - isdn_in_CcNdcSn_format    (M)   The ISDN to be reformatted
+    ...     - format                    (O)   The desired format, e.g. "0Ndc" see description above.
+    ...     - cc_len                    (O)   The length of the CC, default is taken from global variable ${DEFAULT_CC_LEN}
+    ...     - ndc_len                   (O)   The length of the NDC, default is taken from global 
+    ...                                       &{NDC_INFIX_MAPPING} dictionary if found. If not found then then the 
+    ...                                       value from the global variable ${DEFAULT_NDC_LEN} is used
+    ...     - infix                     (O)   The infix to be used when reformatting with "Vms*" and "Infix*" 
+    ...                                       Default is taken from global 
+    ...                                       &{NDC_INFIX_MAPPING} dictionary if found. If not found then then the 
+    ...                                       value from the global variable ${DEFAULT_INFIX} is used
+    ...
+    ...     Returns   The reformatted ISDN
+
+    [arguments]         ${isdn_in_CcNdcSn_format}    ${format}=0Ndc   ${cc_len}=${DEFAULT_CC_LEN}   ${ndc_len}=${EMPTY}    ${infix}=${EMPTY}
+
+    ${cc}=              Run Keyword If  ((${cc_len} < 4) | (${cc_len} > 0))     Get Substring       ${isdn_in_CcNdcSn_format}   0   ${cc_len}
+    ...                 ELSE                                                    Fail                Unknown CC Length '${cc_len}'
+
+    ${use_ndc_len}=     Run Keyword If  '${ndc_len}' == '${EMPTY}'              _check_known_ndcs   ${isdn_in_CcNdcSn_format}   ${cc_len}
+    ...                 ELSE                                                    Set Variable        ${ndc_len}        
+    
+    ${cc_ndc_len}=      Evaluate        ${use_ndc_len} + ${cc_len}
+
+    ${ndc}=             Get Substring       ${isdn_in_CcNdcSn_format}   ${cc_len}       ${cc_ndc_len}
+    ${sn}=              Get Substring       ${isdn_in_CcNdcSn_format}   ${cc_ndc_len}
+    ${sn1}=             Run Keyword         Get Substring		${isdn_in_CcNdcSn_format}	${cc_ndc_len}	   ${cc_ndc_len+2}
+	${sn2}=             Run Keyword         Get Substring		${sn}	2       5
+	${sn3}=             Run Keyword         Get Substring		${sn}	5
+
+    ${use_infix}=       Run Keyword If  '${infix}' == '${EMPTY}'        _get_infix      ${ndc}
+    ...                 ELSE                                            Set Variable    ${infix}        
+
+    ${isdn}=    Run Keyword If     '${format}'=='PlusCc'        Catenate    +${cc}${ndc}${sn}
+    ...         ELSE IF            '${format}'=='00Cc'          Catenate    00${cc}${ndc}${sn}
+    ...         ELSE IF            '${format}'=='Cc'            Catenate    ${cc}${ndc}${sn}
+    ...         ELSE IF            '${format}'=='NoCc'          Catenate    ${ndc}${sn}
+    ...         ELSE IF            '${format}'=='0Ndc'          Catenate    0${ndc}${sn}
+    ...         ELSE IF            '${format}'=='Ndc'           Catenate    ${ndc}${sn}
+    ...         ELSE IF            '${format}'=='Sn'            Catenate    ${sn}
+    ...         ELSE IF            '${format}'=='Vms'           Catenate    ${cc}${ndc}${use_infix}${sn}
+    ...         ELSE IF            '${format}'=='VmsPlusCc'     Catenate    +${cc}${ndc}${use_infix}${sn}
+    ...         ELSE IF            '${format}'=='Vms00Cc'       Catenate    00${cc}${ndc}${use_infix}${sn}
+    ...         ELSE IF            '${format}'=='Vms0Ndc'       Catenate    0${ndc}${use_infix}${sn}
+    ...			ELSE IF			   '${format}'=='SnSk'          Catenate    ${sn1} ${sn2} ${sn3}
+    #...         ELSE IF            '${format}'=='infix'         Catenate    ${cc}${ndc}${use_infix}${sn}
+    #...         ELSE IF            '${format}'=='infix0Ndc'     Catenate    0${ndc}${use_infix}${sn}
+    #...         ELSE IF            '${format}'=='infix00Cc'     Catenate    00${cc}${ndc}${use_infix}${sn}
+    #...         ELSE IF            '${format}'=='infixPlusCc'   Catenate    +${cc}${ndc}${use_infix}${sn}
+    ...         ELSE                                            Fail        Unknown ISDN Format argument '${format}'
+
+    [return]            ${isdn}
+
+
+# Individual access numbers formatting for DNA Finland
+#    ...         ELSE IF            '${format}'=='Vms'         Catenate    ${cc}${ndc}6${sn}
+#    ...         ELSE IF            '${format}'=='VmsPlusCc'   Catenate    +${cc}${ndc}6${sn}
+#    ...         ELSE IF            '${format}'=='Vms00Cc'     Catenate    00${cc}${ndc}6${sn}
+#    ...         ELSE IF            '${format}'=='Vms0Ndc'     Catenate    0${ndc}6${sn}
+
+#    ...         ELSE IF            '${format}'=='Vms'         Catenate    ${cc}${ndc}33${sn}
+#    ...         ELSE IF            '${format}'=='VmsPlusCc'   Catenate    +${cc}${ndc}33${sn}
+#    ...         ELSE IF            '${format}'=='Vms00Cc'     Catenate    00${cc}${ndc}33${sn}
+#    ...         ELSE IF            '${format}'=='Vms0Ndc'     Catenate    0${ndc}33${sn}
+

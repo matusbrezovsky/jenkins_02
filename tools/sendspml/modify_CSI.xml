@@ -1,0 +1,20 @@
+<spml:modifyRequest
+    xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="##subsNs##"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    returnResultingObject="identifier">
+    <version>##version##</version>
+    <objectclass>Subscriber</objectclass>
+    <identifier alias="imsi">##imsi##</identifier>
+    <modification name="hlr" operation="addorset">
+        <valueObject xsi:type="subscriber:HLR">
+            <tcsi>
+                <operatorServiceName>ZON_T_S1</operatorServiceName>
+                <csiState>1</csiState>
+                <csiNotify>2</csiNotify>
+            </tcsi>
+        </valueObject>
+    </modification>
+</spml:modifyRequest>
+
+

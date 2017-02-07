@@ -1,0 +1,524 @@
+*** Settings ***
+Documentation   	Resource file for global variables
+
+*** Variables ***
+#${PRODUCT_KEY}     1   # dummy key for development
+${DEMO_KEY}         C60DD7B317E786649AAA6A5695D974B7
+
+##################################################################################
+#
+#   #######  #     #  #######   #####         #####   #######  ######   #
+#   #         #   #   #        #     #       #     #     #     #     #  #
+#   #          # #    #        #             #           #     #     #  #
+#   #####       #     #####    #             #           #     ######   #
+#   #          # #    #        #             #           #     #   #    #
+#   #         #   #   #        #     #       #     #     #     #    #   #
+#   #######  #     #  #######   #####         #####      #     #     #  #######
+#
+##################################################################################
+### Execution Control - common part START
+## Generic
+# Running in dummy mode - e.g. using dummy hosts and/or dummy commands
+${DUMMY_MODE}               True
+# Execution mode - Development mode. Faster execution due to skipping time consuming steps
+# (verify that handset has coverage/is registedted)
+${DEVELOPMENT_MODE}         True
+#${DEVELOPMENT_MODE}         False
+${DBG_LOG}                  True
+#${DBG_LEVEL}                WARN
+${DBG_LEVEL}                INFO
+
+${IGNORE_ERR_MANUAL}    False    # ignore errors in manual steps valid only if ${DLGS_SKIP}=True
+#${IGNORE_ERR_MANUAL}    True    # ignore errors in manual steps valid only if ${DLGS_SKIP}=True
+
+${DEVICE_SETUP}             True
+
+## Manual Steps/ Dialogs
+# Skip Manual Step
+#${DLGS_SKIP}            True
+${DLGS_SKIP}            False
+#when skipping, should the Test Case Fail - default, can be overrriden per test case
+${DLGS_FAIL_ON_SKIP}    False
+# When skipping, how long should we sleep (e.g. wait until the call to PSTN starts to ring)
+# must be at least 20s - otherwise the VMS menu is not ready for the next steps
+# Can be overwritten in the tests using dialogs.
+${DLGS_SLEEP}           20s
+#${DLGS_SLEEP}           5s
+
+## Handset Control
+# Default Location Update timeout
+${UL_TOUT}              30s
+${ATTACH_TOUT}          30s
+# Default Detach timeout (e.g. how long to wait after triggering Cancel Location )
+${DETACH_TOUT}          30s
+
+# Default call setup timeouts
+${CALL_TOUT_ANSWER}     60s     # how long to wait when there's no answer (i.e. with CFNRy or is off)
+${0900_CALL_TOUT}       30s     # price announcement is played first then the call is connected --> takes longer
+${CSFB_CALL_TOUT}       15s     # CS Fallback timeout as defined in the TCs
+${CALL_TOUT}            20s
+${SMS_TOUT}             120s
+${USSD_TOUT}            20s
+
+${CALL_TOUT_ROAM}       120s
+${SMS_TOUT_ROAM}        180s
+
+# Default speaker behaviour
+${DEF_SPEAKER}          False
+
+## Network elements
+# SMSC timeout (e.g. for setting the MSGWAIT flags)
+${SMSC_TOUT}            90s
+# Who called service SMS timeout
+${WHC_SMS_TOUT}         120s
+# VMS Menu sleep time (between sendingDTMF)
+${VMS_DTMF_SLEEP}       2s
+# how many voice messages should be deleted - mailbox should be empty, otherwise the tests will fail
+${VMS_DEL_MSG}          20
+
+## results
+${RESULTS_ROOT_PATH}    ${EXECDIR}${/}results${/}
+
+## Default Texts
+# Device Status logs (Mobile Network Type)
+${DEV_LOG_RAT_4G_ONLY}            .*LTE LTE.*
+${DEV_LOG_RAT_3G_ONLY}            .*UMTS HS.?PA.*|.*UMTS UMTS.*
+${DEV_LOG_RAT_2G_ONLY}            .*GSM EDGE.*|.*GPRS.*
+${DEV_LOG_RAT_4G_AUTO}            .*LTE LTE.*|.*UMTS HS.?PA.*|.*UMTS UMTS.*|.*GSM EDGE.*
+${DEV_LOG_RAT_3G_AUTO}            .*UMTS HS.?PA.*|.*UMTS UMTS.*|.*GSM EDGE.*
+
+${WHC_SMS_TEXT}                   hat versucht   # The complete text is "Anruf-Info: +CcNdcSn hat versucht Sie anzurufen ..."
+
+### Execution Control - common part END
+
+### Execution Control - project specific part START
+@{GLOBAL_SUBS_TAG_LIST}     ^Demo.*
+@{GLOBAL_SUBS_TAG_LIST}
+
+# The NW mode that the devices use per default, used in DEVELOPMENT MODE
+# COMMENT/DELETE this for "real" test runs
+${DEV_Demo1_NW_MODE}    3G
+${DEV_Demo2_NW_MODE}    3G
+${DEV_Demo3_NW_MODE}    3G
+${DEV_Demo4_NW_MODE}    3G
+
+
+# Default CF's - used in the test setup to reset the subs before each TC
+${DEV_CFU_DEF_STATUS}               D    # D(eleted), R(egistered), A(ctive)
+${DEV_CFB_DEF_STATUS}               D    # D(eleted), R(egistered), A(ctive)
+${DEV_CFNRC_DEF_STATUS}             D    # D(eleted), R(egistered), A(ctive)
+${DEV_CFNRY_DEF_STATUS}             D    # D(eleted), R(egistered), A(ctive)
+${DEV_CFU_DEF_FTN}                  ${NBR_VOICEMAIL_SHORT}
+${DEV_CFB_DEF_FTN}                  ${NBR_WHOCALLED}
+${DEV_CFNRC_DEF_FTN}                ${NBR_VOICEMAIL_SHORT}
+${DEV_CFNRY_DEF_FTN}                ${NBR_VOICEMAIL_SHORT}
+@{CFU_NOT_PROVISIONED_LIST}         ^Demo.*
+@{CFB_NOT_PROVISIONED_LIST}         ^Demo.*
+@{CFNRC_NOT_PROVISIONED_LIST}       ^Demo.*
+@{CFNRY_NOT_PROVISIONED_LIST}       ^Demo.*
+
+# Default CB's - used in the test setup to reset the subs before each TC
+${DEV_BAOC_DEF_STATUS}              D    # D(eactivated), A(ctive)
+${DEV_BAIC_DEF_STATUS}              D    # D(eactivated), A(ctive)
+${DEV_BOIC_DEF_STATUS}              D    # D(eactivated), A(ctive)
+${DEV_BICROAM_DEF_STATUS}           D     # D(eactivated), A(ctive)
+@{BAOC_NOT_PROVISIONED_LIST}        ^Demo.*
+@{BAIC_NOT_PROVISIONED_LIST}        ^Demo.*
+@{BOIC_NOT_PROVISIONED_LIST}        ^Demo.*
+@{BICROAM_NOT_PROVISIONED_LIST}     ^Demo.*
+
+# Default CLIP/CLIR - used in the test setup to reset the subs before each TC
+${DEV_CLIR_DEF_STATUS}              D    # D(efault, Network), S(how number), H(ide number), N(ot Provisioned)
+@{CLIR_NOT_PROVISIONED_LIST}        ^Demo.*
+
+${DEV_CLIP_DEF_STATUS}              D    # D(efault, Network), S(how number), H(ide number), N(ot Provisioned)
+@{CLIP_NOT_PROVISIONED_LIST}        ^Demo.*
+
+${DEV_CAW_DEF_STATUS}               D    # D(eactivated), A(ctive), N(ot Provisioned)
+@{CAW_NOT_PROVISIONED_LIST}         ^Demo.*
+
+### Execution Control - project specific part END
+
+#########################################
+#
+#    #####   #     #  ######    #####
+#   #     #  #     #  #     #  #     #
+#   #        #     #  #     #  #
+#    #####   #     #  ######    #####
+#         #  #     #  #     #        #
+#   #     #  #     #  #     #  #     #
+#    #####    #####   ######    #####
+#
+#########################################
+# NOTE
+# For clarity prefix the _IMSI & _MSISDN variable using the device alias names,
+# this makes the test scripts more readable e.g.
+#     ${MsA}=             device_alias1
+#     ${MsB}=             device_alias2
+#     Initiate Device     ${MsA}
+#     Initiate Device     ${MsB}
+#     Send SMS            ${MsA}       ${${MsB}_MSISDN}     My SMS Text
+
+
+### T E S T   S U B S C R I B E R S
+## ----- HoT -----
+## Single SIM subscribers - HoT Prepaids
+${Demo3_IMSI}         262074900001148
+${Demo3_ISDN}         4367761785198
+
+${Demo4_IMSI}         262073900302977
+${Demo4_ISDN}         4367762167144
+
+${Demo1_IMSI}         262073900317078  #262073900313520 
+${Demo1_ISDN}         4367761785199
+
+${Demo2_IMSI}         262074900000534
+${Demo2_ISDN}         4367762167145
+
+${Fixed1_ISDN}        4921196082918   # / test NFON
+
+${Demo_ISDN}         4917607011477
+
+
+
+#########################################################
+#
+#     ###   #####   ######   #     #
+#      #   #     #  #     #  ##    #
+#      #   #        #     #  # #   #
+#      #    #####   #     #  #  #  #
+#      #         #  #     #  #   # #
+#      #   #     #  #     #  #    ##
+#     ###   #####   ######   #     #
+#
+#########################################################
+# defaults for 'Reformat ISDN' method
+${DEFAULT_CC_LEN}                   2
+${DEFAULT_NDC_LEN}                  3
+${DEFAULT_INFIX}                    33
+
+&{NDC_INFIX_MAPPING}                176=33   179=99   1578=99   1575=99     677=60
+
+## Numbers
+# Voicemail
+${NBR_VOICEMAIL_SHORT}              333
+${NBR_VOICEMAIL_SHORT_333}          333
+${NBR_VOICEMAIL_SHORT_331}          331
+${NBR_VOICEMAIL_SHORT_332}          332
+${NBR_VOICEMAIL_SHORT_333}          333
+${NBR_VOICEMAIL_SHORT_3300}         3300
+${NBR_VOICEMAIL_SHORT_3301}         3301
+${NBR_VOICEMAIL_SHORT_9911}         9911
+${NBR_VOICEMAIL_SHORT_99}           99*
+${NBR_VOICEMAIL_SHORT_01779911}     01779911
+${NBR_VOICEMAIL_LONG}               491793000333
+# This number is called to keep one line busy
+${NBR_KEEPCONNECTED}                ${NBR_VOICEMAIL_SHORT}
+# This number is used when registering CF )with USSD)
+${NBR_CF_REGISTER}                  ${NBR_VOICEMAIL_SHORT_9911}
+# These numbers are used as premium number (e.g. call forwarding not allowed)
+${NBR_PREMIUM}                      49176454545
+${NBR_0180_PREMIUM}                 49180553399000
+# This number is used as PSTN number (e.g. call forwarding to PSTN)
+${NBR_PSTN}                     498924427028
+# Who called FTN (i.e. CFD)
+${NBR_WHOCALLED}                491793000400
+# This number is used when a call to international should be made (e.g to test barrings)
+# Number is for Austrian Avalance Warning Service
+${NBR_INTERN}                   43055742011588
+# ISDN to add as "Prohibited FTN" in the NSR
+${NBR_PROHIBITED_FTN}           491590330102120
+
+#${NBR_MSC_TRANS_OK}             498924422470
+#${NBR_MSC_TRANS_NOK}            498924422470
+${NBR_DTAG_SRV}                 499001000101
+${NBR_IVR_ADAC}                 22499
+${NBR_IVR_PREPAID}              5667
+# Emergency numbers
+${NBR_EME_GENERAL}              ${NBR_VOICEMAIL_SHORT}  # 112, use dummy number for development tests
+${NBR_EME_POLICE}               ${NBR_VOICEMAIL_SHORT}  # 110, use dummy number for development tests
+
+#${NBR_NATIONAL_BARRED}          017922744
+#${NBR_NATIONAL_SHORT}           22744
+#${NBR_NATIONAL_BARRED}          01793000333
+#${NBR_NATIONAL_SHORT}           333
+#${NBR_NATIONAL_SHORT}           0504836693
+
+#${NBR_ALCATEL_OSP}                09002000002
+
+## VLR
+${VLR_ISDN}                     491760000004
+## SCF
+${SCF_ISDN}                     491760000398
+${SCF_BOGUS}                    491760000666
+## VMS
+${VMS_ISDN}                     491760000702
+## SMSC
+${SMSC_ISDN}                    491760000508
+${PROXY_SMSC_ISDN}              491760000555
+
+
+#########################################################
+#
+#       #     #   #####    #####   ######
+#       #     #  #     #  #     #  #     #
+#       #     #  #        #        #     #
+#       #     #   #####    #####   #     #
+#       #     #        #        #  #     #
+#       #     #  #     #  #     #  #     #
+#        #####    #####    #####   ######
+#
+#########################################################
+# call forwarding
+${USSD_CFU_REG}                \**21*   # when using remember to add FTN and # = +"<FTN>#"
+${USSD_CFU_ACT}                \*21#
+${USSD_CFU_DACT}               \#21#
+${USSD_CFU_DEL}                \##21#
+${USSD_CFU_READ}               \*#21#
+${USSD_CFNRY_REG}              \**61*   # when using remember to add FTN & optional delay = +"FTN*DELAY#"
+${USSD_CFNRY_ACT}              \*61#
+${USSD_CFNRY_DACT}             \#61#
+${USSD_CFNRY_DEL}              \##61#
+${USSD_CFNRY_READ}             \*#61#
+${USSD_CFNRC_REG}              \**62*   # when using remember to add FTN and # = +"<FTN>#"
+${USSD_CFNRC_ACT}              \*62#
+${USSD_CFNRC_DACT}             \#62#
+${USSD_CFNRC_DEL}              \##62#
+${USSD_CFNRC_READ}             \*#62#
+${USSD_CFB_REG}                \**67*   # when using remember to add FTN and # = +"<FTN>#"
+${USSD_CFB_ACT}                \*67#
+${USSD_CFB_DACT}               \#67#
+${USSD_CFB_DEL}                \##67#
+${USSD_CFB_READ}               \*#67#
+
+${USSD_CF_ALLCOND_REG}         \**004*  # when using remember to add FTN and # = +"<FTN>#"
+${USSD_CF_ALLCOND_ACT}         \*004#
+${USSD_CF_ALLCOND_DACT}        \#004#
+${USSD_CF_ALLCOND_DEL}         \##004#
+${USSD_CF_ALLCOND_READ}        \*#004#
+
+${USSD_CF_ALL_REG}             \**002*  # when using remember to add FTN and # = +"<FTN>#"
+${USSD_CF_ALL_ACT}             \*002#
+${USSD_CF_ALL_DACT}            \#002#
+${USSD_CF_ALL_DEL}             \##002#
+${USSD_CF_ALL_READ}            \*#002#
+
+${USSD_CF_TIMER}               10      # working ones 10, 20, 25
+
+# call waiting
+${USSD_CAW_ACT}                \*43#
+${USSD_CAW_DACT}               \#43#
+${USSD_CAW_READ}               \*#43#
+
+# call barring
+${USSD_BAOC_ACT}               \*33*0000#
+${USSD_BAOC_DACT}              \#33*0000#
+${USSD_BAOC_READ}              \*#33#
+${USSD_BAIC_ACT}               \*35*0000#
+${USSD_BAIC_DACT}              \#35*0000#
+${USSD_BAIC_READ}              \*#35#
+${USSD_BOIC_ACT}               \*331*0000#
+${USSD_BOIC_DACT}              \#331*0000#
+${USSD_BOIC_READ}              \*#331#
+${USSD_BICROAM_ACT}            \*351*0000#
+${USSD_BICROAM_DACT}           \#351*0000#
+${USSD_BICROAM_READ}           \*#351#
+
+# CLIP
+${USSD_CLIP_ACT}               \*30#
+${USSD_CLIP_DACT}              \#30#
+#${USSD_CLIP_READ}             \*#30#
+
+# CLIR
+${USSD_CLIR_ACT}               \*31#
+${USSD_CLIR_DACT}              \#31#
+#${USSD_CLIR_READ}             \*#31#
+
+#Balance query
+${USSD_BALANCE_QUERY}            \*101#
+#${USSD_BALANCE_QUERY}            \*100#  #DNA
+
+# USSD messages (displayed in the pop-up on the device)
+${USSD_MSG_ERROR}				invalid
+${USSD_MSG_CF_READ_OK}			Call forwarding
+${USSD_MSG_CF_READ_NFWD}        Voice: Not forwarded
+${USSD_MSG_CF_READ_WHC}         Voice: +${NBR_WHOCALLED}
+${USSD_MSG_CF_DACT_OK}			Service has been disabled
+${USSD_MSG_CF_DEL_OK}			Erase successful
+${USSD_MSG_CF_ACT_OK}			Service was enabled
+${USSD_MSG_CF_REG_OK}			Registration was successful
+${USSD_MSG_B_ACT_OK}            Service was enabled
+${USSD_MSG_B_DACT_OK}           Service has been disabled
+#${USSD_MSG_B_ACT_OK}            Call barring
+#${USSD_MSG_B_DACT_OK}           Call barring
+${USSD_MSG_B_READ_OK}			Call barring
+${USSD_MSG_CAW_ACT_OK}          Service was enabled
+${USSD_MSG_CAW_DACT_OK}         Service has been disabled
+${USSD_MSG_CLIP_ACT_OK}         Service was enabled
+${USSD_MSG_CLIP_DACT_OK}        Service has been disabled
+${USSD_MSG_CLIR_ACT_OK}         Service was enabled
+${USSD_MSG_CLIR_DACT_OK}        Service has been disabled
+${USSD_MSG_CLI_ACT_OK}          Service was enabled
+${USSD_MSG_CLI_DACT_OK}         Service has been disabled
+${USSD_MSG_CLIR_STATUS_OFF}     Next call: Not restricted
+${USSD_MSG_CLIR_STATUS_ON}      Next Call: Restricted
+${USSD_CLIR_ACTIVE_TEXT}        Private number
+
+${USSD_BALANCE_QUERY_OK}        Guthaben
+
+# MC
+${USSD_MC_HELP}                 \*120#
+${USSD_MC_SHOW_MEM}             \*121#
+${USSD_MC_RESET}                \*128#
+${USSD_MC_SMS_DACT}             \*125*0#
+${USSD_MC_SMS_ACT}              \*125#
+${USSD_MC_SMS_ACT_M1}           \*125*1#
+${USSD_MC_SMS_ACT_M2}           \*125*2#
+${USSD_MC_SMS_ACT_M3}           \*125*3#
+${USSD_MC_MMS_DACT}             \*126*0#
+${USSD_MC_MMS_ACT}              \*126#
+${USSD_MC_NMS_ACT_M1}           \*126*1#
+${USSD_MC_NMS_ACT_M2}           \*126*2#
+${USSD_MC_NMS_ACT_M3}           \*126*3#
+#${USSD_MC_SMSIR_ACT_P4}         \*125*4#
+#${USSD_MC_SMSIR_ACT_P5}         \*125*5#
+${USSD_MC_VOICE_READ}           \*122#
+${USSD_MC_VOICE_ACT}            \*123#
+${USSD_MC_VOICE_ACT_P0}         \*124*0#
+${USSD_MC_VOICE_ACT_P1}         \*124*1#
+${USSD_MC_VOICE_ACT_P2}         \*124*2#
+${USSD_MC_VOICE_ACT_P3}         \*124*3#
+#${USSD_MC_VOICE_ACT_P4}         \*124*4#
+#${USSD_MC_VOICE_ACT_P5}         \*124*5#
+
+${USSD_MC_MSG_ERROR}            invalid
+${USSD_MC_MSG_SHOW}             Ihre aktiven SIM-Karten sind    #:1 - D1,2 - D2,3 - D3,4 - D4,5 - D5
+${USSD_MC_MSG_RESET}            Ihre Standardeinstellung wurde wiederhergestellt
+${USSD_MC_MSG_SMS_ACT_OK}       SMS Empfang jetzt auf: D
+${USSD_MC_MSG_SMS_DACT_OK}      SMS Empfang jetzt auf: D
+${USSD_MC_MSG_VOICE_ACT_OK}     Anrufempfang jetzt auf: D
+${USSD_MC_MSG_VOICE_ACT_P0}     Die Weiterleitungspriorität wurde geändert
+${USSD_MC_MSG_VOICE_ACT_P1}     Die Weiterleitungspriorität wurde geändert
+${USSD_MC_MSG_VOICE_ACT_P2}     Die Weiterleitungspriorität wurde geändert
+${USSD_MC_MSG_VOICE_ACT_P3}     Die Weiterleitungspriorität wurde geändert
+
+
+#########################################
+#
+#        #####    #####   #     #
+#       #     #  #     #  #     #
+#       #        #        #     #
+#        #####    #####   #######
+#             #        #  #     #
+#       #     #  #     #  #     #
+#        #####    #####   #     #
+#
+#########################################
+## SSH prompt i.e. string/character that will be used in reading the SSH output (e.g. after login and "read until prompt" methods)
+${SSHPROMPT}                $
+#${SSHPROMPT}                >
+
+## Hosts
+#${TB1_HLR1}               172.29.93.117
+#${TB3_HLR1}               172.29.93.125
+#${TB3_PGW1}               172.29.88.143
+#${TB1_PGW1}               172.29.87.143
+
+${TB1_HLR1}               127.0.0.1
+${TB3_HLR1}               127.0.0.1
+${TB3_PGW1}               127.0.0.1
+${TB1_PGW1}               127.0.0.1
+
+## Usernames
+#${HLRUSER}                  root
+#${HLRPWD}                   yt_xk39b
+#${PGWUSER}                  oamsys
+#${PGWPWD}                   siemens
+
+${HLRUSER}                  demo
+${HLRPWD}                   demo1234
+${PGWUSER}                  demo
+${PGWPWD}                   demo1234
+## SSH prompt i.e. string/character that will be used in reading the SSH output (e.g. after login and "read until prompt" methods)
+${SSHPROMPT}                $
+
+# ta test user account
+${user}                     demo
+${passwd}                   demo1234
+
+# directory where to upload the example traces on the SSH host (localhost)
+# the files will be copied from this directory to the directory where tcpdump would generate them
+# i.e. ${TRC_PATH_VAL} location (as defined in the wireshark library)
+${TRC_SSH_USR_PATH}         ta/trace/
+# local example traces
+${TRC_LPATH}                    ${EXECDIR}${/}data${/}wireshark${/}
+${TRC_GSM_MAP_000_PCAP_FILE}    trace_a.pcap
+${TRC_GSM_MAP_001_PCAP_FILE}    trace_b.pcap
+
+
+# directory where to upload the dummy SPML outputs on the SSH host (localhost)
+# the files will be copied from this directory to the directory where sendspml would generate them
+# i.e. ${SPML_LOG_PATH} location (as defined in the sendspml library)
+${DUMMY_SPML_SSH_USR_PATH}  ta/spml/
+${DUMMY_SPML_LPATH}         ${EXECDIR}${/}data${/}spml${/}
+
+
+###################################################################
+#
+#     ######   #######  #     #  ###   #####   #######   #####
+#     #     #  #        #     #   #   #     #  #        #     #
+#     #     #  #        #     #   #   #        #        #
+#     #     #  #####    #     #   #   #        #####     #####
+#     #     #  #         #   #    #   #        #              #
+#     #     #  #          # #     #   #     #  #        #     #
+#     ######   #######     #     ###   #####   #######   #####
+#
+###################################################################
+### D E V I C E S
+
+## Additional Mapping - Code Completion works with these
+# standard o2
+${MsDemo1}                       Demo1
+${MsDemo2}                       Demo2
+${MsDemo3}                       Demo3
+${MsDemo4}                       Demo4
+
+${MsFixed1}                      Fixed1
+
+
+# Unique Device ID's:
+${DEV_02_UDID}      581f28941788    # MsDemo3        .    HoT 1/4
+${DEV_03_UDID}      64a651be6a5e    # MsDemo4        .    HoT 2/4
+${DEV_00_UDID}      581f2894169d    # MsDemo1        .    HoT 3/4
+${DEV_01_UDID}      581f2802506e    # MsDemo2        .    HoT 4/4
+
+   
+
+# Device Alias Mapping
+# TEF
+@{ALIAS_LIST}   Demo1       Demo2       Demo3       Demo4       Fixed1
+@{DEV_LIST}     DEV_00      DEV_01      DEV_02      DEV_03      DEV_02
+
+# These must match with one of the keys in the devices dictionary
+# defined in the src/py/device_configs.py
+#${DEV_00_DEVICE}      samsung_S5_G900F  # MsO2Post1
+${DEV_00_DEVICE}      huawei_Y550_L01           # MsDemo1
+${DEV_01_DEVICE}      huawei_Y550_L01           # MsDemo2
+${DEV_02_DEVICE}      huawei_Y550_L01           # MsDemo3
+${DEV_03_DEVICE}      huawei_Y550_L01           # MsDemo4
+
+## A P P I U M
+# Host where the appium server is running for each device:
+${DEV_00_HOST}      127.0.0.1
+${DEV_01_HOST}      127.0.0.1
+${DEV_02_HOST}      127.0.0.1
+${DEV_03_HOST}      127.0.0.1
+
+# Port of the appium server for each device:
+${DEV_00_PORT}      4700
+${DEV_01_PORT}      4701
+${DEV_02_PORT}      4702
+${DEV_03_PORT}      4703
+
+
+*** Keywords ***

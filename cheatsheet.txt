@@ -1,0 +1,501 @@
+pybot -b debug.log -P src\cy -P src\py -t foo src\test\atf\common\py_devicecontrol.robot
+
+-v DEMO_KEY:C60DD7B317E786649AAA6A5695D974B7
+
+pybot -b debug.log -P src\cy -P src\py -P src\tools src\test\atf\common\py_dongle.robot
+pybot -b debug.log -v LOG_ME:True -P src\cy -P src\py -P src\tools -t demo* src\test\atf\common\py_dongle.robot
+
+#WIN
+git add --all . & git commit -a -m "updates: first speed test light version" & git push origin speedTest
+
+# MAC/*NIX
+git add --all . ; git commit -a -m "added start additional app KW" ; git push origin pyTA
+
+# tail debug logs
+tail -F debug*.log | egrep " TEST|INFO - dbg:"
+
+# MAC - node for appium needs some special treatment:
+# install node with brew - but npm with it's own installer, otherwise you'll run into sudo problems
+# see: https://gist.github.com/DanHerbert/9520689
+rm -rf /usr/local/lib/node_modules
+brew uninstall node
+brew install node --without-npm
+echo prefix=~/.node >> ~/.npmrc
+curl -L https://www.npmjs.com/install.sh | sh
+
+# RF syslog
+set ROBOT_SYSLOG_FILE=/tmp/debug_sys.log
+set ROBOT_SYSLOG_LEVEL=DEBUG
+
+### docs
+# First comment out:
+# - The AtfListener from the wrapper __init__ module (src\py)
+# - All code in the init() of each LIB's wrapper class (src\py)
+python -m robot.libdoc -P src\cy -P src\py ATFCommons doc\ATFCommons.html
+python -m robot.libdoc -P src\cy -P src\py DeviceControl doc\DeviceControl.html
+python -m robot.libdoc -P src\cy -P src\py Wireshark doc\Wireshark.html
+
+### license
+SET PYTHONPATH=src\bin;src\py & python -c "from atf.utils.lmgr import *;LicenceManager(123)"
+
+--------
+
+#  C H R O M E 
+
+adb -s 68a0f6f98801 shell dumpsys | egrep -A18 "Package.*chrome"
+adb -s 68a0f6f98801 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+
+List of devices attached
+68a0f6150c87           device product:Y550-L01 model:HUAWEI_Y550_L01 device:hwY550-L01
+7fa2ba02               device product:kltexx model:SM_G900F device:klte
+68a0f6f98801           device product:G7-L01 model:G7_L01 device:hwG7-L01
+
+> adb -s 68a0f6f98801 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+Packages:
+    versionName=46.0.2490.76
+Hidden system packages:
+    versionName=36.0.1985.135
+> adb -s 7fa2ba02 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+Packages:
+    versionName=39.0.2171.93
+> adb -s 68a0f6150c87 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+Packages:
+    versionName=35.0.1916.141
+
+
+
+adb -s 68a0f6150c87 shell pm path com.android.chrome
+adb -s 68a0f6150c87 pull /system/app/ChromeWithBrowser.apk
+mv ChromeWithBrowser.apk ChromeWithBrowser_v35.0.1916.141.apk
+
+adb -s 68a0f6f98801 shell pm path com.android.chrome
+adb -s 68a0f6f98801 pull /data/app/com.android.chrome-1.apk
+mv com.android.chrome-1.apk com.android.chrome-1_v46.0.2490.76.apk
+adb -s 68a0f6150c87 install -r com.android.chrome-1_v46.0.2490.76.apk
+adb -s 68a0f6150c87 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+
+adb -s 7fa2ba02 shell pm path com.android.chrome
+adb -s 7fa2ba02 pull /system/app/Chrome/Chrome.apk
+mv Chrome.apk Chrome_v39.0.2171.93.apk
+adb -s 7fa2ba02 install -r com.android.chrome-1_v46.0.2490.76.apk
+adb -s 7fa2ba02 shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+
+adb shell pm path com.nfon.nfonclient.gui
+adb pull /system/app/Chrome/Chrome.apk
+
+
+--------
+
+#  S P E E D T E S T   L I G H T
+adb -s 68a0f6f98801 shell dumpsys package | egrep -A10 "Package.*speed"
+adb -s 68a0f6f98801 shell dumpsys package eu.vspeed.android | egrep "ackages:|versionName"
+    Packages:
+        versionName=1.5.0.0
+adb -s 68a0f6f98801 shell pm path eu.vspeed.android
+adb -s 68a0f6f98801 pull /data/app/eu.vspeed.android-1.apk
+mv eu.vspeed.android-1.apk eu.vspeed.android-1_v1.5.0.0.apk
+adb -s 80717aef8315 install eu.vspeed.android-1_v1.5.0.0.apk
+adb -s 0cd6bd1026ab install eu.vspeed.android-1_v1.5.0.0.apk
+
+adb -s 80717aef8315 shell dumpsys activity
+adb -s 80717aef8315 shell am start -S -n eu.vspeed.android/.Main
+
+#  N e t w o r k   C e l l   I n f o   (signal strength)
+adb -s 68a0f6f98801 shell dumpsys package | egrep "Package.*wily"
+adb -s 68a0f6f98801 shell dumpsys package com.wilysis.cellinfolite | egrep "ackages:|versionName"
+    Packages:
+        versionName=3.11.4.2
+adb -s 68a0f6f98801 shell pm path com.wilysis.cellinfolite
+adb -s 68a0f6f98801 pull /data/app/com.wilysis.cellinfolite-1.apk \git\com.wilysis.cellinfolite-3.11.4.2.apk
+adb -s 80717aef8315 install \git\com.wilysis.cellinfolite-3.11.4.2.apk
+adb -s 0cd6bd1026ab install \git\com.wilysis.cellinfolite-3.11.4.2.apk
+
+adb shell dumpsys package com.wilysis.cellinfolite | egrep "ackages:|versionName"
+    Packages:
+        versionName=3.11.4.2
+adb pull /data/app/com.wilysis.cellinfolite-1.apk \git\com.wilysis.cellinfolite-3.11.4.2b.apk
+adb install \git\com.wilysis.cellinfolite-3.11.4.2.apk
+
+--------
+
+
+
+rcs RCS
+
+adb shell dumpsys activity
+
+am start: start an Activity.  Options are:
+    -D: enable debugging
+    -W: wait for launch to complete
+    --start-profiler <FILE>: start profiler and send results to <FILE>
+    -P <FILE>: like above, but profiling stops when app goes idle
+    -R: repeat the activity launch <COUNT> times.  Prior to each repeat,
+        the top activity will be finished.
+    -S: force stop the target app before starting the activity
+    --opengl-trace: enable tracing of OpenGL functions
+    --user <USER_ID> | current: Specify which user to run as; if not
+        specified then run as the current user.
+
+adb shell am start -S -n com.telefonica.rcso2/com.summit.beam.HomeActivityPager
+
+xmllint --xpath "//node[contains(@text,'Call service')]/../..//node[@checkable='true']" xmldump.xml
+
+
+    Task id #43
+      TaskRecord{42d6d068 #43 A=com.telefonica.rcso2 U=0 sz=3}
+      Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.telefonica.rcso2/com.summit.beam.HomeActivityPager }
+        Hist #2: ActivityRecord{4240efd8 u0 com.telefonica.rcso2/com.summit.beam.BeamSettingsActivity t43}
+          Intent { cmp=com.telefonica.rcso2/com.summit.beam.BeamSettingsActivity }
+          ProcessRecord{41aeb588 11119:com.telefonica.rcso2/u0a134}
+        Hist #1: ActivityRecord{41ed7c50 u0 com.telefonica.rcso2/com.summit.beam.SignInServiceActivity t43}
+          Intent { flg=0x24000000 cmp=com.telefonica.rcso2/com.summit.beam.SignInServiceActivity (has extras) }
+          ProcessRecord{41aeb588 11119:com.telefonica.rcso2/u0a134}
+        Hist #0: ActivityRecord{43437cf0 u0 com.telefonica.rcso2/com.summit.beam.HomeActivityPager t43}
+          Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.telefonica.rcso2/com.summit.beam.HomeActivityPager bnds=[8,250][184,434] }
+          ProcessRecord{41aeb588 11119:com.telefonica.rcso2/u0a134}
+
+--------
+
+python -m robot.run -b debug.log --pythonpath src\test\atf\common\ --pythonpath src\test\atf\lib_nthlr\  --pythonpath src\test\atf\tests -t "PROV*" src\test\atf\tests\demo.robot
+tail -F | egrep "\- dbg: | START TEST|END TEST|START SUITE|END SUITE|TEARDOWN|SETUP"
+
+
+python -m robot.run -b debug.txt src\test\atf\common\DX.robot
+
+cp results\last\tc_*spml.txt c:\cygwin64\tmp & python -m robot.run --output NONE -b debug.log --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr src\test\atf\tests\nthlr.robot
+
+python -m robot.run -b debug.txt src\test\atf\common\wireshark.robot
+
+
+python -m robot.run -b debug.txt --flattenkeywords name:common_utils.* --flattenkeywords name:wireshark.* --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "02.03.*" src\test\atf\tests\nthlr.robot
+
+cp src\test\atf\common\global_vars_template.txt src\test\atf\lib_nthlr\global_vars.txt & python -m robot.run --flattenkeywords name:common_utils.* --flattenkeywords name:wireshark.* --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "02.03.*" src\test\atf\tests\nthlr.robot
+
+python -m robot.run -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "trace" src\test\atf\tests\nthlr.robot
+python -m robot.run -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "spml" src\test\atf\tests\nthlr.robot
+python -m robot.run -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "subs" src\test\atf\tests\nthlr.robot
+python -m robot.run -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "call" src\test\atf\tests\nthlr.robot
+
+cp src\test\atf\common\global_vars_template.txt src\test\atf\lib_nthlr\global_vars.txt & python -m robot.run -L DEBUG -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "02.03.01.01" src\test\atf\tests\nthlr.robot
+
+python -m robot.run -L DEBUG -b debug.txt --pythonpath src\test\atf\common --pythonpath src\test\atf\lib_nthlr -t "call" src\test\atf\tests\nthlr.robot
+python -m robot.run -L DEBUG -b debug.txt -pythonpath -t "call" src\test\atf\tests\nthlr.robot
+
+
+python -m robot.run -L DEBUG -b debug.txt src\test\atf\common\wireshark.robot
+python -m robot.run -L DEBUG -b debug.txt src\test\atf\common\common_utils.robot
+
+cp src\test\atf\common\global_vars_template.txt src\test\atf\lib_nthlr\global_vars.txt
+
+cd C:\public\jari\projects\ta\software
+adb -s 68a0f6f98801 install aws.apps.networkInfoIi-1.apk
+
+
+---------------------
+text DEVICE
+IMSI 262073981844935
+
+    Task id #6
+      TaskRecord{428a8678 #6 A=aws.apps.networkInfoIi U=0 sz=1}
+      Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=aws.apps.networkInfoIi/co.uk.alt236.android.lib.networkInfoIi.activities.MainActivity }
+        Hist #0: ActivityRecord{424c60d0 u0 aws.apps.networkInfoIi/co.uk.alt236.android.lib.networkInfoIi.activities.MainActivity t6}
+          Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=aws.apps.networkInfoIi/co.uk.alt236.android.lib.networkInfoIi.activities.MainActivity bnds=[536,802][712,986] }
+          ProcessRecord{41de6590 6532:aws.apps.networkInfoIi/u0a93}
+
+---------------------
+# diff repositories (in c:\git):
+
+diff -wBrq ta-nthlr\src ta\src
+diff -wBr ta-nthlr\src ta\src
+diff -wBry -W 500 --suppress-common-lines ta-nthlr\src ta\src
+
+---------------------
+GIT
+
+# upload changes 
+git add --all . & git commit -a -m "demo updates" & git push origin osix_trace
+git add --all . ; git commit -a -m "demo updates" ; git push origin osix_trace
+
+# get repo
+git clone https://github.com/robotframework/robotframework.git
+# show updates
+git status
+# create a branch
+git checkout -b branchname
+
+# stage file
+git add tests/keywords/test_multipleAppiumConnections.py
+
+# show remotes
+git remote -v
+
+# push to remote
+git push [remote-name] [branch-name]
+
+# delete local branch
+git branch -D multipleAppiumConnections
+# delete remote branch
+git push origin --delete multipleAppiumConnections
+
+# list local / remote / all branches
+git branch
+git branch -r
+git branch -a
+
+# add tag 
+git tag -a v1.3.5-2 -m "fork version 2"
+git push origin --tags
+
+#delete tag
+git tag -d DEV_v1.1
+git push origin :refs/tags/DEV_v1.1
+
+# Merging an upstream repository into your fork
+# option 1a - masters
+# checkout local master (=local fork)
+git checkout master
+# pull changes from origin master (--> they'll end up in the local master)
+git pull https://github.com/jollychang/robotframework-appiumlibrary.git master
+# commit the changes in local master
+git commit
+# push local changes to your remote fork
+git push origin master
+
+# option 1a - masters
+# pre-requisite: upstream remote is configured
+git remote add upstream https://github.com/jollychang/robotframework-appiumlibrary.git
+
+# Fetch the branches and their respective commits from the upstream repository. Commits to master will be stored in a local branch, upstream/master.
+git fetch upstream
+# Check local fork's master branch.
+git checkout master
+# Merge the changes from upstream/master into your local master branch.
+git merge upstream/master
+# push local changes to your remote fork
+git push origin master
+
+# option 2 - branches
+# checkout local MyExperiment branch (=local fork)
+git checkout MyExperiment
+# pull changes from origin Dev2.0 branch (--> they'll end up in the local MyExperiment)
+git pull https://github.com/jollychang/robotframework-appiumlibrary.git Dev2.0
+# commit the changes in local MyExperiment
+git commit
+# push local changes to your remote fork
+git push origin MyExperiment
+
+# remove files (e.g. too big ones from the local cache) - run in git BASH, windows prompt dies after this command
+# assuming that the files are in the master
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch ' --tag-name-filter cat -- --all
+git update-ref -d refs/original/refs/heads/master
+git reflog expire --expire=now --all
+git gc --prune=now
+-------------------------------------------------------------------
+
+# Android 4.4 - SIM card info App
+adb -s 68a0f6f98801 shell pm list packages | egrep siminfo
+adb -s 68a0f6f98801 shell pm path com.artymiak.android.app.siminfo.free
+adb -s 68a0f6f98801 pull /data/app/com.artymiak.android.app.siminfo.free-1.apk
+adb -s 80717aef8315 install com.artymiak.android.app.siminfo.free-1.apk
+
+
+# Android 4.4 - Toast App
+adb -s 68a0f6f98801 shell pm list packages | egrep oast
+adb -s 68a0f6f98801 shell pm path org.mars3142.android.toaster
+adb -s 68a0f6f98801 pull /data/app/org.mars3142.android.toaster-1.apk
+adb -s 80717aef8315 install org.mars3142.android.toaster-1.apk
+
+# Android 4.4 - TEF RCSe App
+adb -s 68a0f6f98801 shell pm list packages | egrep rcs
+adb -s 68a0f6f98801 shell pm path com.telefonica.rcso2
+adb -s 68a0f6f98801 pull /data/app/com.telefonica.rcso2-1.apk
+adb -s 80717aef8315 install com.telefonica.rcso2-1.apk
+
+# Install SIM Card Info, DTMF, Toaster, Chrome v46 
+for %x in (581f289413c9 b4305278f269) do (
+    adb -s %x install com.artymiak.android.app.siminfo.free-1.apk
+    adb -s %x install com.encapsystems.dtmfd-1.apk
+    adb -s %x install org.mars3142.android.toaster-1.apk
+    adb -s %x shell dumpsys package com.android.chrome | egrep "ackages:|versionName"
+    adb -s %x install -r ..\..\..\com.android.chrome-1_v46.0.2490.76.apk
+)
+
+adb -s  install com.artymiak.android.app.siminfo.free-1.apk
+
+-------------------------------------------------------------------
+
+----------------------
+C R E A T E   T W O   A P P I U M   &   A D B   I N S T A N C E S
+---
+# netstat monitor
+title NETSTAT_MONITOR&for /L %i in (0,0,0) do sleep 5 & netshowproc | egrep -v TIME_WAIT | egrep ":55[0-9][0-9] |:603[0-9] |:47[0-9][0-9] |adb|appi|node"
+
+---
+# ADB-APPIUM-console#1
+setenv add
+set ANDROID_ADB_SERVER_PORT=6037
+title ADB_6037_EMU_5556_APPIUM_4723
+adb start-server
+emulator -port 5556 -avd generic_api18
+echo off&set bootready=&for /L %i in (0,1,1000) do if not defined bootready (sleep 15 & adb -s emulator-5556 shell getprop init.svc.bootanim | egrep "stopped" && set bootready=ready)
+echo on
+cd C:\java\appium\appium1.2.0.1\
+c:
+node node_modules\appium\bin\appium.js --bootstrap-port 4724 --port 4723 --address 127.0.0.1 --platform-name Android --platform-version 18 --automation-name Appium
+
+---
+# ADB-APPIUM-console#2
+setenv add
+set ANDROID_ADB_SERVER_PORT=6038
+title ADB_6038_EMU_5566_APPIUM_4733
+adb start-server
+emulator -port 5566 -avd generic_api19
+echo off&set bootready=&for /L %i in (0,1,1000) do if not defined bootready (sleep 15 & adb -s emulator-5566 shell getprop init.svc.bootanim | egrep "stopped" && set bootready=ready)
+echo on
+cd C:\java\appium\appium1.2.0.1\
+c:
+node node_modules\appium\bin\appium.js --bootstrap-port 4734 --port 4733 --address 127.0.0.1 --platform-name Android --platform-version 19 --automation-name Appium
+
+---
+# Robot console
+setenv add
+title ROBOT
+cd D:\jnu\projects\rfw_tst\
+d:
+python -m robot.run -L DEBUG -b debug.txt --pythonpath src\test\robotframework\atp_libs src\test\robotframework\atp_tests\appium.txt
+tail -f debug.txt
+
+---
+# GIT console
+setenv add
+title GIT
+cd D:\jnu\projects\robotframework-appiumlibrary
+d:
+git status
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+A P P I U M  /  N O D E . J S 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+set   "http_proxy="
+set "https_proxy="
+set   "HTTP_PROXY="
+set "HTTPS_PROXY="
+set   "http_proxy=http://jWX235862:ead&ghe12@proxyuk.huawei.com:8080/"
+set "https_proxy=https://jWX235862:ead&ghe12@proxyuk.huawei.com:8080/"
+set   "HTTP_PROXY=http://jWX235862:ead&ghe12@proxyuk.huawei.com:8080/"
+set "HTTPS_PROXY=https://jWX235862:ead&ghe12@proxyuk.huawei.com:8080/"
+set GIT_TRACE_PACKET=1
+set GIT_TRACE=1
+set GIT_CURL_VERBOSE=1
+for /L %i in (0,0,0) do sleep 10 && git clone https://github.com/yahman72/appium
+git remote -v
+git remote add upstream https://github.com/appium/appium
+
+# sync with master fork
+for /L %i in (0,0,0) do sleep 10 && git fetch upstream && git checkout master && git merge upstream/master
+
+## Appium set up
+npm config delete proxy       
+npm config delete https-proxy
+
+       npm config set proxy http://"jWX235862:ead&ghe12"@proxyuk.huawei.com:8080
+npm config set https-proxy https://"jWX235862:ead&ghe12"@proxyuk.huawei.com:8080
+
+for /L %i in (0,0,0) do sleep 10   && reset.bat   2>&1  | egrep -v "npm http GET|npm ERR.*network|Windows_NT|appium|npm.*npm|npm.*v0.10.26"
+
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+O T H E R   S T U F F
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+---
+Available platforms: android list targets
+Available devices: android list devices
+
+android create avd -n Nexus_5api19x86 -t "android-19" -d "Nexus S" --abi default/x86
+android create avd -n Nexus_5api19arm -t "android-19" -d "Nexus S" --abi default/armeabi-v7a
+
+---
+Start package manager: android
+Start emulator manager: android avd
+
+List devices: adb devices -l 
+Install APK: adb install /path/to/app.apk
+
+Start dialer 
+(android 4.3):
+adb -s 3cdfbd8ffa9e shell am start -n com.android.contacts/.activities.DialtactsActivity 
+(android 4.4): 
+adb -s emulator-5554 shell am start -n com.android.dialer/.DialtactsActivity
+
+inspect:
+latest activities:  adb shell dumpsys activity activities
+UI inspection: uiautomatorviewer
+
+Adb shell dumpsys:
+List all available services:  adb shell service list
+Dump info about service XXX: adb shell dumpsys XXX
+My Apps mem-usage: adb shell dumpsys meminfo 'your apps package name'
+
+#######################################
+SUBLIME
+#######################################
+
+Syntax highlighting/automatic detection/activation for Robot Framework '.txt' and '.robot' files;
+
+Alt+Enter -         go to source of item at caret (either Library, Resource, Keyword or Variable);
+Ctrl+Alt+Enter -    log Keyword documentation or value of Variable into output panel.
+Ctrl+Space -        library/resource name, keywords (can start with any part/word of keyword).
+:+TAB -             get list of special Robot Framework syntax elements (like [Arguments], [Return] etc);
+:f+TAB              insert :FOR loop template;
+*k+TAB              insert ** Keywords ***
+*s+TAB              insert ** Settings ***
+*v+TAB              insert ** Variables ***
+Toggle comments with Cmd+/;
+Cmd+B to run pybot with current file;
+
+$ or @ for autocomplete of Built-in and Resource variables 
+
+Separate Robot Framework menu in Sublime Text main menu.
+Robot Framework context menu which allows to run pybot with current file, scan libraries/resources, insert snippets etc.
+
+### NEW WIRESHARK filters (with IMS):
+MsPost1:    (gsm_map.address.digits == "4917607011477") || (gsm_map.address.digits == "262073900302977") || (gsm_map.tbcd_digits == "262073900302977") || diameter.User-Name == "262073900302977" || diameter.User-Name == "26207390030297799@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302977@ims.mnc007.mcc262.3gppnetwork.org"
+MsLoop1:    (gsm_map.address.digits == "4917607011148") || (gsm_map.address.digits == "262074900001148") || (gsm_map.tbcd_digits == "262074900001148") || diameter.User-Name == "262074900001148" || diameter.User-Name == "26207490000114899@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262074900001148@ims.mnc007.mcc262.3gppnetwork.org"
+MsGenion1:  (gsm_map.address.digits == "498912025208") || (gsm_map.address.digits == "4917607011479") || (gsm_map.address.digits == "262073900302979") || (gsm_map.tbcd_digits == "262073900302979") || diameter.User-Name == "262073900302979" || diameter.User-Name == "26207390030297999@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302979@ims.mnc007.mcc262.3gppnetwork.org"
+MsPost2:    (gsm_map.address.digits == "4917607011478") || (gsm_map.address.digits == "262073900302978") || (gsm_map.tbcd_digits == "262073900302978") || diameter.User-Name == "262073900302978" || diameter.User-Name == "26207390030297899@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302978@ims.mnc007.mcc262.3gppnetwork.org"
+Any:        (gsm_map.address.digits == "4917607011477") || (gsm_map.address.digits == "262073900302977") || (gsm_map.tbcd_digits == "262073900302977") || diameter.User-Name == "262073900302977" || diameter.User-Name == "26207390030297799@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302977@ims.mnc007.mcc262.3gppnetwork.org" || (gsm_map.address.digits == "498912025208") || (gsm_map.address.digits == "4917607011479") || (gsm_map.address.digits == "262073900302979") || (gsm_map.tbcd_digits == "262073900302979") || diameter.User-Name == "262073900302979" || diameter.User-Name == "26207390030297999@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302979@ims.mnc007.mcc262.3gppnetwork.org" || (gsm_map.address.digits == "4917607011148") || (gsm_map.address.digits == "262074900001148") || (gsm_map.tbcd_digits == "262074900001148") || diameter.User-Name == "262074900001148" || diameter.User-Name == "26207490000114899@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262074900001148@ims.mnc007.mcc262.3gppnetwork.org" || (gsm_map.address.digits == "4917607011478") || (gsm_map.address.digits == "262073900302978") || (gsm_map.tbcd_digits == "262073900302978") || diameter.User-Name == "262073900302978" || diameter.User-Name == "26207390030297899@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "262073900302978@ims.mnc007.mcc262.3gppnetwork.org"
+
+
+|| diameter.User-Name == "99@ims.mnc007.mcc262.3gppnetwork.org" || diameter.User-Name == "@ims.mnc007.mcc262.3gppnetwork.org"
+
+### OLD WIRESHARK filters:
+MAP         gsm_map
+MsPost1:    (gsm_map.address.digits == "4917607011477") || (gsm_map.address.digits == "262073900302977") || (gsm_map.tbcd_digits == "262073900302977") || diameter.User-Name == "262073900302977"
+MsLoop1:    (gsm_map.address.digits == "4917607011148") || (gsm_map.address.digits == "262074900001148") || (gsm_map.tbcd_digits == "262074900001148") || diameter.User-Name == "262074900001148"
+MsGenion1:  (gsm_map.address.digits == "498912025208") || (gsm_map.address.digits == "4917607011479") || (gsm_map.address.digits == "262073900302979") || (gsm_map.tbcd_digits == "262073900302979") || diameter.User-Name == "262073900302979"
+MsPost2:    (gsm_map.address.digits == "4917607011478") || (gsm_map.address.digits == "262073900302978") || (gsm_map.tbcd_digits == "262073900302978") || diameter.User-Name == "262073900302978"
+Any:        (gsm_map.address.digits == "4917607011477") || (gsm_map.address.digits == "262073900302977") || (gsm_map.tbcd_digits == "262073900302977") || (gsm_map.address.digits == "4917607011478") || (gsm_map.address.digits == "262073900302978") || (gsm_map.tbcd_digits == "262073900302978") ||(gsm_map.address.digits == "4917607011148") || (gsm_map.address.digits == "262074900001148") || (gsm_map.tbcd_digits == "262074900001148") ||(gsm_map.address.digits == "498912025208") || (gsm_map.address.digits == "4917607011479") || (gsm_map.address.digits == "262073900302979") || (gsm_map.tbcd_digits == "262073900302979") || diameter.User-Name == "262073900302977" || diameter.User-Name == "262074900001148" || diameter.User-Name == "262073900302979" || diameter.User-Name == "262073900302978"
+r_p1:     (gsm_map.address.digits == "4917607022025") || (gsm_map.address.digits == "262073900302825") || (gsm_map.tbcd_digits == "262073900302825") || (diameter.User-Name == "262073900302825")
+r_l1:     (gsm_map.address.digits == "4917604014031") || (gsm_map.address.digits == "262074900005631") || (gsm_map.tbcd_digits == "262074900005631") || (diameter.User-Name == "262074900005631")
+r_p2:     (gsm_map.address.digits == "4917604022983") || (gsm_map.address.digits == "262073900306283") || (gsm_map.tbcd_digits == "262073900306283") || (diameter.User-Name == "262073900306283") || (gsm_map.address.digits == "262083900306283") || (gsm_map.tbcd_digits == "262083900306283") || (diameter.User-Name == "262083900306283")
+r_mc:     (gsm_map.address.digits == "4917607022552") || (gsm_map.address.digits == "4917607022361") || (gsm_map.address.digits == "262073900302361") || (gsm_map.tbcd_digits == "262073900302361") || (diameter.User-Name == "262073900302361") || (gsm_map.address.digits == "4917607022362") || (gsm_map.address.digits == "262073900302362") || (gsm_map.tbcd_digits == "262073900302362") || (diameter.User-Name == "262073900302362")
+r_Any:    (gsm_map.address.digits == "4917604014031") || (gsm_map.address.digits == "262074900005631") || (gsm_map.tbcd_digits == "262074900005631") || (diameter.User-Name == "262074900005631") || (gsm_map.address.digits == "4917607022025") || (gsm_map.address.digits == "262073900302825") || (gsm_map.tbcd_digits == "262073900302825") || diameter.User-Name == "262073900302825" || (gsm_map.address.digits == "4917604022983") || (gsm_map.address.digits == "262073900306283") || (gsm_map.tbcd_digits == "262073900306283") || diameter.User-Name == "262073900306283" || (gsm_map.address.digits == "262083900306283") || (gsm_map.tbcd_digits == "262083900306283") || (diameter.User-Name == "262083900306283") || (gsm_map.address.digits == "4917607022552") || (gsm_map.address.digits == "4917607022361") || (gsm_map.address.digits == "262073900302361") || (gsm_map.tbcd_digits == "262073900302361") || (diameter.User-Name == "262073900302361") || (gsm_map.address.digits == "4917607022362") || (gsm_map.address.digits == "262073900302362") || (gsm_map.tbcd_digits == "262073900302362") || (diameter.User-Name == "262073900302362")
+
+mc1_g:      gsm_map.address.digits == "4915900102120"
+mc1_m1:     gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026640" || gsm_map.address.digits == "262073900318140" || gsm_map.tbcd_digits == "262073900318140" || diameter.User-Name == "262073900318140"
+mc1_m2:     gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026641" || gsm_map.address.digits == "262073900318141" || gsm_map.tbcd_digits == "262073900318141" || diameter.User-Name == "262073900318141"
+mc1_m3:     gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026642" || gsm_map.address.digits == "262073900318142" || gsm_map.tbcd_digits == "262073900318142" || diameter.User-Name == "262073900318142"
+mc1_m4:     gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026643" || gsm_map.address.digits == "262073900318143" || gsm_map.tbcd_digits == "262073900318143" || diameter.User-Name == "262073900318143"
+mc1_m5:     gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026644" || gsm_map.address.digits == "262073900318144" || gsm_map.tbcd_digits == "262073900318144" || diameter.User-Name == "262073900318144"
+mc1_any:    gsm_map.address.digits == "4915900102120" || gsm_map.address.digits == "4917604026640" || gsm_map.address.digits == "262073900318140" || gsm_map.tbcd_digits == "262073900318140" || diameter.User-Name == "262073900318140" || gsm_map.address.digits == "4917604026641" || gsm_map.address.digits == "262073900318141" || gsm_map.tbcd_digits == "262073900318141" || diameter.User-Name == "262073900318141" || gsm_map.address.digits == "4917604026642" || gsm_map.address.digits == "262073900318142" || gsm_map.tbcd_digits == "262073900318142" || diameter.User-Name == "262073900318142" || gsm_map.address.digits == "4917604026643" || gsm_map.address.digits == "262073900318143" || gsm_map.tbcd_digits == "262073900318143" || diameter.User-Name == "262073900318143" || gsm_map.address.digits == "4917604026644" || gsm_map.address.digits == "262073900318144" || gsm_map.tbcd_digits == "262073900318144" || diameter.User-Name == "262073900318144"
+
+bm_Any:    (gsm_map.address.digits == "4917607011490") || (gsm_map.address.digits == "262773900302990") || (gsm_map.tbcd_digits == "262773900302990") || (gsm_map.address.digits == "4917607011496") || (gsm_map.address.digits == "262773900302996") || (gsm_map.tbcd_digits == "262773900302996") || (gsm_map.address.digits == "498912025209") || (gsm_map.address.digits == "4917607011491") || (gsm_map.address.digits == "262773900302991") || (gsm_map.tbcd_digits == "262773900302991")
+
+
+# change deprecated tags format:
+sed "/    \[Tags\].*$/{$!{N;s/\n    \[Tags\]/\n    \.\.\.   /;ty;P;D;:y}}" src\test\atf\common\py_devicecontrol.robot

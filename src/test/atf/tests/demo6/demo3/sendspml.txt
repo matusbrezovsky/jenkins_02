@@ -1,0 +1,1412 @@
+*** Settings ***
+Documentation   Resource file for provisioning with the sendspml script   
+Library     Collections
+Resource    common_utils.txt
+
+*** Variables ***
+${SPML_LPATH}           ${EXECDIR}${/}tools${/}sendspml
+${SPML_ROOT}            /tmp/ta
+${SPML_PATH}            /tmp/ta/sendspml
+${SPML_CMD}             ./sendspml.sh
+${SPML_HOST}            -h pgwtb3-601       # must be used, the default (localhost) does not work - PGWproxy rejects connections
+${SPML_TGT}             -t pgas
+${SPML_CA_CRT}          -q CA.pem
+${SPML_CLT_CRT}         -w pga_provwipro1.pem
+${SPML_CLT_KEY}         -e pga_provwipro1.key
+${SPML_PRINTREQ}        -y
+${SPML_PARSEXML}        -x
+${SPML_ARG_IMSI1}       -i
+${SPML_ARG_MSISDN1}     -m
+
+${SPML_LOG_PATH}            /tmp/ta
+${SPML_LOG_FILEPREFIX}      tc_
+${SPML_LOG_FILEPOSTFIX}     _spml.txt
+
+# sendspml template files
+#${SPML_T_SEARCH}            search_IMSI.xml
+${SPML_T_SEARCH}            search_MSISDN.xml
+
+${SPML_T_DEL_AUC}           delete_sub_auc.xml
+${SPML_T_DEL_HLR}           delete_sub_hlr.xml
+${SPML_T_DEL_HSS}           delete_sub_hss.xml
+
+${SPML_T_ACT_D}             deactivate_IMSI.xml
+${SPML_T_ACT_A}             activate_IMSI.xml
+
+${SPML_T_ADD_AUC}           add_sub_auc.xml                     # args: -i IMSI -k Ki -m algId -a kdbId -f acsub
+
+${SPML_T_ARG1_IMSI}         scd_1arg_IMSI.xml                   # args: -i IMSI -l PGW template 
+${SPML_T_ADD_TPML3}         scd_3param.xml
+${SPML_T_ADD_MCM_TPL3}      scd_3arg_IMSI_MbrISDN_FTN.xml       # args: -i IMSI -m Member ISDN -k FTN --l PGW template 
+${SPML_T_ADD_MCG_TPL3}      scd_3arg_GrpISDN_MbrISDN_FTN.xml    # args: -m Group ISDN -k FTN -a Member ISDN --l PGW template 
+
+${SPML_T_CHG_MSISDN}        change_MSISDN.xml               # args -m oldMSISDN -k newMSISDN
+
+${SPML_T_MOD_CSI}           modify_CSI.xml
+${SPML_T_ADD_CF}            provision_CF.xml                # args: -i IMSI
+${SPML_T_DEL_CF}            deprovision_CF.xml              # args: -i IMSI
+${SPML_T_ADD_CFD}           provision_CFD.xml               # args: -i IMSI
+${SPML_T_DEL_CFD}           deprovision_CFD.xml             # args: -i IMSI
+${SPML_T_MOD_CFD}           modify_CFD.xml                  # args: -i IMSI -m FTN -a STATUS -f replaceCFConditional -f serviceAvailable
+${SPML_T_ACT_CFU}           activate_CFU.xml
+${SPML_T_ACT_CFU_NOTIF}     activate_CFU_withNotif.xml
+${SPML_T_ACT_CFB}           activate_CFB.xml                # args: -a FTN
+${SPML_T_ACT_CFB_NOTIF}     activate_CFB_withNotif.xml
+${SPML_T_MOD_CFB}           modify_CFB.xml                  # args:  -i IMSI -a STATUS 4=prov & 6=registered & 7=registered+active
+${SPML_T_ACT_CFNRY}         activate_CFNRY.xml              # args:  -i IMSI -f timer -a STATUS 4=prov & 6=registered & 7=registered+active
+${SPML_T_ACT_CFNRY_NOTIF}   activate_CFNRY_withNotif.xml
+${SPML_T_MOD_CFNRY}         modify_CFNRY.xml                # args: -i IMSI -a STATUS 4=prov & 6=registered & 7=registered+active
+${SPML_T_ACT_CFNRC}         activate_CFNRC.xml
+${SPML_T_ACT_CFNRC_NOTIF}   activate_CFNRC_withNotif.xml
+${SPML_T_MOD_CFNRC}         modify_CFNRC.xml                # args:  -i IMSI -a STATUS 4=prov & 6=registered & 7=registered+active
+${SPML_T_ADD_BAIC}          provision_BAIC.xml
+${SPML_T_ADD_BAOC}          provision_BAOC.xml
+${SPML_T_ADD_BICROAM}       provision_BICROAM.xml           # args: -i IMSI
+${SPML_T_ACT_BOIC}          activate_BOIC.xml               # args: -i IMSI
+${SPML_T_ACT_BAIC}          activate_BAIC.xml               # args: -i IMSI
+${SPML_T_ACT_BAOC}          activate_BAOC.xml               # args: -i IMSI
+${SPML_T_ACT_BICROAM}       activate_BICROAM.xml            # args: -i IMSI
+${SPML_T_DACT_BICROAM}      deactivate_BICROAM.xml          # args: -i IMSI
+${SPML_T_MOD_CLIP}          modify_CLIP.xml                 # args: -i IMSI -f CLIP (true/false) -g CLIPOVERRIDE (true/false)
+${SPML_T_MOD_CLIR}          modify_CLIR.xml                 # args: -i IMSI -f CLIR   1=permanent restriction  2=per call basis, restricted by default  (PCB) 3 = per call basis, not restricted by default (PCBN)
+${SPML_T_DEL_CLIR}          delete_CLIR.xml                 # args: -i IMSI 
+${SPML_T_MOD_CAW}           modify_CAW.xml                  # args: -i IMSI -a STATUS 4=prov & 5=act
+${SPML_T_DEL_CAW}           deprovision_CAW.xml             # args: -i IMSI
+${SPML_T_MOD_ODB}           modify_ODB.xml                  # args: -i IMSI -f odboc/odbic/odbr/odboprc/obssm 
+                                                            #       -a STATUS : 0=none, 1=Calls, 2=Int.Calls, 3=Int.Calls except Home PLMN, 4=Calls when Roaming, 5=Calls when roaming except SMS 
+${SPML_T_RSTR_EPS}          restrc_E-UTRAN.xml              # args: -i IMSI
+${SPML_T_ADD_PDN}           add_pdn.xml                     # args: -i IMSI
+${SPML_T_ADD_PDP}           add_pdp.xml                     # args: -i IMSI -k OldId -f NewId 3,4,5...##uid## -g Type (##uid2##) 
+                                                            #       -j qosProfile ##imsi2## -a APN Name
+${SPML_T_MOD_PDP}           mod_pdp_param.xml               # args: -i IMSI -f Id 3,4,5...##uid## -g Type (##uid2##) 
+                                                            #       -j qosProfile ##imsi2## -a APN Name
+${SPML_T_MOD_PDN}           mod_pdn_param.xml               # args: -i <imsi> -f <Context ID> 3,4,5...##uid## -g MAXBANDWIDTHUP (##uid2##) 
+                                                            #       -j <qosProfile>##imsi2## -k  MAXBANDWIDTHDOWN(##msisdn2##) -a <APN old>##any## -l APN new> ##scd##
+${SPML_T_DEL_PDN}           delete_pdn.xml                  # args: -i IMSI -f Context Id
+${SPML_T_DEL_PDP}           delete_pdp.xml                  # args: -i IMSI -a Context Id
+${SPML_T_ADD_VIP}           add_VIP_service.xml             # args: -i IMSI
+
+${SPML_T_NSR_SEARCH}        search_nsr_by_Oc.xml            # args: -a ObjectClass
+${SPML_T_NSR_SEARCH_ID}     search_nsr_by_Oc_and_Id.xml     # args: -a ObjectClass -i ID
+${SPML_T_NSR_MOD_CALLT}     mod_nsr_CallType.xml            # args: -a ObjectClass -i ID -m forwardTdpCriteria value (true/false)
+${SPML_T_NSR_DEL_CALLT}     delete_nsr_CallType.xml         # args: -a ObjectClass -i ID
+${SPML_T_NSR_MOD_DEFCH}     mod_nsr_CallHndl.xml            # args: -a ObjectClass -i ID -f DP number (e.g. 12) -m releaseCall value (true/false)
+${SPML_T_NSR_MOD_SCF}       mod_nsr_SCF.xml                 # args: -a ObjectClass -i ID -f DP number (e.g. 12) -m gsmServiceControlFunction value (i.e. an ISDN)
+${SPML_T_NSR_ADD_PFTN}      add_nsr_prohibFtn.xml           # args: -a Ftn-String (e.g. 11/491761234556)
+${SPML_T_NSR_DEL_PFTN}      delete_nsr_prohibFtn.xml        # args: -a Ftn-String (e.g. 11/491761234556)
+# MC
+${SPML_T_SEARCH_GRP}        grp_search.xml
+${SPML_T_DEL_GRP}           grp_del.xml
+${SPML_T_ADD_MBR}           grp_add_member.xml              # args: -m groupIsdn -i memberIsdn -a huntingOrder
+${SPML_T_DEL_MBR}           grp_delete_member.xml           # args: -m groupIsdn -i memberIsdn
+${SPML_T_ADD_B_GRP}         grp_setoradd_barring.xml        # args: -m groupIsdn -i baic/baoc/boic/bicroam -a status 4/5
+${SPML_T_ADD_RSTCAREA_GRP}  grp_add_restrictedareaname.xml  # args: -m groupIsdn
+${SPML_T_ADD_CF_GRP}        grp_provision_CF.xml            # args: -m groupIsdn
+${SPML_T_DEL_CF_GRP}        grp_deprovision_CF.xml          # args: -m groupIsdn
+
+# subs/PGW template locations
+${SPML_T_RPATH}             /opt/pgwproxy/changes/
+${SPML_T_LPATH}             pgwproxy
+# subs/PGW template names
+${SUBS_T_OGP_A}              ADD_OGP_SITE_A.xml
+${SUBS_T_OGP_B}              ADD_OGP_SITE_B.xml
+${SUBS_T_OGP_DATA_A}         ADD_OGP_DATA_SITE_A.xml
+${SUBS_T_OGP_DATA_B}         ADD_OGP_DATA_SITE_B.xml
+${SUBS_T_TCHIBO_A}           ADD_TCHIBO_SITE_A.xml                       
+${SUBS_T_TCHIBO_B}           ADD_TCHIBO_SITE_B.xml                       
+${SUBS_T_LTE_DATA}           ADD_LTE_DATAONLY.xml                        
+${SUBS_T_LOOP_A}             ADD_LOOP_SITE_A.xml                         
+${SUBS_T_LOOP_B}             ADD_LOOP_SITE_B.xml                         
+${SUBS_T_O2GO_DATA}          ADD_O2GO_DATAONLY.xml                       
+${SUBS_T_ACTIVATE}           ACTIVATE.xml                       
+${SUBS_T_DEACTIVATE}         DEACTIVATE.xml                       
+${SUBS_T_REGISTER}           REGISTER.xml
+${SUBS_T_ADD_LTE_SRV_POST}   ADD_LTE_SERVICE_POSTPAID.xml
+${SUBS_T_ADD_LTE_SRV_PRE}    ADD_LTE_SERVICE_PREPAID.xml
+${SUBS_T_DEL_LTE}            REMOVE_LTE_SERVICE.xml
+${SUBS_T_DEL_VOICE}          REMOVE_VOICE.xml
+${SUBS_T_MCG_A}              ADD_MC_GROUP_SITE_A.xml
+${SUBS_T_MCM_A}              ADD_MC_MEMBER_SITE_A.xml
+
+*** Keywords ***
+#       #     #  ######   #        #######     #     ######
+#       #     #  #     #  #        #     #    # #    #     #
+#       #     #  #     #  #        #     #   #   #   #     #
+#       #     #  ######   #        #     #  #     #  #     #
+#       #     #  #        #        #     #  #######  #     #
+#       #     #  #        #        #     #  #     #  #     #
+#        #####   #        #######  #######  #     #  ######
+Upload sendspml tool
+    [Documentation]   Uploads the sendspml tool-kit to remote host
+    ...
+    ...     Uploads the sendspml script and the templates to the remote host, before upload all files in the target directory are deleted.
+    ...     The source (./tools/sendspml) and target (/tmp/ta/sendspml) are taken from the global variables.
+    ...
+    ...     _Arguments:_
+    ...     - host    (M)   The connection alias of the target host
+
+    [arguments]    ${host}
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${sout}  ${serr}  ${rc}=    Execute Command   rm -f ${SPML_PATH}*    return_rc=True   return_stdout=True   return_stderr=True
+    #Should Be Equal As Integers     ${rc}    0   
+    Put Directory       ${SPML_LPATH}   ${SPML_PATH}    mode=0755   recursive=True
+    Switch Connection   ${prev_act_ssh_connection}
+
+    ######   #######  #     #  #     #  #        #######     #     ######
+    #     #  #     #  #  #  #  ##    #  #        #     #    # #    #     #
+    #     #  #     #  #  #  #  # #   #  #        #     #   #   #   #     #
+    #     #  #     #  #  #  #  #  #  #  #        #     #  #     #  #     #
+    #     #  #     #  #  #  #  #   # #  #        #     #  #######  #     #
+    #     #  #     #  #  #  #  #    ##  #        #     #  #     #  #     #
+    ######   #######   ## ##   #     #  #######  #######  #     #  ######
+
+_collect_pgwproxy_templates
+    [Documentation]   Private Method Should not be used directly
+
+    Debug Log       Retrieving PGW-Proxy Templates logs (${host})...
+    ${status}   ${value}=     Run Keyword And Ignore Error     SSHLibrary.Get File         ${SPML_T_RPATH}*       ${RESULTS_LATEST}${/}${SPML_T_LPATH}${/}
+    Run Keyword IF   '${status}' == 'FAIL'      Log    PGW-Proxy Template retrieval failed - error: ${value}    WARN
+
+Collect SPML Logs
+    [Documentation]   Collect SPML execution logs
+    ...
+    ...     Downloads all the SPML logs relevant to the current test case. The files will be stored in the result directory.
+    ...     After download all SPML logs are deleted on the remote host.
+    ...     Additionally the PGW-Proxy templates from the remote hosts are also downloaded.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+
+    [arguments]   ${host}    ${pgwproxy}=True
+    Debug Log       Retrieving SPML logs (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${testName}=                Get Variable Value                         ${TEST NAME}      SuiteSetup
+    ${status}   ${value}=     Run Keyword And Ignore Error     SSHLibrary.Get File         ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${testName}*${SPML_LOG_FILEPOSTFIX}       ${RESULTS_LATEST}${/}
+    Run Keyword IF   '${status}' == 'FAIL'      Log    SPML log retrieval failed - error: ${value}    WARN
+
+    ${sout}  ${serr}  ${rc}=    Execute Command   rm -f ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${testName}*${SPML_LOG_FILEPOSTFIX}       return_rc=True   return_stdout=True   return_stderr=True
+    Run Keyword IF  ${rc} != 0      Log    Deleting SPML logs on the server failed - error: ${serr} / ${sout}    WARN
+
+    Run Keyword If  ${pgwproxy}     _collect_pgwproxy_templates
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+
+#        #####   ######   #     #  #           #######  #     #  #######   #####
+#       #     #  #     #  ##   ##  #           #         #   #   #        #     #
+#       #        #     #  # # # #  #           #          # #    #        #
+#        #####   ######   #  #  #  #           #####       #     #####    #
+#             #  #        #     #  #           #          # #    #        #
+#       #     #  #        #     #  #           #         #   #   #        #     #
+#        #####   #        #     #  #######     #######  #     #  #######   #####
+Execute SendSpml
+    [Documentation]   Executes the sendspml.sh script on the remote host
+    ...
+    ...     The script is executed in the directory where files were uploaded by the `Upload sendspml tool` method
+    ...     Fails if the sendspml script exits with a non-Zero value. 
+    ...     The SPML response status (i.e. "result= success") is not verified.
+    ...     .
+    ...
+    ...     _Arguments:_
+    ...     - host              (M)   The connection alias of the target host
+    ...     - spml_args         (M)   The arguments to pass on to the sendspml script, '-i' for IMSI. Some default arguments are part of the ``spml_cmd_line`` argument. See sendspml documentation for more details.
+    ...     - spml_cmd_line     (O)   The sendspml command line with some default agruments (e.g. certificates etc.)
+    ...
+    ...     _Returns:_   The output that has been written to stdout by the sendspml script
+    [arguments]   ${host}    ${spml_args}    ${spml_cmd_line}=${SPML_CMD} ${SPML_HOST} ${SPML_CLT_CRT} ${SPML_CLT_KEY} ${SPML_TGT} ${SPML_PRINTREQ} ${SPML_PARSEXML}    
+
+    # are we running in dummy mode?
+    ${inDummyMode}=     _in_dummy_mode      Running in DUMMY mode - dummy sendspml will be executed (real sendspml cmd-line will be in the debug log)
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${sendspmlcmd_real}=             Catenate  cd ${SPML_PATH};${spml_cmd_line} ${spml_args}
+    # pretty cmd-line in the dummy-mode - for demonstration purposes
+    ${sendspmlcmd_dummy}=            Catenate  ${SPML_CMD} ${spml_args}
+
+    ${sendspmlcmd}=             Set Variable If     ${inDummyMode}      ${sendspmlcmd_dummy}    ${sendspmlcmd_real}
+    Debug Log                   ${sendspmlcmd}
+    ${testName}=                Get Variable Value                         ${TEST NAME}      SuiteSetupTeardown
+    ${sout}  ${serr}  ${rc}=    Run Keyword If      not ${inDummyMode}     Execute Command   echo `date +"%Y-%m-%d %H:%M:%S"` : "${sendspmlcmd}" | tee -a ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${TEST NAME}_${host}${SPML_LOG_FILEPOSTFIX}  return_rc=True   return_stdout=True   return_stderr=True
+    ${sout}  ${serr}  ${rc}=    Run Keyword If      not ${inDummyMode}     Execute Command   ${sendspmlcmd} | tee -a ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${TEST NAME}_${host}${SPML_LOG_FILEPOSTFIX}       return_rc=True   return_stdout=True   return_stderr=True
+    ...                         ELSE IF             ${inDummyMode}         Execute Command   cat ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${TEST_NAME}${SPML_LOG_FILEPOSTFIX}       return_rc=True   return_stdout=True   return_stderr=True
+    
+    #${sout}  ${serr}  ${rc}=        Execute Command   echo `date +"%Y-%m-%d %H:%M:%S"` : "${sendspmlcmd}" | tee -a ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${TEST NAME}_${host}${SPML_LOG_FILEPOSTFIX}  return_rc=True   return_stdout=True   return_stderr=True
+    #${sout}  ${serr}  ${rc}=        Execute Command   ${sendspmlcmd} | tee -a ${SPML_LOG_PATH}/${SPML_LOG_FILEPREFIX}${TEST NAME}_${host}${SPML_LOG_FILEPOSTFIX}       return_rc=True   return_stdout=True   return_stderr=True
+    Should Be Equal As Integers     ${rc}    0   
+    Log                             ${sout}    INFO
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+    [return]    ${sout}
+
+SPML Should Match All RegEx
+    [Documentation]   Verifies the SPML response against a list RegExp's
+    ...
+    ...     Accepts an arbitarty number of Regular expressions as arguments, each of them must be inside the SPML response, otherwise the verification will fail.
+    ...     The actual Regex executed is: ``^.*your_Regex.*$``  e.g. argument ``mytxt`` is executed as ``^.*mytxt.*$``
+    ...
+    ...     ``!not!`` can be used as NOT-operand, e.g. ``!not!ThisTextShouldNotMatch``. This is because a "pure-RegExp" way of implementing NOT-operand is rather complicated. 
+    ...
+    ...     NOTE: be careful with the reserved RegEx characters: . ^ $ * + ? { } [ ] \ | ( )
+    ...
+    ...     _Arguments:_
+    ...     - spml_resp    (M)   The SPML response string from sendspml exection. 
+    ...     - list_of_REs  (M)   List of RegExp's to use for the verification
+
+    [arguments]    ${spml_resp}    @{list_of_REs}
+    # log warning if the verification is skipped (log only once per test case)
+    ${skip}=                    _skip_test_step     \${SKIP_SPML}       Skipping SPML Verification
+    Return From Keyword If      ${skip}
+
+    ${status}   ${value}=     Run Keyword And Ignore Error                  Text Should Match All RegEx    ${spml_resp}    ${list_of_REs}
+
+    ${ignoreErr}=           Get Variable Value                        ${IGNORE_ERR_SPML}    False
+    Run Keyword IF   '${status}' == 'FAIL' and not ${ignoreErr}       Fail            ${value}
+    ...    ELSE IF   '${status}' == 'FAIL' and ${ignoreErr}           Log             Ignoring Error: ${value}      WARN
+
+
+Service Should Match All RegEx
+    [Documentation]   Verifies a service (e.g. CFU) against a list RegExp's
+    ...
+    ...     Accepts an arbitarty number of Regular expressions as arguments, each of them must be inside the SPML response, otherwise the verification will fail.
+    ...     The actual Regex executed is: ``^.*your_Regex.*$``  e.g. argument ``mytxt`` is executed as ``^.*mytxt.*$``
+    ...
+    ...     ``!not!`` can be used as NOT-operand, e.g. ``!not!ThisTextShouldNotMatch``. This is because a "pure-RegExp" way of implementing NOT-operand is rather complicated. 
+    ...
+    ...     NOTE: be careful with the reserved RegEx characters: . ^ $ * + ? { } [ ] \ | ( )
+    ...
+    ...     _Arguments:_
+    ...     - srv_dict      (M)   The parsed service dictionary (e.g. CFU). How to parse services from SPML response see `SPML Parse Service by Group` 
+    ...     - srv_key       (M)   The key (e.g. TS10-telephony) to the service dictionary 
+    ...     - list_of_REs   (M)   List of RegExp's to use for the verification
+
+    [arguments]    ${srv_dict}      ${srv_key}    @{list_of_REs}
+    # log warning if the verification is skipped (log only once per test case)
+    ${skip}=                    _skip_test_step     \${SKIP_SPML}       Skipping SPML Verification
+    Return From Keyword If      ${skip}
+
+    ${srv_attributes}=        Get From Dictionary     ${srv_dict}      ${srv_key}
+    ${status}   ${value}=     Run Keyword And Ignore Error                  Text Should Match All RegEx    ${srv_attributes}    ${list_of_REs}
+
+    ${ignoreErr}=           Get Variable Value                          ${IGNORE_ERR_SPML}    False
+    Run Keyword IF   '${status}' == 'FAIL' and not ${ignoreErr}       Fail            ${value}
+    ...    ELSE IF   '${status}' == 'FAIL' and ${ignoreErr}           Log             Ignoring Error: ${value}      WARN
+
+SPML Parse Service by Group
+    [Documentation]   Parse a service (e.g. CFU) into service dictionary from the SPML response
+    ...
+    ...     Example:
+    ...     "SPML Parse Service by Group    ${spml_response}      CFB    BASICSERVICEGROUP" parses this SPML output:
+    ...     |  ../HLR/CFB/BASICSERVICEGROUP: TS10-telephony
+    ...     |  ../HLR/CFB/ISDNNUMBER: 491763307022025
+    ...     |  ../HLR/CFB/STATUS: 7
+    ...     |  ../HLR/CFB/NOTIFYFORWARDINGSUBSCRIBER: true
+    ...     |  ../HLR/CFB/FTNOTYPE: internat
+    ...     |  ../HLR/CFB/BASICSERVICEGROUP: TS60-fax
+    ...     |  ../HLR/CFB/ISDNNUMBER: 491763307022025
+    ...     |  ../HLR/CFB/STATUS: 7
+    ...     |  ../HLR/CFB/NOTIFYFORWARDINGSUBSCRIBER: true
+    ...     |  ../HLR/CFB/FTNOTYPE: internat
+    ...
+    ...     into this service dictionary
+    ...     | Key:
+    ...     | \ \ TS10-telephony
+    ...     | Value: 
+    ...     | \ \ ISDNNUMBER: 491763307022025
+    ...     | \ \ STATUS: 7
+    ...     | \ \ NOTIFYFORWARDINGSUBSCRIBER: true
+    ...     | \ \ FTNOTYPE: internat
+    ...     | Key:
+    ...     | \ \ TS60-fax
+    ...     | Value: 
+    ...     | \ \ ISDNNUMBER: 491763307022025
+    ...     | \ \ STATUS: 7
+    ...     | \ \ NOTIFYFORWARDINGSUBSCRIBER: true
+    ...     | \ \ FTNOTYPE: internat
+    ...     
+    ...     _Arguments:_
+    ...     - spml_resp         (M)   The SPML response string from sendspml exection. 
+    ...     - service           (M)   The Service to parse (e.g. CFU)
+    ...     - group             (M)   The name of the SPML element to use for parsing 
+    ...     - ignore            (O)   All lines matching this RegExp will be ignored in the parsing
+    ...     - key_separator     (O)   The separator between keys and values in the SPML response
+    ...     - value_separator   (O)   
+    ...
+    ...     _Returns:_   The service dictionary that could be passed on to `Service Should Match All RegEx` for verification
+    [arguments]    ${spml_resp}    ${service}       ${group}    ${ignore}=ignorenothing    ${key_separator}=:${SPACE}   ${value_separator}=/
+
+    ${str} =        Get Lines Matching Regexp       ${spml_resp}            .*${service}.*
+    ${count} =      Get Line Count                  ${str}
+    Run Keyword If                                  ${count} == 0           Fail    Service (${service}) not provisioned
+
+    @{lines}=       Split To Lines                  ${str}
+    ${dict}=        Create Dictionary
+
+    ${i}=   Evaluate    0
+    :FOR     ${line}  IN   @{lines}
+    \   ${str} =        Get Lines Matching Regexp       ${line}                 ${ignore}
+    \   ${count} =      Get Line Count                  ${str}
+    \   Continue For Loop If                            ${count} != 0
+    \   ${str} =        Get Lines Matching Regexp       ${line}                 .*${service}.${group}:.*
+    \   ${count} =      Get Line Count                  ${str}
+    \   Run Keyword If                                  ${count} != 0 and ${i} != 0          Set To Dictionary    ${dict}    ${key}    ${tmp_packet}
+    \   ${tmp_key}=     Run Keyword If                  ${count} != 0           Fetch From Right        ${line}     ${key_separator}
+    \   ${tmp_key}=     Run Keyword If                  ${count} != 0           Replace String          ${tmp_key}  ${SPACE}    ${EMPTY}
+    \   ${key}=         Set Variable If                 ${count} != 0           ${tmp_key}              ${key}
+    \   ${value}=       Run Keyword If                  ${count} == 0           Fetch From Right        ${line}     ${value_separator}
+    \   ${value}=       Set Variable If                 ${count} != 0           ${EMPTY}    ${value}
+    \   ${tmp_packet}=  Run Keyword If                  ${count} == 0           Catenate                ${tmp_packet}           ${value}\n
+    \   ${tmp_packet}=  Set Variable If                 ${count} != 0           ${EMPTY}     ${tmp_packet}
+    \   ${i}=           Evaluate                        ${i}+1
+    # add last packet
+    Set To Dictionary    ${dict}   ${key}    ${tmp_packet}
+
+    [return]  ${dict}
+
+_parse_subs_id_args
+    [Documentation]  _Private Method, should not be used directly_
+
+    [arguments]    ${imsi}    ${msisdn}
+
+    ${args}=    Create List
+
+    ${i}=        Set Variable If     '${imsi}' != '${EMPTY}'       True    False
+    ${m}=        Set Variable If     '${msisdn}' != '${EMPTY}'     True    False
+
+    Run Keyword If      ${i}        Append To List   ${args}    -i     ${imsi}
+    Run Keyword If      ${m}        Append To List   ${args}    -m     ${msisdn}
+
+    ${subs_id_args}=    Set Variable  ${EMPTY} 
+    :FOR     ${arg}  IN   @{args}
+    \       ${subs_id_args}=    Catenate   SEPARATOR=   ${subs_id_args}   ${arg}${SPACE}
+
+    [return]   ${subs_id_args}
+
+
+Display Sub Should Match RegEx
+    [Documentation]   Display Subscriber data and verify the output against a list of RegExp's
+    ...
+    ...     Helper Method that executes `Display Sub` and verifies the result with `SPML Should Match All RegEx`
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - imsi          (M)   The IMSI of the subscriber
+    ...     - list_of_REs   (M)   List of RegExp's to use for the verification
+    [arguments]   ${host}    ${imsi}    @{list_of_REs}
+    ${out}=     Display Sub         ${host}             imsi=${imsi}
+    SPML Should Match All RegEx     ${out}              @{list_of_REs}
+
+Display Sub
+    [Documentation]   Display Subscriber data and return the output as string
+    ...
+    ...     Execute SPML search request using either MSISDN or IMSI as the search key.
+    ...     Per default the SPML response status is verified i.e. "result= success", this can be overridden.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - imsi          (O)   The IMSI of the subscriber. Either IMSI or MSISDN must be provided
+    ...     - msisdn        (O)   The IMSI of the subscriber. Either IMSI or MSISDN must be provided
+    ...     - check_result  (O)   Verify the SPML response status. If True, then the "result_match" is used for the the result match
+    ...     - result_match  (O)   Pattern that should match in order to pass the check_result
+    ...
+    ...     _Returns:_   The output of the SPML search request.
+
+    [arguments]   ${host}    ${imsi}=${EMPTY}    ${msisdn}=${EMPTY}   ${check_result}=True   ${result_match}=*result= success*
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${subs_id_args}=    _parse_subs_id_args     ${imsi}    ${msisdn}
+    #${sout}  ${serr}  ${rc}=  Execute Command   ${SPML_CMD} ${SPML_HOST} ${SPML_TGT} ${SPML_CA_CRT} ${SPML_CLT_CRT} ${SPML_CLT_KEY} ${SPML_PARSEXML} ${subs_id_args}${SPML_T_SEARCH}     return_rc=True   return_stdout=True   return_stderr=True
+    ${sout}=            Execute SendSpml    ${host}         ${subs_id_args}${SPML_T_SEARCH}
+    Run Keyword If      ${check_result}     Should Match    ${sout}         ${result_match}
+
+    Switch Connection   ${prev_act_ssh_connection}
+    [return]   ${sout}
+
+Display Group Should Match RegEx
+    [Documentation]   Display Group Subscription data and verify the output against a list of RegExp's
+    ...
+    ...     Helper Method that executes `Display Group` and verifies the result with `SPML Should Match All RegEx`
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - msisdn        (M)   The MSISDN of the group subscriber
+    ...     - list_of_REs   (M)   List of RegExp's to use for the verification
+
+    [arguments]   ${host}    ${msisdn}    @{list_of_REs}
+    ${out}=     Display Group       ${host}             ${msisdn}
+    SPML Should Match All RegEx     ${out}              @{list_of_REs}
+
+Display Group
+    [Documentation]   Display Group Subscriber data and return the output as string
+    ...
+    ...     Execute SPML search request using either MSISDN as the search key.
+    ...     Per default the SPML response status is verified i.e. "result= success", this can be overridden.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - imsi          (M)   The IMSI of the subscriber.
+    ...     - check_result  (O)   Verify the SPML response status. If True, then the "result_match" is used for the the result match
+    ...     - result_match  (O)   Pattern that should match in order to pass the check_result
+    ...
+    ...     _Returns:_   The output of the SPML search request.
+
+    [arguments]   ${host}    ${msisdn}       ${check_result}=True   ${result_match}=*result= success*
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${sout}=      Execute SendSpml    ${host}     -m ${msisdn} ${SPML_T_SEARCH_GRP}
+    Run Keyword If      ${check_result}     Should Match    ${sout}         ${result_match}
+
+    Switch Connection   ${prev_act_ssh_connection}
+    [return]   ${sout}
+
+
+Deactivate Sub
+    [Documentation]   Deactivate a subscriber
+    ...
+    ...     Deactivates the subscriber using the PGW-Proxy deactivation template.
+    ...     Fails if the request is not successful i.e. "result != success"
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - imsi          (M)   The IMSI of the subscriber.
+    ...
+    ...     _Returns:_   The SPML-response
+
+    [arguments]   ${host}    ${imsi}
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    #${sout}=      Execute SendSpml    ${host}     -i ${imsi} ${SPML_T_ACT_D}
+    ${sout}=      Execute SendSpml    ${host}     -i ${imsi} -l ${SUBS_T_DEACTIVATE} ${SPML_T_ARG1_IMSI}
+    Should Match    ${sout}   *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+    [return]   ${sout}
+
+Activate Sub
+    [Documentation]   Activate a subscriber
+    ...
+    ...     Activates the subscriber using the PGW-Proxy deactivation template.
+    ...     Fails if the request is not successful i.e. "result != success"
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias of the target host
+    ...     - imsi          (M)   The IMSI of the subscriber.
+    ...
+    ...     _Returns:_   The SPML-response
+
+    [arguments]   ${host}    ${imsi}
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    #${sout}=      Execute SendSpml    ${host}     -i ${imsi} ${SPML_T_ACT_A}
+    ${sout}=      Execute SendSpml    ${host}     -i ${imsi} -l ${SUBS_T_ACTIVATE} ${SPML_T_ARG1_IMSI}
+    Should Match    ${sout}   *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+    [return]   ${sout}
+
+_check_MobData_from_SPML
+    [Documentation]  _Private Method, should not be used directly_
+   [arguments]   ${spml}     ${imsi}      ${NEs}
+
+    Log     ${spml}
+    ${re_Vlr}=          Create List   !not!ISDNNUMBEROFVLR    
+    ${re_Sgsn}=         Create List   !not!ISDNNUMBEROFSGSN
+    ${re_Mme}=          Create List   !not!MMEHOSTID
+    ${re_VlrPurged}=    Create List   ISDNNUMBEROFVLR           VLRMOBDATA.MSPURGED. true 
+    ${re_SgsnPurged}=   Create List   ISDNNUMBEROFSGSN          SGSNMOBDATA.MSPURGED. true
+
+    ${NoVlr}=           Text Should Match All Regex  ${spml}    ${re_Vlr}          fail_on_error=False
+    ${NoSgsn}=          Text Should Match All Regex  ${spml}    ${re_Sgsn}         fail_on_error=False
+    ${NoMme}=           Text Should Match All Regex  ${spml}    ${re_Mme}          fail_on_error=False
+    ${VlrPurged}=       Text Should Match All Regex  ${spml}    ${re_VlrPurged}    fail_on_error=False
+    ${SgsnPurged}=      Text Should Match All Regex  ${spml}    ${re_SgsnPurged}   fail_on_error=False
+
+    ${registered}=      Run Keyword If  ('${NEs}'=='all' or '${NEs}'=='CsPsEps') and ${NoVlr} and ${NoSgsn} and ${NoMme}            Set Variable    False
+    ...                 ELSE IF         ('${NEs}'=='all' or '${NEs}'=='CsPsEps') and ${VlrPurged} and ${NoSgsn} and ${NoMme}        Set Variable    False
+    ...                 ELSE IF         ('${NEs}'=='all' or '${NEs}'=='CsPsEps') and ${NoVlr} and ${SgsnPurged} and ${NoMme}        Set Variable    False
+    ...                 ELSE IF         ('${NEs}'=='all' or '${NEs}'=='CsPsEps') and ${VlrPurged} and ${SgsnPurged} and ${NoMme}    Set Variable    False
+    ...                 ELSE IF         ('${NEs}'=='all' or '${NEs}'=='CsPsEps')                                                    Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='CsPs' and ${NoVlr} and ${NoSgsn}                                                 Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsPs' and ${VlrPurged} and ${NoSgsn}                                             Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsPs' and ${NoVlr} and ${SgsnPurged}                                             Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsPs' and ${VlrPurged} and ${SgsnPurged}                                         Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsPs'                                                                            Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='PsEps' and ${NoSgsn} and ${NoMme}                                                Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='PsEps' and ${SgsnPurged} and ${NoMme}                                            Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='PsEps'                                                                           Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='CsEps' and ${NoVlr} and ${NoMme}                                                 Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsEps' and ${VlrPurged} and ${NoMme}                                             Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='CsEps'                                                                           Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='Cs' and ${NoVlr}                                                                 Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='Cs' and ${VlrPurged}                                                             Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='Cs'                                                                              Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='Ps' and ${NoSgsn}                                                                Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='Ps' and ${SgsnPurged}                                                            Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='Ps'                                                                              Set Variable    True
+    ...                 ELSE IF         '${NEs}'=='Eps' and ${NoMme}                                                                Set Variable    False
+    ...                 ELSE IF         '${NEs}'=='Eps'                                                                             Set Variable    True
+    ...                 ELSE            Fail        _check_MobData_from_SPML got unknown arguments '${NEs}' (NoVlr:${NoVlr}-VlrPurged:${VlrPurged}-NoSgsn:${NoSgsn}-SgsnPurged:${SgsnPurged}-NoMme:${NoMme})
+
+    [Return]   ${registered}
+
+_execute_SPML_and_check_MobData
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]   ${host}     ${imsi}     ${NEs}
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${sout}=        Execute SendSpml        ${host}     -i ${imsi} ${SPML_T_SEARCH}
+    #Should Match    ${sout}                 *result= success*
+    ${r}=           _check_MobData_from_SPML    ${sout}     ${imsi}     ${NEs}
+
+    Switch Connection   ${prev_act_ssh_connection}
+    [Return]   ${r}
+
+Is Registered
+    [Documentation]   Verifies that the subscriber is registered to the network
+    ...
+    ...     Verification is done based on the VLR, SGSN and MME information in the subscriber profile.
+    ...     Returns True if the subscriber is registered in all of the networks passed in as argument "NEs".
+    ...     Exception are the "all" & "CsPsEps" arguments that return true if the subscriber is registered in one of the networks.
+    ...
+    ...     _Arguments:_
+    ...     - imsi      (M)   The IMSI of the subscriber
+    ...     - NEs       (M)   Network Elements/Networks to verify. Currently supported are: "all", "CsPsEps", "CsPs", "PsEps", "CsEps", "Cs", "Ps", "Eps"
+    ...     - spml      (O)   SPML-output to use for verification. Optional, if not provided then "host" must provided in which case subscriber data is displayed on the "host" first
+    ...     - host      (O)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...
+    ...     _Returns:_   The status of the check, i.e. True = the subscriber is registered in the requestes NEs
+
+    [arguments]   ${imsi}   ${NEs}=all   ${spml}=${EMPTY}    ${host}=${EMPTY}
+
+    Debug Log     Verifying Registration Status ...
+    ${slen}=     Get Length  ${spml}
+    ${hlen}=     Get Length  ${host}
+    ${r}=   Run Keyword if  ${hlen} == 0 and ${slen} > 0    _check_MobData_from_SPML         ${spml}     ${imsi}    ${NEs}
+    ...     ELSE IF         ${hlen} > 0 and ${slen} == 0    _execute_SPML_and_check_MobData  ${host}     ${imsi}    ${NEs}
+    ...     ELSE            Fail    Unsupported combination of imsi, spml & host arguments (${imsi}, ${spml} & ${host})
+
+    [Return]   ${r}
+
+
+Imsi Should Not Be Registered
+    [Documentation]   Verify that subscriber is not registered in CS/PS/EPS
+    ...
+    ...     Helper method on top of `Is Registered`. Fails if the subscriber is registered.
+    ...
+    ...     _Arguments:_
+    ...     - imsi      (M)   The IMSI of the subscriber
+    ...     - NEs       (O)   Network Elements/Networks to verify. Currently supported are: "all", "CsPsEps", "CsPs", "PsEps", "CsEps", "Cs", "Ps", "Eps"
+    ...     - spml      (O)   SPML-output to use for verification. Optional, if not provided then "host" must provided in which case subscriber data is displayed on the "host" first
+    ...     - host      (O)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+
+    [arguments]   ${imsi}     ${spml}=${EMPTY}    ${host}=${EMPTY}   ${NEs}=all
+    # are we skipping this step?
+    ${skip}=                    _skip_test_step     \${SKIP_SPML}       Skipping SPML Verification
+    Return From Keyword If      ${skip}             -1
+
+    ${registered}=    sendspml.Is Registered          ${imsi}   ${NEs}    ${spml}    ${host}
+
+    ${ignoreErr}=           Get Variable Value                          ${IGNORE_ERR_SPML}    False
+    Run Keyword IF   ${registered} and not ${ignoreErr}       Fail            Imsi=${Imsi} is registered to NE's: ${NEs}
+    ...    ELSE IF   ${registered} and ${ignoreErr}           Log             Ignoring Error: Imsi=${Imsi} is registered to NE's: ${NEs}      WARN
+
+
+Imsi Should Be Registered
+    [Documentation]   Verify that subscriber is registered in CS/PS/EPS
+    ...
+    ...     Helper method on top of `Is Registered`. Fails if the subscriber is not registered.
+    ...
+    ...     _Arguments:_
+    ...     - imsi      (M)   The IMSI of the subscriber
+    ...     - NEs       (O)   Network Elements/Networks to verify. Currently supported are: "all", "CsPsEps", "CsPs", "PsEps", "CsEps", "Cs", "Ps", "Eps"
+    ...     - spml      (O)   SPML-output to use for verification. Optional, if not provided then "host" must provided in which case subscriber data is displayed on the "host" first
+    ...     - host      (O)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+
+    [arguments]   ${imsi}     ${spml}=${EMPTY}    ${host}=${EMPTY}   ${NEs}=all
+    # are we skipping this step?
+    ${skip}=                    _skip_test_step     \${SKIP_SPML}       Skipping SPML Verification
+    Return From Keyword If      ${skip}             -1
+
+    ${registered}=    Is Registered          ${imsi}   ${NEs}    ${spml}    ${host}
+
+    ${ignoreErr}=           Get Variable Value                          ${IGNORE_ERR_SPML}    False
+    Run Keyword IF   not ${registered} and not ${ignoreErr}       Fail            Imsi=${Imsi} is not registered to NE's: ${NEs}
+    ...    ELSE IF   not ${registered} and ${ignoreErr}           Log             Ignoring Error: Imsi=${Imsi} is not registered to NE's: ${NEs}      WARN
+
+
+################################################################
+Delete Sub
+    [Documentation]   Delete subscriber
+    ...
+    ...     Delete Subscriber's HLR and HSS data
+    ...
+    ...     _Arguments:_
+    ...     - host      (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsi      (M)   The IMSI of the subscriber
+    ...
+    ...     _Returns:_   The SPML-response
+
+    [arguments]   ${host}    ${imsi}
+    ${out}=    Execute SendSpml      ${host}      -i ${imsi} ${SPML_T_DEL_HLR}
+    ${out}=    Execute SendSpml      ${host}      -i ${imsi} ${SPML_T_DEL_HSS}
+    [return]  ${out}
+
+Delete Group
+    [Documentation]   Delete Group
+    ...
+    ...     Delete group subscription
+    ...
+    ...     _Arguments:_
+    ...     - host        (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_isdn    (M)   The MSISDN of the group subscriber
+    ...
+    ...     _Returns:_   The SPML-response
+
+    [arguments]   ${host}    ${grp_isdn}
+    ${out}=    Execute SendSpml      ${host}      -m ${grp_isdn} ${SPML_T_DEL_GRP}
+    [return]  ${out}
+
+Delete Member
+    [Documentation]   Remove a member from the group record
+    ...
+    ...     Deletes the member from the group. The member data (e.g. HLR/HSS profile) is not changed.
+    ...
+    ...     _Arguments:_
+    ...     - host        (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_isdn    (M)   The MSISDN of the group subscriber
+    ...     - mbr_isdn    (M)   The MSISDN of the member
+    ...
+    ...     _Returns:_   The SPML-response
+
+    [arguments]   ${host}    ${grp_isdn}   ${mbr_isdn}
+    ${out}=    Execute SendSpml      ${host}      -m ${grp_isdn} -i ${mbr_isdn} ${SPML_T_DEL_MBR}
+    [return]  ${out}
+
+Add Member
+    [Documentation]   Add a member to the group record
+    ...
+    ...     Adds the member to the group. The member data (e.g. HLR/HSS profile) is not changed.
+    ...
+    ...     _Arguments:_
+    ...     - host            (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_isdn        (M)   The MSISDN of the group subscriber
+    ...     - mbr_isdn        (M)   The MSISDN of the member
+    ...     - hunting_order   (M)   Hunting order of the member
+    ...
+    ...     _Returns:_   The SPML-response
+    [arguments]   ${host}    ${grp_isdn}   ${mbr_isdn}    ${hunting_order}
+    ${out}=      Execute SendSpml    ${host}     -m ${grp_isdn} -i ${mbr_isdn} -a ${hunting_order} ${SPML_T_ADD_MBR}
+    [return]  ${out}
+
+Delete Test Subscribers
+    [Documentation]   Delete Multiple Subscribers
+    ...
+    ...     Helper Method for `Delete Sub` to delete multiple Subscribers
+    ...
+    ...     _Arguments:_
+    ...     - host            (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis           (M)   List of IMSIs to be deleted
+
+    [arguments]   ${host}    ${imsis}
+    Debug Log       Deleting Test Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=  Get As List     ${imsis}
+    :FOR     ${imsi}  IN   @{imsi_l}
+    \  Delete Sub       ${host}    ${imsi}
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Delete Test Group
+    [Documentation]   Delete Group Subscription
+    ...
+    ...     Helper Method for `Delete Group` to delete Group Subscription
+    ...
+    ...     _Arguments:_
+    ...     - host      (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - isdn      (M)   The MSISDN of the group
+
+    [arguments]   ${host}    ${isdn}
+    Debug Log       Deleting Test Group (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    Delete Group      ${host}      ${isdn}
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+
+Create Test Subscribers
+    [Documentation]   Create Multiple Subscribers
+    ...
+    ...     Helper Method to create multiple Subscribers
+    ...
+    ...     _Arguments:_
+    ...     - host            (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis           (M)   List of IMSIs
+    ...     - msisdns         (M)   List of MSISDNs
+    ...     - substmpl        (M)   List of PGW-Proxy Template names
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${substmpl}
+    Debug Log       Creating Test Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${substmpl_l}=  Get As List     ${substmpl}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftnpre}=   Get Substring       @{msisdn_l}[${i}]   0   5
+    \  ${ftnpost}=  Get Substring       @{msisdn_l}[${i}]   5
+    \  ${ftn}=      Catenate            ${ftnpre}33${ftnpost}
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l @{substmpl_l}[${i}] ${SPML_T_ADD_TPML3}
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create Genion Subscribers
+    [Documentation]   Create Genion subscribers with/without LTE profile
+    ...
+    ...     Create Genion subscribers using PGW-Proxy templates
+    ...
+    ...     _Arguments:_
+    ...     - host      (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis     (M)   List of IMSIs
+    ...     - msisdns   (M)   List of MSISDNs
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${lte}=False
+    Debug Log       Creating Genion Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftn}=      Reformat ISDN       @{msisdn_l}[${i}]   format=Vms
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l ${SUBS_T_OGP_A} ${SPML_T_ADD_TPML3}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Run Keyword If      ${lte}      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ADD_LTE_SRV_POST} ${SPML_T_ARG1_IMSI}
+    \  Run Keyword If                   ${lte}      Should Match        ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] ${SPML_T_MOD_CSI}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ACTIVATE} ${SPML_T_ARG1_IMSI} 
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create Post-Paid Subscribers
+    [Documentation]   Create Post-Paid subscribers with/without LTE profile
+    ...
+    ...     Create Post-Paid subscribers using PGW-Proxy templates
+    ...
+    ...     _Arguments:_
+    ...     - host      (M)       ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis     (M)   List of IMSIs
+    ...     - msisdns   (M)   List of MSISDNs
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${lte}=False
+    Debug Log       Creating Post-Paid Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftn}=      Reformat ISDN       @{msisdn_l}[${i}]   format=Vms
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l ${SUBS_T_OGP_A} ${SPML_T_ADD_TPML3}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Run Keyword If      ${lte}      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ADD_LTE_SRV_POST} ${SPML_T_ARG1_IMSI}
+    \  Run Keyword If                   ${lte}      Should Match        ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ACTIVATE} ${SPML_T_ARG1_IMSI} 
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create Loop Subscribers
+    [Documentation]   Create LOOP subscribers with/without LTE profile
+    ...
+    ...     Create LOOP subscribers using PGW-Proxy templates
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis     (M)   List of IMSIs
+    ...     - msisdns   (M)   List of MSISDNs
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${lte}=False
+    Debug Log       Creating Loop Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftn}=      Reformat ISDN       @{msisdn_l}[${i}]   format=Vms
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l ${SUBS_T_LOOP_A} ${SPML_T_ADD_TPML3}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Run Keyword If      ${lte}      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ADD_LTE_SRV_PRE} ${SPML_T_ARG1_IMSI}
+    \  Run Keyword If                   ${lte}      Should Match        ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_REGISTER} ${SPML_T_ARG1_IMSI} 
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create Tchibo Subscribers
+    [Documentation]   Create TCHIBO subscribers with/without LTE profile
+    ...
+    ...     Create TCHIBO subscribers using PGW-Proxy templates
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis     (M)   List of IMSIs
+    ...     - msisdns   (M)   List of MSISDNs
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${lte}=False
+    Debug Log       Creating Tchibo Subscribers (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftn}=      Reformat ISDN       @{msisdn_l}[${i}]   format=Vms
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l ${SUBS_T_TCHIBO_A} ${SPML_T_ADD_TPML3}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Run Keyword If      ${lte}      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ADD_LTE_SRV_PRE} ${SPML_T_ARG1_IMSI}
+    \  Run Keyword If                   ${lte}      Should Match        ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_REGISTER} ${SPML_T_ARG1_IMSI} 
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create MC Group
+    [Documentation]   Create Multi Card Group Subscription
+    ...
+    ...     Create MC Group with at least one member
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_msisdn  (M)   Group MSISDN
+    ...     - msisdns     (M)   List of member MSISDNs, at least one must be provided. If more than one are provided then they are also added in the provided order.
+    ...     - lte         (O)   Provision also the LTE-subscription
+    ...     - ndc_digits  (O)   The Length of the Group MSISDN, used to generate the Voicemail FTN
+    [arguments]   ${host}    ${grp_msisdn}    ${mbr_msisdns}    ${lte}=False   ${ndc_digits}=4
+    Debug Log       Creating MC Groups (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${msisdn_l}=    Get As List     ${mbr_msisdns}
+
+    ${ftn}=      Reformat ISDN       ${grp_msisdn}   format=Vms    ndc_len=${ndc_digits}
+    ${out}=      Execute SendSpml    ${host}     -m ${grp_msisdn} -k ${ftn} -a @{msisdn_l}[0] -l ${SUBS_T_MCG_A} ${SPML_T_ADD_MCG_TPL3}
+    Should Match                     ${out}      *result= success*
+
+    ${len}=   Get Length   ${msisdn_l}
+    :FOR    ${i}  IN RANGE  1  ${len}
+    \  ${o}=        Evaluate            ${i}+1
+    \  ${out}=      Execute SendSpml    ${host}     -m ${grp_msisdn} -i @{msisdn_l}[${i}] -a ${o} ${SPML_T_ADD_MBR}
+    \  Should Match                     ${out}      *result= success*
+
+    ${out}=     Display Group           ${host}        ${grp_msisdn}
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Create MC Members
+    [Documentation]   Create MultiCard member profiles with/without LTE profile
+    ...
+    ...     Create MC members subscribers using PGW-Proxy templates.
+    ...     The Members are just created i.e. they are not assigned to a group
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - imsis       (M)   List of IMSIs
+    ...     - msisdns     (M)   List of MSISDNs
+    ...     - grp_msisdn  (M)   Group MSISDN (needed for the Voicemail FTN provisioning)
+    ...     - lte         (O)   Provision also the LTE-subscription
+    ...     - ndc_digits  (O)   The Length of the Group MSISDN, used to generate the Voicemail FTN
+
+    [arguments]   ${host}    ${imsis}    ${msisdns}    ${grp_msisdn}    ${lte}=False    ${ndc_digits}=4
+    Debug Log       Creating MC Members (${host})...
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=      Get As List     ${imsis}
+    ${msisdn_l}=    Get As List     ${msisdns}
+    ${len}=   Get Length   ${imsi_l}
+    :FOR    ${i}  IN RANGE  0  ${len}
+    \  ${ftn}=      Reformat ISDN       ${grp_msisdn}   format=Vms    ndc_len=${ndc_digits}
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -m @{msisdn_l}[${i}] -k ${ftn} -l ${SUBS_T_MCM_A} ${SPML_T_ADD_MCM_TPL3}
+    \  Should Match                     ${out}      *result= success*
+    \  ${out}=      Run Keyword If      ${lte}      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ADD_LTE_SRV_POST} ${SPML_T_ARG1_IMSI}
+    \  Run Keyword If                   ${lte}      Should Match        ${out}      *result= success*
+    \  ${out}=      Execute SendSpml    ${host}     -i @{imsi_l}[${i}] -l ${SUBS_T_ACTIVATE} ${SPML_T_ARG1_IMSI} 
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+_get_imsis_and_isdns_by_alias
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]   ${aliases}
+    ${tmp_imsis}=    Create List
+    ${tmp_isdns}=    Create List
+
+    :FOR     ${subs_alias}  IN   @{aliases}
+    \  Append To List   ${tmp_imsis}    ${${subs_alias}_IMSI}
+    \  Append To List   ${tmp_isdns}    ${${subs_alias}_ISDN}
+
+    [return]    ${tmp_imsis}   ${tmp_isdns}
+
+_get_isdns_by_alias
+    [Documentation]  _Private Method, should not be used directly_
+    [arguments]   ${aliases}
+    ${tmp_isdns}=       Create List
+    ${aliases_lst}=     Get As List   ${aliases}
+
+    :FOR     ${subs_alias}  IN   @{aliases_lst}
+    \  Append To List   ${tmp_isdns}    ${${subs_alias}_ISDN}
+
+    [return]    ${tmp_isdns}
+
+Create Genion Subscribers by Alias
+    [Documentation]   Create Genion subscribers using aliases
+    ...
+    ...     Helper Method for `Create Genion Subscribers` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named MsPost1, MsPost2, MsGenion1 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${MsPost1_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${MsPost1_ISDN} 
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - aliases   (M)   List of Subscriber Aliases
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${aliases}    ${lte}=False
+    ${al}=    Get As List  ${aliases}
+    ${len}=   Get Length   ${al}
+    Return From Keyword If   ${len} == 0
+    ${im}  ${is} =  _get_imsis_and_isdns_by_alias    ${al}
+    Create Genion Subscribers  ${host}    ${im}    ${is}    ${lte}
+
+Create Post-Paid Subscribers by Alias
+    [Documentation]   Create Post-Paid subscribers using aliases
+    ...
+    ...     Helper Method for `Create Post-Paid Subscribers` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named MsPost1, MsPost2, MsGenion1 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${MsPost1_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${MsPost1_ISDN} 
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - aliases   (M)   List of Subscriber Aliases
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${aliases}    ${lte}=False
+    ${al}=    Get As List  ${aliases}
+    ${len}=   Get Length   ${al}
+    Return From Keyword If   ${len} == 0
+    ${im}  ${is} =  _get_imsis_and_isdns_by_alias    ${al}
+    Create Post-Paid Subscribers  ${host}    ${im}    ${is}    ${lte}
+
+Create Loop Subscribers by Alias
+    [Documentation]   Create Loop subscribers using aliases
+    ...
+    ...     Helper Method for `Create Loop Subscribers` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named MsPost1, MsPost2, MsGenion1 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${MsPost1_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${MsPost1_ISDN} 
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - aliases   (M)   List of Subscriber Aliases
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${aliases}    ${lte}=False
+    ${al}=    Get As List  ${aliases}
+    ${len}=   Get Length   ${al}
+    Return From Keyword If   ${len} == 0
+    ${im}  ${is} =  _get_imsis_and_isdns_by_alias    ${al}
+    Create Loop Subscribers  ${host}    ${im}    ${is}    ${lte}
+
+Create Tchibo Subscribers by Alias
+    [Documentation]   Create Tchibo subscribers using aliases
+    ...
+    ...     Helper Method for `Create Tchibo Subscribers` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named MsPost1, MsPost2, MsGenion1 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${MsPost1_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${MsPost1_ISDN} 
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - aliases   (M)   List of Subscriber Aliases
+    ...     - lte       (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${aliases}    ${lte}=False
+    ${al}=    Get As List  ${aliases}
+    ${len}=   Get Length   ${al}
+    Return From Keyword If   ${len} == 0
+    ${im}  ${is} =  _get_imsis_and_isdns_by_alias    ${al}
+    Create Tchibo Subscribers  ${host}    ${im}    ${is}    ${lte}
+
+Create MC Group by Alias
+    [Documentation]   Create MultiCard Group subscribers using aliases
+    ...
+    ...     Helper Method for `Create MC Group` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named Mc1_M1, Mc1_M2, Mc2_M1, Mc2_M2 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${Mc1_M1_IMSI}, ${Mc1_M2_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${Mc1_GR_ISDN}, ${Mc1_M1_ISDN}, ${Mc1_M2_ISDN}
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_alias     (M)   Alias of the Group Subscriber
+    ...     - mbr_aliases   (M)   List of Member Aliases
+    ...     - lte           (O)   Provision also the LTE-subscription
+    ...     - ndc_digits    (O)   The Length of the Group MSISDN, used to generate the Voicemail FTN
+
+    [arguments]   ${host}    ${grp_alias}    ${mbr_aliases}    ${lte}=False     ${ndc_len}=4
+    ${len}=   Get Length   ${mbr_aliases}
+    Return From Keyword If   ${len} == 0
+    ${mis} =  _get_isdns_by_alias    ${mbr_aliases}
+    ${gis} =  _get_isdns_by_alias    ${grp_alias}
+    Create MC Group  ${host}    @{gis}[0]   ${mis}   ${lte}   ndc_digits=${ndc_len}
+
+Create MC Members by Alias
+    [Documentation]   Create MultiCard Group subscribers using aliases
+    ...
+    ...     Helper Method for `Create MC Members` to create subscribers using the "global" aliases.
+    ...     If the variable naming schema matches all of the following points then this method can be used to create subscribers:
+    ...     - The Device aliases are named Mc1_M1, Mc1_M2, Mc2_M1, Mc2_M2 etc.
+    ...     - The global Subs IMSI variable is name accordingly e.g. ${Mc1_M1_IMSI}, ${Mc1_M2_IMSI} 
+    ...     - The global Subs ISDN variable is name accordingly e.g. ${Mc1_GR_ISDN}, ${Mc1_M1_ISDN}, ${Mc1_M2_ISDN}
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - grp_alias     (M)   Alias of the Group Subscriber
+    ...     - mbr_aliases   (M)   List of Member Aliases
+    ...     - lte           (O)   Provision also the LTE-subscription
+    ...     - ndc_digits    (O)   The Length of the Group MSISDN, used to generate the Voicemail FTN
+
+    [arguments]   ${host}    ${grp_alias}    ${aliases}    ${lte}=False     ${ndc_len}=4
+    ${len}=   Get Length   ${aliases}
+    Return From Keyword If   ${len} == 0
+    ${im}  ${is} =  _get_imsis_and_isdns_by_alias    ${aliases}
+    ${gis} =  _get_isdns_by_alias    ${grp_alias}
+    Create MC Members  ${host}    ${im}    ${is}   @{gis}[0]   ${lte}   ndc_digits=${ndc_len}
+
+
+_Mod_Subs_by_Imsi
+    [Documentation]  _Private Method, should not be used directly_
+
+    [arguments]   ${host}    ${imsis}    ${spml_tmpl}
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=  Get As List     ${imsis}
+    :FOR     ${imsi}  IN   @{imsi_l}
+    \  ${out}=    Execute SendSpml      ${host}      -i ${imsi} ${spml_tmpl}
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+_Mod_Subs_by_Imsi_with_Template
+    [Documentation]  _Private Method, should not be used directly_
+
+    [arguments]   ${host}    ${imsis}    ${spml_tmpl}   ${pgw_tmpl}
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${imsi_l}=  Get As List     ${imsis}
+    :FOR     ${imsi}  IN   @{imsi_l}
+    \  ${out}=      Execute SendSpml    ${host}     -i ${imsi} -l ${pgw_tmpl} ${spml_tmpl}
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Prepare Test Subscribers
+    [Documentation]   Creates Test Subscribers
+    ...
+    ...     Currently not used.
+    ...     Creates test subscriptions with PGW-templates. The subscribers to create are hardcoded.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+
+    [arguments]   ${host}
+    ${imsis}=      Create List   ${MsPost1_IMSI}    ${MsPost2_IMSI}    ${MsLoop1_IMSI}    ${MsGenion1_IMSI}
+    ${msisdns}=    Create List   ${MsPost1_ISDN}    ${MsPost2_ISDN}    ${MsLoop1_ISDN}    ${MsGenion1_ISDN}
+    ${pgwtmpls}=   Create List   ${SUBS_T_OGP_A}    ${SUBS_T_OGP_A}    ${SUBS_T_LOOP_A}   ${SUBS_T_OGP_A}
+    ${genions}=    Create List   ${MsGenion1_IMSI}
+    ${posts}=      Create List   ${MsPost1_IMSI}    ${MsPost2_IMSI}
+    ${loops}=      Create List   ${MsLoop1_IMSI}
+    # ${imsis}=      Create List   ${MsPost1_IMSI}    ${MsPost2_IMSI}    ${MsLoop1_IMSI}    ${MsLoop2_IMSI}    ${MsGenion1_IMSI}    ${MsGenion2_IMSI}
+    # ${msisdns}=    Create List   ${MsPost1_ISDN}    ${MsPost2_ISDN}    ${MsLoop1_ISDN}    ${MsLoop2_ISDN}    ${MsGenion1_ISDN}    ${MsGenion2_ISDN}
+    # ${pgwtmpls}=   Create List   ${SUBS_T_OGP_A}    ${SUBS_T_OGP_A}    ${SUBS_T_LOOP_A}   ${SUBS_T_LOOP_A}   ${SUBS_T_OGP_A}      ${SUBS_T_OGP_A}
+    Delete Test Subscribers             ${host}    ${imsis}
+    Create Test Subscribers             ${host}    ${imsis}    ${msisdns}    ${pgwtmpls}
+    _Mod_Subs_by_Imsi                    ${host}    ${genions}  ${SPML_T_MOD_CSI}
+    _Mod_Subs_by_Imsi_with_Template      ${host}    ${genions}  ${SPML_T_ARG1_IMSI}  ${SUBS_T_ACTIVATE}
+    _Mod_Subs_by_Imsi_with_Template      ${host}    ${posts}    ${SPML_T_ARG1_IMSI}  ${SUBS_T_ACTIVATE}
+    _Mod_Subs_by_Imsi_with_Template      ${host}    ${loops}    ${SPML_T_ARG1_IMSI}  ${SUBS_T_REGISTER}
+
+
+#   #     #   #####   ######
+#   ##    #  #     #  #     #
+#   # #   #  #        #     #
+#   #  #  #   #####   ######
+#   #   # #        #  #   #
+#   #    ##  #     #  #    #
+#   #     #   #####   #     #
+
+Display NSR
+    [Documentation]   Display NSR Data
+    ...
+    ...     Executes the sendspml script against the HLR_EPS_NSR_v50 interface on the PGW and returns the response without any checks.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - ObjectClass   (M)   The object class of the searched NSR object
+    ...     - identifier    (M)   The identifier of the searched NSR object
+    ...     - spml_template (O)   The sendSPML template to use for the search operation.
+    ...
+    ...     _Returns:_   The SPML response
+
+    [arguments]     ${host}     ${ObjectClass}    ${identifier}      ${spml_template}=${SPML_T_NSR_SEARCH_ID}
+    # NSRs: OCsi  TCsi  UCsi  QualityOfServiceProfile  RoamingArea  SubscriberRelatedRoutingData  ProhibitedForwardedToNumbers  UCsiValue  
+    #       UCsiValueExt  UgCsi  UgCsiExt  CSIPlan  BSPlan  ODBPlan  RoamSubscriptionInfo  RoamPlanInfo  RoamPlan  SSPlan
+
+    ${out}=    Execute SendSpml      ${host}      -a ${ObjectClass} -i ${identifier} ${spml_template}   spml_cmd_line=${SPML_CMD} ${SPML_HOST} -t pgws -w pgw_nsn.crt -e pgw_nsn.key -u /ProvisioningGateway/services/SPMLHlrEpsNsr50Service -x -y
+
+    [return]    ${out}
+
+Modify NSR
+    [Documentation]   Modify NSR data
+    ...
+    ...     Executes the sendspml script against the HLR_EPS_NSR_v50 interface on the PGW and returns the response without any checks.
+    ...     Requires argument string that contains the necessary parameters e.g. template name, replace tags etc. 
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - sendspml_args (M)   The arguments to pass on to the sendspml script
+    ...
+    ...     _Returns:_   The SPML response
+
+    [arguments]     ${host}     ${sendspml_args}    
+
+    ${out}=    Execute SendSpml      ${host}      ${sendspml_args}   spml_cmd_line=${SPML_CMD} ${SPML_HOST} -t pgws -w pgw_nsn.crt -e pgw_nsn.key -u /ProvisioningGateway/services/SPMLHlrEpsNsr50Service -x -y
+
+    [return]    ${out}
+
+
+
+Get NSR Data
+    [Documentation]   Get NSR Data
+    ...
+    ...     Method to collect NSR data.
+    ...     The main purpose of this method is to display and log NSR settings to be able to compare NSR data between different test runs. This method is usually called during test suite pre-conditions.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+
+    [arguments]   ${host}
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+    ${nsr}=     Create List   OCsi  TCsi  UCsi  QualityOfServiceProfile  RoamingArea  SubscriberRelatedRoutingData  ProhibitedForwardedToNumbers                           UgCsi  UgCsiExt  CSIPlan  BSPlan  ODBPlan  RoamSubscriptionInfo                RoamPlan  SSPlan
+    #${nsr}=    Create List   OCsi  TCsi  UCsi  QualityOfServiceProfile  RoamingArea  SubscriberRelatedRoutingData  ProhibitedForwardedToNumbers  UCsiValue  UCsiValueExt  UgCsi  UgCsiExt  CSIPlan  BSPlan  ODBPlan  RoamSubscriptionInfo  RoamPlanInfo  RoamPlan  SSPlan
+
+    :FOR     ${nsrType}  IN   @{nsr}
+    \  ${out}=    Execute SendSpml      ${host}     -a ${nsrType} ${SPML_T_NSR_SEARCH}   spml_cmd_line=${SPML_CMD} ${SPML_HOST} -t pgws -w pgw_nsn.crt -e pgw_nsn.key -u /ProvisioningGateway/services/SPMLHlrEpsNsr50Service -x -y
+    \  Should Match                     ${out}      *result= success*
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+
+# SPML Parse Service by Index
+# 
+#     [arguments]    ${spml_resp}    ${service}       ${index}    ${ignore}=ignorenothing    ${key_separator}=:${SPACE}   ${value_separator}=/
+# 
+#     ${str} =        Get Lines Matching Regexp         ${spml_resp}            .*${service}.*
+#     @{lines}=       Split To Lines              ${str}
+#     ${dict}=        Create Dictionary
+# 
+#     ${i}=   Evaluate    0
+#     ${curr_index}=   Evaluate    -1
+#     :FOR     ${line}  IN   @{lines}
+#     \   ${str} =        Get Lines Matching Regexp       ${line}                 ${ignore}
+#     \   ${count} =      Get Line Count                  ${str}
+#     \   Continue For Loop If                            ${count} != 0
+#     \   ${str} =        Fetch From Left                 ${line}     ${value_separator}
+#     \   ${tmp_index} =  Remove String Using Regexp      ${str}      .*TRIGGERDETECTIONPOINT
+# #    \   Log    ${curr_index}/${tmp_index}      WARN
+# #    \   Log    ${tmp_index} - ${str}      WARN
+#     \   Run Keyword If                                  ${tmp_index} != ${curr_index} and ${i} != 0     Set To Dictionary    ${dict}    ${curr_index}    ${srv_attrs}
+#     \   ${srv_attrs}=  Set Variable If                  ${tmp_index} != ${curr_index}                   ${EMPTY}         ${srv_attrs}
+#     \   ${curr_index}=  Set Variable If                 ${tmp_index} != ${curr_index}                   ${tmp_index}         ${curr_index}
+#     \   ${attr_str}=    Fetch From Right                ${line}     ${value_separator}
+# #   \   Log    ${curr_index}/${tmp_index} - ${attr_str}      WARN
+#     \   ${srv_attrs}=   Catenate                ${srv_attrs}   ${attr_str}\n
+# #  \   Log    srv ${srv_attrs}      WARN
+#     \   ${i}=           Evaluate                        ${i}+1
+#     # add last packet
+#     Set To Dictionary    ${dict}    ${curr_index}    ${srv_attrs}
+# #    Log Dictionary    ${dict}   WARN 
+#     [return]  ${dict}
+# 
+# SPML Parse NSR OCsi
+#
+#    [arguments]   ${spml}
+#    ${OCsi_flat}=   SPML Parse Service by Group    ${spml}    OBJECTS       IDENTIFIER      ignore=.*xmlns.*|.*xsi.*   value_separator=OBJECTS/  
+#    ${OCsi}=        Create Dictionary
+#
+#    ${items}=       Get Dictionary Items    ${OCsi_flat}
+#    :FOR    ${key}    ${value}    IN    @{items}
+#    \   ${tmp}=     Create Dictionary
+#    \   ${root}=    Get Lines Matching Regexp      ${value}   (?!^.*TRIGGERDETECT.*$).*
+#    \   Set To Dictionary   ${tmp}   root   ${root}  
+#    \   ${tdp}=     Get Lines Matching Regexp      ${value}   .*TRIGGERDETECT.*
+#    \   ${tdp_d}=   SPML Parse Service by Index  ${tdp}   TRIGGER   [0-9]
+#    \   Set To Dictionary   ${tmp}   tdps   ${tdp_d}  
+#    \   Set To Dictionary   ${OCsi}  ${key}   ${tmp}  
+#
+#    Log Dictionary        ${OCsi}     WARN
+#
+#    [return]    ${OCsi}
+
+################################################################
+
+################################################################
+Recreate Subs
+    [Documentation]   Recreate Test Subscribers using aliases
+    ...
+    ...     Deletes and re-creates subscribers. The subscribers are only provisioned i.e. this does not trigger location updates with the device.
+    ...     Works with aliases, see the "Create * Subscribers by Alias" methods, e.g. `Create Post-Paid Subscribers by Alias`, for more details.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - subs_aliases  (M)   List of Subscriber Aliases to be recreated, incl. Group members (e.g. "MsPost1", "MsPost2", "Mc1_M1", etc.)
+    ...     - grp_aliases   (M)   List of Group Aliases to be recreated (e.g. "Mc1_GR")
+    ...     - lte           (O)   Provision also the LTE-subscription
+    ...     - ndc_len       (O)   The Length of the Group MSISDN, used to generate the Voicemail FTN
+
+    [arguments]   ${host}   ${subs_aliases}      ${group_aliases}=${EMPTY}   ${lte}=False  ${ndc_len}=4
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ${a}=    Get Matches                    ${subs_aliases}     *Post*
+    :FOR     ${subs_alias}  IN   @{a}
+        \   Delete Test Subscribers                 ${host}      ${${subs_alias}_IMSI}
+        \   Create Post-Paid Subscribers by Alias   ${host}      ${subs_alias}    ${lte}
+
+    ${a}=    Get Matches                    ${subs_aliases}     *Genion*
+    :FOR     ${subs_alias}  IN   @{a}
+        \   Delete Test Subscribers                 ${host}      ${${subs_alias}_IMSI}
+        \   Create Genion Subscribers by Alias      ${host}      ${subs_alias}    ${lte}
+
+    ${a}=    Get Matches                    ${subs_aliases}     *Loop*
+    :FOR     ${subs_alias}  IN   @{a}
+        \   Delete Test Subscribers                 ${host}     ${${subs_alias}_IMSI}
+        \   Create Loop Subscribers by Alias        ${host}     ${subs_alias}    ${lte}
+
+
+    ${len}=         Get Length       ${group_aliases}
+    Return From Keyword If           ${len} == 0
+
+    ${a}=    Get Matches                    ${subs_aliases}     regexp=Mc.*_M.*
+    :FOR     ${subs_alias}  IN   @{a}
+        \   Delete Test Subscribers                 ${host}     ${${subs_alias}_IMSI}
+    ${a}=    Get Matches                    ${subs_aliases}     regexp=Mc.*_GR.*
+    :FOR     ${subs_alias}  IN   @{a}
+        \   Delete Test Group                       ${host}     ${${subs_alias}_IMSI}
+
+    :FOR    ${i}  IN RANGE  0  10
+        \   ${mbr_list}=    Get Matches      ${subs_aliases}    regexp=Mc${i}_M.*
+        \   ${grp}=         Get Matches      ${group_aliases}   regexp=Mc${i}_GR*
+        \   ${len}=         Get Length       ${mbr_list}
+        \   Continue For Loop If             ${len} < 1
+        \   ${len}=         Get Length       ${grp}
+        \   Continue For Loop If             ${len} < 1
+        \   Delete Test Group                ${host}    ${@{grp}[0]_ISDN}
+        \   Create MC Members by Alias       ${host}    @{grp}[0]     ${mbr_list}    ${lte}     ndc_len=${ndc_len}
+        \   Create MC Group by Alias         ${host}    @{grp}[0]     ${mbr_list}    ${lte}     ndc_len=${ndc_len}
+
+    :FOR    ${i}  IN RANGE  0  10
+        \   ${mbr_list}=    Get Matches      ${subs_aliases}    regexp=McRoam${i}_M.*
+        \   ${grp}=         Get Matches      ${group_aliases}   regexp=McRoam${i}_GR*
+        \   ${len}=         Get Length       ${mbr_list}
+        \   Continue For Loop If             ${len} < 1
+        \   ${len}=         Get Length       ${grp}
+        \   Continue For Loop If             ${len} < 1
+        \   Delete Test Group                ${host}    ${@{grp}[0]_ISDN}
+        \   Create MC Members by Alias       ${host}    @{grp}[0]     ${mbr_list}    ${lte}     ndc_len=${ndc_len}
+        \   Create MC Group by Alias         ${host}    @{grp}[0]     ${mbr_list}    ${lte}     ndc_len=${ndc_len}
+
+    Switch Connection   ${prev_act_ssh_connection}
+
+Prepare Subs and Devices
+    [Documentation]   Recreate Test Subscribers and trigger LUs with the devices 
+    ...
+    ...     Deletes and re-creates all test subscribers and triggers a LU with each configured device (subscriber).
+    ...     Intended to be used in the Test Case Set-Up method, i.e. recreate all test subs to ensure a clean start before each test case.
+    ...     The subscribers to re-create are taken from the global variables ${prov_subs_list} and ${grp_list}.
+    ...     The devices (subscribers) that will trigger a LU (airplane mode) will be taken from the global variable ${subs_alias}.
+    ...     If the Location Update is not successful this method will fail.
+    ...
+    ...     _Arguments:_
+    ...     - host          (M)   The connection alias to be used where to run the sendspml script
+    ...     - lte           (O)   Provision also the LTE-subscription
+
+    [arguments]   ${host}    ${lte}=False
+
+    Device Setup
+
+    ${prev_act_ssh_connection}=  Switch Connection   ${host}
+
+    ## For each Test Group: Delete
+    :FOR     ${grp_alias}  IN   @{grp_list}
+    \  Delete Test Group              ${host}         ${${grp_alias}_ISDN}
+    ## For each Test Sub: Enable Airplane mode & delete subs
+    :FOR     ${subs_alias}  IN   @{subs_list}
+    \  ${dev_id}=  Get UDID for Device      ${subs_alias}
+    \  _change_airplane_mode_via_adb        ${dev_id}       1
+    :FOR     ${subs_alias}  IN   @{prov_subs_list}
+    \  Delete Test Subscribers              ${host}         ${${subs_alias}_IMSI}
+
+    ${a}=    Get Matches                    ${prov_subs_list}    *Post*
+    Create Post-Paid Subscribers by Alias   ${host}         ${a}    ${lte}
+    ${a}=    Get Matches                    ${prov_subs_list}    *Genion*
+    Create Genion Subscribers by Alias      ${host}         ${a}    ${lte}
+    ${a}=    Get Matches                    ${prov_subs_list}    *Loop*
+    Create Loop Subscribers by Alias        ${host}         ${a}    ${lte}
+    ${mbr_list}=    Get Matches             ${prov_subs_list}    *Mc*_M*
+    Create MC Members by Alias              ${host}    Mc1_GR     ${mbr_list}    ${lte}
+    Create MC Group by Alias                ${host}    Mc1_GR     ${mbr_list}    ${lte}
+
+    ## For each Test Sub: Disable Airplane mode
+    :FOR     ${subs_alias}  IN   @{subs_list}
+    \  ${dev_id}=  Get UDID for Device      ${subs_alias}
+    \  _change_airplane_mode_via_adb        ${dev_id}       0
+
+    ## Wait until each Test Subs has an VLR entry
+    :FOR     ${subs_alias}  IN   @{subs_list}
+    \  Wait Until Keyword Succeeds          60s            5s     Imsi Should Be Registered     ${${subs_alias}_IMSI}     host=${host}    NEs=Cs
+
+    Switch Connection   ${prev_act_ssh_connection}

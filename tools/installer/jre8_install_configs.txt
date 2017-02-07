@@ -1,0 +1,57 @@
+-1 Configuration File Options
+
+Option				Operating Systems		Values					Description													JRE Offline Installer		Saved in Runtime Config file
+INSTALL_SILENT=		Windows					Enable, Disable			Silent (non-interactive) installation.Default: Disable		yes							yes
+
+INSTALLDIR=			Windows					path					Folder/directory into which the files are installed.
+																	Default: Operating system default path
+																	For Windows, this will only work for first time install 
+																	of a family. Linux and Solaris use operating system tools 
+																	for this purpose and installation directory relocation 
+																	will be handled by operating system tools 
+																	(for example: rpm --prefix=path)]							yes							no
+
+STATIC=				Windows					Enable, Disable			Perform a static installation (see "Static Installation").
+																	Default: Disable											yes							no
+																	If you perform a static installation of the JRE 
+																	(by specifying the command-line or configuration file 
+																	option STATIC=1), then the Java Auto Update feature will 
+																	leave that JRE installed during a Java update. 
+																	A later version of the same JRE family will be installed 
+																	in a separate directory. This mode ensures that vendors, 
+																	who require a specific version of the JRE for their 
+																	product, can be certain that the JRE will not be 
+																	overwritten by a newer version
+
+AUTO_UPDATE= 		WindowsOS X				Enable, Disable			Enable the auto update feature.Default: Enable				yes							yes
+
+WEB_JAVA=			WindowsOS XLinux		Enable, Disable			Configure the installation so downloaded Java applications 
+																	are, or are not, allowed to run in a web browser or by 
+																	Java Web Start.Default: Enable								yes							no
+
+WEB_JAVA_SECURITY_LEVEL=
+					WindowsOS XLinux		H (high)				Configure the installation's security level for Java 
+											, VH (very high)		applications running in a browser or run with Java 
+																	Web Start.Default: H										yes							no
+
+WEB_ANALYTICS=		Windows					Enable, Disable			Allow or disallow the installer to send 
+																	installation-related statistics to an Oracle server.
+																	Default: Enable												yes							yes
+
+EULA=				Windows					Enable, Disable			If a Java applet or Java Web Start application is 
+																	launched, then prompt the user to accept the end-user 
+																	license agreement (EULA).Default: Disable					yes							yes
+
+REBOOT=				Windows					Enable, Disable			If disabled, then the installer will never prompt 
+																	you to restart your computer after installing the JRE. 
+																	However, in most cases, the installer does not need to 
+																	restart your computer after installing the JRE.
+																	Default: Enable												yes							no
+
+NOSTARTMENU=		Windows					Enable, Disable			Specify that the installer installs the JRE without 
+																	setting up Java start-up items.	Default: Disable			yes							no
+
+SPONSORS=			Windows(32 bit)			Enable, Disable			Install Java without being presented with any third 
+																	party sponsor offers.Default: Enable						no							no
+
+

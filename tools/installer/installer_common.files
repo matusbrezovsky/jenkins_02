@@ -1,0 +1,11 @@
+*.cfg
+i_appium.cmd
+i_droid.cmd
+i_pip.cmd
+i_atf_addons.cmd
+i_python.cmd
+i_pyCharm.cmd
+i_setenv.cmd
+README.txt
+rebot_2.8.7
+rebot_2.9.2

@@ -1,0 +1,16 @@
+<spml:addRequest
+    xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
+    xmlns:subscriber="##subsNs##"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    returnResultingObject="identifier">
+    <version>##version##</version>
+    <object xsi:type="subscriber:Subscriber">
+        <auc>
+            <imsi>##imsi##</imsi>
+            <encKey>##msisdn2##</encKey>
+            <algoId>##msisdn##</algoId>
+            <kdbId>##any##</kdbId>
+            <acsub>##uid##</acsub>
+        </auc>
+    </object>
+</spml:addRequest>

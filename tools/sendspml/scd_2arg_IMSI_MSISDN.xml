@@ -1,0 +1,4 @@
+<spmlChangeDirective mode="add" identifier="##scd##">
+    <parameter name="_IMSI" value="##imsi##"/>
+    <parameter name="_MSISDN" value="##msisdn##"/>
+</spmlChangeDirective>

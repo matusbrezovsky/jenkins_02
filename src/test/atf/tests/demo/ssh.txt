@@ -1,0 +1,32 @@
+*** Settings ***
+Documentation   Resource file for SSH operations
+Library                 SSHLibrary                  timeout=30
+
+*** Variables ***
+
+*** Keywords ***
+Open Ssh Connection
+    [Documentation]   Opens a SSH connection and logs in
+    ...
+    ...     Login to a host using SSH. After login the autologout is disabled
+    ...
+    ...     Arguments
+    ...     - host      (M)   Hostname or IP address
+    ...     - alias     (M)   The alias name for the connection, can be used later on to switch between connections 
+    ...     - user      (M)   login name
+    ...     - passwd    (M)   password
+    ...
+    ...     Returns   .
+
+    [arguments]     ${host}   ${alias}   ${user}   ${passwd}
+    Debug Log           Opening ssh connection "${alias}" (${host}) as ${user}
+    Open Connection     ${host}   prompt=${SSHPROMPT}  alias=${alias}
+    Login               ${user}   ${passwd}
+
+    # bash/ksh/zsh: disable auto-logout
+    Write       export TMOUT=0
+    ${stdout}=  Read
+    # tcsh: disable auto-logout
+    Write       set autologout=0
+    ${stdout}=  Read
+

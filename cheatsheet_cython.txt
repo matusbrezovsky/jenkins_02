@@ -1,0 +1,46 @@
+NOTE
+currently only win32 binaries are supported:
+
+-----
+P R E P A R A T I O N / I N S T A L L :
+1. Install python
+https://www.python.org/ftp/python/2.7.10/python-2.7.10.msi
+
+2. install cython
+pip install cython
+
+3. install robotframework
+pip install robotframework
+
+4. install mingwpy mingwpy_win32_vc100.7z (https://bitbucket.org/carlkl/mingw-w64-for-python/downloads/)
+https://bitbucket.org/carlkl/mingw-w64-for-python/downloads/mingwpy_win32_vc100.7z
+set Path to mingwpy/bin
+----
+
+P R E P A R E  P Y T H O N  L I B S   F O R   G C C  C O M P I L E R
+1. generate python.def
+pexports.exe c:/Windows/SysWOW64/python27.dll > src\bin\python.def
+
+2. create libpython27.a
+dlltool --dllname c:\Windows\SysWOW64\python27.dll --def "src\bin\python.def" --output-lib src\bin\libpython27.a
+
+-----
+P R E P A R E   D O N G L E   L I B S   F O R   G C C   C O M P I L E R
+1. generate python.def
+pexports.exe src\bin\SglW32.dll > src\bin\SglW32.def
+
+2. create libSglW32.a
+dlltool --dllname src\bin\SglW32.dll --def src\bin\SglW32.def --output-lib src\bin\libSglW32.a
+
+
+----
+C O M P I L E
+1. generate C code from py code
+cython -D src\cy\atf\utils\base.py -o src\bin\atf\utils\base.c
+
+2.
+without dongle
+gcc -shared -O2 -Ic:\Python27\include -o src\bin\atf\utils\base.pyd src\bin\atf\utils\base.c src\bin\libpython27.a
+
+with dongle
+gcc -shared -O2 -Ic:\Python27\include -o src\bin\atf\utils\base.pyd src\bin\atf\utils\base.c src\cy\atf\utils\dongle.c src\bin\libpython27.a src\bin\libSglW32.a

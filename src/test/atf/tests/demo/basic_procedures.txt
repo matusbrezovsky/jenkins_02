@@ -1,0 +1,127 @@
+*** Settings ***
+Documentation        Test Automation Basic Procedures
+
+*** Variables ***
+
+*** Keywords ***
+Execute Attach
+    [Arguments]     ${ms_a}     ${type}
+
+    Enable Airplane Mode    ${ms_a}     verify=False     update_with=ui
+    Sleep                   5s
+    Disable Airplane Mode   ${ms_a}     verify=False     update_with=ui
+
+    Wait Until Attached In Network      ${ms_a}         type=${type}
+
+
+Execute MMC Call
+    [Arguments]     ${ms_a}     ${ms_b}     ${verify_speech}=False
+
+    ${a_number} =       Demo.Reformat ISDN   ${${ms_a}_ISDN}     format=Sn
+    ${b_number} =       Demo.Reformat ISDN   ${${ms_b}_ISDN}     format=PlusCc
+
+    Initiate Device     ${ms_a}         phone_app
+    Initiate Device     ${ms_b}         phone_app
+
+    Dial And Call       ${ms_a}         ${b_number}
+    Answer Call         ${ms_b}         expect_txt=${a_number}
+
+
+    Run Keyword If          ${verify_speech}         Verify Speech Path      ${ms_a}     ${ms_b}
+    ...         ELSE        No Operation
+       
+    End Call            ${ms_a}
+
+    Release Device      ${ms_a}
+    Release Device      ${ms_b}
+
+Execute MOC
+    [Arguments]     ${ms_a}     ${pstn_b}
+
+    ${a_number} =       Demo.Reformat ISDN   ${${ms_a}_ISDN}        format=Sn
+    ${b_number} =       Demo.Reformat ISDN   ${${pstn_b}_ISDN}      format=PlusCc
+
+    Initiate Device     ${ms_a}         phone_app
+    Initiate Device     ${pstn_b}       pstn_app
+
+    Dial and Call                   ${ms_a}     ${b_number}         expect_txt=Dial
+    Verify Caller                   ${pstn_b}                       expect_txt=${a_number}    timeout=60s
+    Answer Call                     ${pstn_b}                       expect_txt=${a_number}    timeout=60s
+    Call Should Be Connected        ${ms_a}
+    Call Should Be Connected        ${pstn_b}
+    End Call                        ${ms_a}
+
+    Release Device      ${ms_a}
+    Release Device      ${pstn_b}
+
+
+Execute MTC
+    [Arguments]     ${pstn_a}     ${ms_b}
+
+    ${a_number} =       Demo.Reformat ISDN   ${${pstn_a}_ISDN}      format=Sn
+    ${b_number} =       Demo.Reformat ISDN   ${${ms_b}_ISDN}        format=PlusCc
+
+    Initiate Device     ${ms_b}         phone_app
+    Initiate Device     ${pstn_a}       pstn_app
+
+    Dial and Call                   ${pstn_a}           ${b_number}                 expect_txt=Dial
+    Verify Caller                   ${ms_b}             expect_txt=${a_number}      timeout=60s
+    Answer Call                     ${ms_b}             expect_txt=${a_number}      timeout=60s
+    Call Should Be Connected        ${pstn_a}
+    Call Should Be Connected        ${ms_b}
+    End Call                        ${pstn_a}
+
+    Release Device                  ${ms_b}
+    Release Device                  ${pstn_a}
+
+
+Go To Website
+    [Arguments]     ${ms_a}     ${web_address}      ${text}
+
+    Initiate Device         ${ms_a}         browser_app
+    Go To URL               ${web_address}
+    Wait Until Text Is Displayed   ${text}
+    Release Device                  ${ms_a}
+
+
+
+Send SMS
+    [Arguments]     ${ms_a}     ${ms_b}     ${delivery_receipt}=False
+
+    ${a_number} =       Demo.Reformat ISDN       ${${ms_a}_ISDN}     format=Sn
+    ${b_number} =       Demo.Reformat ISDN       ${${ms_b}_ISDN}     format=PlusCc
+    ${tstamp}=          Get Current Date    result_format=%Y%m%d%H%M%S
+
+
+    Initiate Device                 ${ms_a}         smsreader_app
+    Initiate Device                 ${ms_b}         smsreader_app
+
+    Run Keyword If                  ${delivery_receipt}     Enable SMS Delivery Receipts    ${ms_a}
+    ...         ELSE                                        Disable SMS Delivery Receipts   ${ms_a}
+
+    Delete SMS Conversations        ${ms_a}
+    Delete SMS Conversations        ${ms_b}
+
+    Release Device                  ${ms_a}
+    Initiate Device                 ${ms_a}         smscomposer_app
+
+    Compose SMS and Send            ${ms_a}         ${b_number}         ${tstamp}
+    Sms Should Be Received          ${ms_b}         ${tstamp}
+    Verify SMS Delivery Status      ${ms_a}         ${tstamp}       delivery_receipt=${delivery_receipt}
+
+    Release Device                  ${ms_a}
+    Release Device                  ${ms_b}
+
+
+Verify Speech Path
+    [Arguments]     ${ms_a}     ${ms_b}
+    Start DTMF Decoder      ${ms_b}
+    Send DTMF               ${ms_a}        123
+    Verify DTMF             ${ms_b}        123
+    Stop DTMF Decoder       ${ms_b}
+
+    Start DTMF Decoder      ${ms_a}
+    Send DTMF               ${ms_b}        123
+    Verify DTMF             ${ms_a}        123
+    Stop DTMF Decoder       ${ms_a}
+

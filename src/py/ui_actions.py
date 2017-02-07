@@ -1,0 +1,51 @@
+# Copyright (c) 2014-2016 Jari Nurminen
+# All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Author: Jari Nurminen <jari.nurminen@iki.fi>
+# 
+# Dissemination of this information or reproduction of this material
+# via any medium is strictly forbidden unless prior written permission 
+# is obtained from Jari Nurminen.
+
+NAV_NO_ACTION = 0
+NAV_SLEEP = 9000
+# Mobile Device NAVIGATE UI Actions
+NAV_DROID_PRESS = 1
+NAV_DROID_LONGPRESS = 2
+NAV_DROID_SWIPE = 3
+NAV_DROID_TYPE = 4
+NAV_DROID_PRESS_KEYCODE = 5
+NAV_DROID_LONGPRESS_KEYCODE = 6
+NAV_DROID_SCROLL_TO = 7
+
+NAV_DROID_SHLD_BE_ENABLED = 50
+NAV_DROID_SHLD_NOT_BE_ENABLED = 51
+NAV_DROID_SHLD_CONTAIN = 52
+NAV_DROID_SHLD_NOT_CONTAIN = 53
+
+# Browser NAVIGATE UI Actions
+NAV_WEB_ELE_CLICK = 100
+NAV_WEB_ELE_DCLICK = 101
+NAV_WEB_LNK_CLICK = 102
+NAV_WEB_BTN_CLICK = 103
+NAV_WEB_IMG_CLICK = 104
+NAV_WEB_COO_CLICK = 105
+NAV_WEB_TXT_INPUT = 106
+NAV_WEB_CBX_UNSEL = 107
+NAV_WEB_CBX_SELEC = 108
+NAV_WEB_TXT_CLEAR = 109
+NAV_WEB_ELE_FOCUS = 110
+NAV_WEB_PWD_INPUT = 111
+NAV_WEB_ACK_ALERT = 999
+
+# Browser VERIFY UI Actions
+VER_WEB_ELE_ENABLED = 2000
+VER_WEB_ELE_DISABLE = 2001
+VER_WEB_ELE_VISIBLE = 2002
+VER_WEB_ELE_HIDDEN  = 2003
+VER_WEB_ELE_CONTAIN = 2004
+VER_WEB_ELE_NOTCONT = 2005
+VER_WEB_ELE_TXT_SHD_BE  = 2006
+VER_WEB_PAG_CONTAIN_ELE = 2007
+VER_WEB_PAG_NOTCONT_ELE = 2008

@@ -1,0 +1,85 @@
+/*
+Theme Name: Construction Child
+Theme URI: http://www.wpcharming.com
+Description: Construction Child Theme
+Author: WPCharming
+Author URI: http://www.wpcharming.com
+Template: construction
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: wpcharming
+Tags:two-columns, left-sidebar, right-sidebar, light, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, featured-image-header, featured-images, flexible-header, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+*/
+
+/*********header*******/
+
+#masthead {
+background: #2f2f2f;
+/* IE10 */ 
+background-image: -ms-linear-gradient(top, #2f2f2f 0%, #1b1a1a 100%);
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, #2f2f2f 0%, #1b1a1a 100%);
+/* Opera */ 
+background-image: -o-linear-gradient(top, #2f2f2f 0%, #1b1a1a 100%);
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #2f2f2f), color-stop(1, #1b1a1a));
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, #2f2f2f 0%, #1b1a1a 100%);
+/* Proposed W3C Markup */ 
+background-image: linear-gradient(top, #2f2f2f 0%, #1b1a1a 100%);
+/* IE6-9 */ 
+filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f2f2f', endColorstr='#1b1a1a');
+}
+
+#masthead #nav-toggle {
+	top: 15px !important;
+	color: rgb(255,255,255) !important;
+	
+}
+
+#masthead .site-branding {
+	-o-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+} 
+
+#masthead.header-fixed .site-branding {
+	margin:0px 0px 15px 0px;
+}
+
+#masthead .site-branding img {
+	width: auto;
+	height: 90px !important;
+	-o-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+
+	#masthead.header-fixed .site-branding img {
+		height: 45px !important;
+	}		
+
+ul.wpc-menu li.current-menu-item a {
+	color:#fab702 !important;
+
+}
+
+@media screen and (max-width: 1100px) {
+    
+	#masthead .site-branding {
+		margin:0px 0px 15px 0px;
+	}
+
+	    #masthead .site-branding img {
+	    	height: 45px !important;
+	    }
+
+    #masthead .header-right-wrap {
+    	padding:0px !important;
+    }
+}

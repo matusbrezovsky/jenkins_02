@@ -1,0 +1,31 @@
+<spml:modifyRequest 
+		execution="synchronous" 
+		language="en_en" 
+		newGenerated="true" 
+		returnResultingObject="full" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0">
+	<version>O2_SUBSCRIBER_v10</version>
+	<objectclass>HlrGroup</objectclass>
+	<identifier alias="msisdn" xsi:type="urn:HLRGroupIdentifier" xmlns:urn="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0">##msisdn##</identifier>
+	<modification operation="setoradd" xmlns:ns2="urn:siemens:names:prov:gw:O2_SUBSCRIBER:1:0">
+		<valueObject xsi:type="ns2:HlrGroup">
+			<##imsi##>
+				<basicServiceGroup>TS10-telephony</basicServiceGroup>
+				<status>##any##</status>
+			</##imsi##>
+			<##imsi##>
+				<basicServiceGroup>TS60-fax</basicServiceGroup>
+				<status>##any##</status>
+			</##imsi##>
+			<##imsi##>
+				<basicServiceGroup>BS20-dataAsync</basicServiceGroup>
+				<status>##any##</status>
+			</##imsi##>
+			<##imsi##>
+				<basicServiceGroup>BS30-dataSync</basicServiceGroup>
+				<status>##any##</status>
+			</##imsi##>
+		</valueObject>
+	</modification>
+</spml:modifyRequest>
